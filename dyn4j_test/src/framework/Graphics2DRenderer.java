@@ -112,7 +112,7 @@ public final class Graphics2DRenderer {
 				center.y * scale,
 				(center.x + radius) * scale,
 				center.y * scale);
-		g.draw(l);
+		//g.draw(l);
 	}
 	
 	/**
@@ -145,7 +145,7 @@ public final class Graphics2DRenderer {
 		p = new Path2D.Double();
 		p.moveTo(polygon.getCenter().x * scale, polygon.getCenter().y * scale);
 		p.lineTo(vertices[0].x * scale, vertices[0].y * scale);
-		g.draw(p);
+		//g.draw(p);
 	}
 	
 	/**
@@ -166,7 +166,7 @@ public final class Graphics2DRenderer {
 		
 		// draw the outline
 		g.setColor(getOutlineColor(color));
-		g.draw(l);
+		//g.draw(l);
 	}
 	
 	/**

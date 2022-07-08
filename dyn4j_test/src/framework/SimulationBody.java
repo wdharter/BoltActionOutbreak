@@ -79,9 +79,9 @@ public class SimulationBody extends Body {
 				pr,
 				pr);
 		g.setColor(Color.WHITE);
-		g.fill(ce);
+		//g.fill(ce);
 		g.setColor(Color.DARK_GRAY);
-		g.draw(ce);
+		//g.draw(ce);
 		
 		// set the original transform
 		g.setTransform(ot);
