@@ -25,6 +25,8 @@ public class BAOSimulationFrame extends SimulationFrame {
 		BAOKeyListener playerListener = new BAOKeyListener(movePlayerForward, movePlayerLeft, movePlayerBackward, movePlayerRight);
 		this.addKeyListener(playerListener);
 		this.canvas.addKeyListener(playerListener);
+		this.setMousePanningEnabled(false);
+		this.setMousePickingEnabled(false);
 	}
 	
 	protected void initializeWorld() {
