@@ -34,7 +34,6 @@ public class PlayerGameObject extends GameObject {
 	public void initialize() {
 		// TODO Auto-generated method stub
 		anchor = new SimulationBody();
-		anchor.addFixture(Geometry.createCircle(0.5));
 		anchor.translate(new Vector2(1.5, -2.0));
 		anchor.setMass(MassType.INFINITE);
 		frame.world.addBody(anchor);
@@ -47,7 +46,7 @@ public class PlayerGameObject extends GameObject {
 		playerAnchorFriction = new FrictionJoint<SimulationBody>(player, anchor, player.getWorldCenter());
 		playerAnchorFriction.setMaximumForce(100);
 		playerAnchorFriction.setMaximumTorque(1000);
-		playerAnchorFriction.setCollisionAllowed(true);
+		playerAnchorFriction.setCollisionAllowed(false);
 		frame.world.addJoint(playerAnchorFriction);
 	}
 

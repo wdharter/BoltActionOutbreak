@@ -2,13 +2,7 @@ package tests;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
-import dyn4j.dynamics.joint.FrictionJoint;
-import dyn4j.geometry.Geometry;
-import dyn4j.geometry.MassType;
-import dyn4j.geometry.Vector2;
 import dyn4j.world.World;
-import framework.SimulationBody;
 import framework.SimulationFrame;
 
 public class BAOSimulationFrame extends SimulationFrame {
@@ -25,6 +19,15 @@ public class BAOSimulationFrame extends SimulationFrame {
 	
 	public void AddGameObject(GameObject g) {
 		objects.add(g);
+	}
+	
+	public void DeleteGameObject(int id) {
+		for(int i = 0; i < objects.size(); i++) {
+			if(objects.get(i).getID() == id) {
+				objects.remove(i);
+				i++;
+			}
+		}
 	}
 	
 	protected void initializeWorld() {
