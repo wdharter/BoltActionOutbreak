@@ -77,10 +77,10 @@ public abstract class SimulationFrame extends JFrame {
 	public static final double NANO_TO_BASE = 1.0e9;
 
 	/** The canvas to draw to */
-	protected final Canvas canvas;
+	public final Canvas canvas;
 	
 	/** The dynamics engine */
-	protected final World<SimulationBody> world;
+	public final World<SimulationBody> world;
 	
 	// stop/pause
 	
@@ -205,7 +205,8 @@ public abstract class SimulationFrame extends JFrame {
 		this.printStepNumber.install();
 		
 		// setup the world
-		this.initializeWorld();
+		// Removed to allow for other functions to run beforehand, any children should run this themselves in constructor
+		// this.initializeWorld();
 	}
 	
 	/**
@@ -730,6 +731,7 @@ public abstract class SimulationFrame extends JFrame {
 	 * Starts the simulation.
 	 */
 	public void run() {
+		this.initializeWorld();
 		// set the look and feel to the system look and feel
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
