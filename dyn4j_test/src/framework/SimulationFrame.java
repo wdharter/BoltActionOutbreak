@@ -95,7 +95,7 @@ public abstract class SimulationFrame extends JFrame {
 	
 	// camera
 	
-	private final Camera camera;
+	public final Camera camera;
 	
 	// interaction (mouse/keyboard)
 	

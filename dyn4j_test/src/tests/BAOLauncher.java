@@ -8,7 +8,7 @@ import javax.swing.Timer;
 public class BAOLauncher {
 	public static void main(String[] args) {
 		BAOSimulationFrame game = new BAOSimulationFrame("Bolt Action Outbreak", 10);
-		PlayerGameObject player = new PlayerGameObject(0, game, "player");
+		PlayerGameObject player = new PlayerGameObject(0, game, "player", game.camera);
 		EnemySpawner spawner = new EnemySpawner(game, player);
 		game.run();
 	}
