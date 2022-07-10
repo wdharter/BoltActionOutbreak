@@ -61,8 +61,8 @@ public class PlayerGameObject extends GameObject {
 	}
 
 	@Override
-	public void render(Graphics2D g, double elapsedTime) {
-		// TODO Auto-generated method stub
+	public void render(Graphics2D g, double elapsedTime){
+		aim(g);
 		
 	}
 
@@ -103,6 +103,37 @@ public class PlayerGameObject extends GameObject {
 	{ 
 		if(aim.get())
 		{
+			Vector2 start = body.getTransform().getTranslation();
+			Point mousePosition = MouseInfo.getPointerInfo().getLocation();
+			
+			Vector2 mouseWorldPosition = camera.toWorldCoordinates(frame.getWidth(), frame.getHeight(), mousePosition);
+			Vector2 direction = mouseWorldPosition.subtract(start);
+			final double scale = frame.getScale();
+			Ray ray = new Ray(start, direction);
+			double length = 100000;
+			boolean hitObject = false;
+			List<RaycastResult<SimulationBody, BodyFixture>> results = frame.world.raycast(ray, length, new DetectFilter<SimulationBody, BodyFixture>(true, true, null));
+			for(RaycastResult<SimulationBody, BodyFixture> result : results) {
+				Vector2 point = result.getRaycast().getPoint();
+				hitObject = true;
+				g.setColor(Color.GRAY);
+				g.draw(new Line2D.Double(
+						ray.getStart().x * scale, 
+						ray.getStart().y * scale, 
+						point.x *scale, 
+						point.y *scale));
+				break;
+						
+			}
+			if(!hitObject) {
+				g.setColor(Color.BLACK);
+				g.draw(new Line2D.Double(
+						ray.getStart().x * scale, 
+						ray.getStart().y * scale, 
+						ray.getStart().x * scale + ray.getDirectionVector().x * length * scale, 
+						ray.getStart().y * scale + ray.getDirectionVector().y * length * scale));
+			}
+
 			
 		}
 	}
