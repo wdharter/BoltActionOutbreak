@@ -19,6 +19,7 @@ class EnemySpawner implements ActionListener{
 	PlayerGameObject player;
 	private int delay = 1000;
 	protected Timer timer;
+	int enemyAmount = 0;
 	
 	public EnemySpawner(BAOSimulationFrame game, PlayerGameObject player) {
 		this.game = game;
@@ -56,7 +57,8 @@ class EnemySpawner implements ActionListener{
 					x = 40;
 					break;
 			}
-			new ZombieGameObject(1, game, "zombie1", x, y, player);
+			new ZombieGameObject((enemyAmount * 2)+1, game, "zombie1", x, y, player);
+			enemyAmount++;
 		}
 	}
 }

@@ -17,12 +17,17 @@ import dyn4j.geometry.Convex;
 public class SimulationBody extends Body {
 	/** The color of the object */
 	protected Color color;
-	
+	public int id;
 	/**
 	 * Default constructor.
 	 */
 	public SimulationBody() {
 		this.color = Graphics2DRenderer.getRandomColor();
+	}
+	
+	public SimulationBody(int id) {
+		this.color = Graphics2DRenderer.getRandomColor();
+		this.id = id;
 	}
 	
 	/**

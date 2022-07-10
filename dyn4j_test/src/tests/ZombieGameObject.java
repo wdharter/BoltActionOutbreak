@@ -1,5 +1,7 @@
 package tests;
 
+import java.awt.Graphics2D;
+
 import dyn4j.dynamics.joint.FrictionJoint;
 import dyn4j.geometry.Geometry;
 import dyn4j.geometry.MassType;
@@ -28,7 +30,7 @@ public class ZombieGameObject extends GameObject {
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
-		zombie = new SimulationBody();
+		zombie = new SimulationBody(id);
 		zombie.addFixture(Geometry.createCircle(0.5));
 		zombie.translate(new Vector2(initialX, initialY));
 		zombie.setMass(MassType.NORMAL);
@@ -45,7 +47,7 @@ public class ZombieGameObject extends GameObject {
 	}
 
 	@Override
-	public void render() {
+	public void render(Graphics2D g, double elapsedTime) {
 		// TODO Auto-generated method stub
 
 	}

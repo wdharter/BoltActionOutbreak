@@ -1,15 +1,23 @@
 package tests;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.geom.Line2D;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import dyn4j.dynamics.joint.FrictionJoint;
 import dyn4j.geometry.Geometry;
 import dyn4j.geometry.MassType;
+import dyn4j.geometry.Ray;
+import dyn4j.world.result.RaycastResult;
 import dyn4j.geometry.Vector2;
 import framework.Camera;
 import framework.SimulationBody;
+import dyn4j.world.DetectFilter;
+import dyn4j.dynamics.BodyFixture;
 
 public class PlayerGameObject extends GameObject {
 	
@@ -36,7 +44,7 @@ public class PlayerGameObject extends GameObject {
 
 	@Override
 	public void initialize() {
-		body = new SimulationBody();
+		body = new SimulationBody(id);
 		body.addFixture(Geometry.createSquare(1.0));
 		body.setMass(MassType.NORMAL);
 		frame.world.addBody(body);
@@ -53,7 +61,7 @@ public class PlayerGameObject extends GameObject {
 	}
 
 	@Override
-	public void render() {
+	public void render(Graphics2D g, double elapsedTime) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -72,13 +80,22 @@ public class PlayerGameObject extends GameObject {
 			Point mousePosition = MouseInfo.getPointerInfo().getLocation();
 			
 			Vector2 mouseWorldPosition = camera.toWorldCoordinates(frame.getWidth(), frame.getHeight(), mousePosition);
-			System.out.println(mouseWorldPosition);
 			Vector2 direction = mouseWorldPosition.subtract(start);
-			direction.normalize();
-			direction.multiply(-1200);
-			body.applyForce(direction);
-			//raycast to mouse position
-			//delete everything it hits
+			Vector2 recoil = direction.getNormalized();
+			recoil.multiply(-1200);
+			body.applyForce(recoil);
+			
+			Ray ray = new Ray(start, direction);
+			double length = 100000;
+			List<RaycastResult<SimulationBody, BodyFixture>> results = frame.world.raycast(ray, length, new DetectFilter<SimulationBody, BodyFixture>(true, true, null));
+			for(RaycastResult<SimulationBody, BodyFixture> result : results) {
+				int enemyID = result.getBody().id;
+				if(enemyID != 0) {
+					frame.DeleteGameObject(enemyID);
+					System.out.println("hello");
+					frame.world.removeBody(result.getBody());
+				}
+			}
 		}
 	}
 	

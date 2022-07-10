@@ -2,6 +2,7 @@ package tests;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import dyn4j.geometry.MassType;
@@ -13,7 +14,7 @@ import framework.SimulationFrame;
 public class BAOSimulationFrame extends SimulationFrame {
 	private static final long serialVersionUID = 1L;
 	
-	private ArrayList<GameObject> objects;
+	private Vector<GameObject> objects;
 
 	SimulationBody anchor;
 	
@@ -23,7 +24,7 @@ public class BAOSimulationFrame extends SimulationFrame {
 		super(name, scale);
 		this.setMousePanningEnabled(false);
 		this.setMousePickingEnabled(false);
-		objects = new ArrayList<GameObject>();
+		objects = new Vector<GameObject>();
 		initialized.set(false);
 	}
 	
@@ -36,10 +37,16 @@ public class BAOSimulationFrame extends SimulationFrame {
 	}
 	
 	public void DeleteGameObject(int id) {
-		for(int i = 0; i < objects.size(); i++) {
-			if(objects.get(i).getID() == id) {
-				objects.remove(i);
-				i++;
+		//for(int i = 0; i < objects.size(); i++) {
+			//if(objects.get(i).getID() == id) {
+				//objects.remove(i);
+				//i++;
+			//}
+		//}
+		for(GameObject g : objects) {
+			System.out.println(g.id);
+			if(g.id == id) {
+				g.active.set(false);
 			}
 		}
 	}
@@ -60,15 +67,18 @@ public class BAOSimulationFrame extends SimulationFrame {
 	protected void render(Graphics2D g, double deltaTime) {
 		super.render(g, deltaTime);
 		for(GameObject gObject : objects) {
-			gObject.render();
+			if(gObject.active.get())
+				gObject.render(g, deltaTime);
 		}
 	}
 	
 	protected void handleEvents() {
 		super.handleEvents();
 		for(GameObject g : objects) {
-			g.handleEvents();
+			if(g.active.get())
+				g.handleEvents();
 		}
+		
 	}
 	
 	public SimulationBody getAnchor() {
