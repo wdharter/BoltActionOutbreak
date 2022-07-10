@@ -11,13 +11,14 @@ public class InputHandler extends KeyAdapter implements MouseListener{
 	AtomicBoolean aaction;
 	AtomicBoolean saction;
 	AtomicBoolean daction;
-	AtomicBoolean clickaction;
-	public InputHandler(AtomicBoolean w, AtomicBoolean a, AtomicBoolean s, AtomicBoolean d, AtomicBoolean click) {
+	AtomicBoolean releaseaction;
+	AtomicBoolean pressaction;
+	public InputHandler(AtomicBoolean w, AtomicBoolean a, AtomicBoolean s, AtomicBoolean d, AtomicBoolean release, AtomicBoolean press) {
 		waction = w;
 		aaction = a;
 		saction = s;
 		daction = d;
-		clickaction = click;
+		releaseaction = release;
 	}
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
@@ -58,12 +59,13 @@ public class InputHandler extends KeyAdapter implements MouseListener{
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
+		pressaction.set(true);
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		clickaction.set(true);	
+		releaseaction.set(true);	
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {

@@ -26,14 +26,14 @@ public class PlayerGameObject extends GameObject {
 	private final AtomicBoolean movePlayerBackward = new AtomicBoolean(false);
 	private final AtomicBoolean movePlayerLeft = new AtomicBoolean(false);
 	private final AtomicBoolean movePlayerRight = new AtomicBoolean(false);
+	private final AtomicBoolean aim = new AtomicBoolean(false);
 	private final AtomicBoolean fire = new AtomicBoolean(false);
 	private Camera camera;
 	private float playerMoveForce = 50;
 	
 	public PlayerGameObject(int id, BAOSimulationFrame frame, String name, Camera mainCam) {
 		super(id, frame, name);
-		
-		InputHandler playerListener = new InputHandler(movePlayerForward, movePlayerLeft, movePlayerBackward, movePlayerRight, fire);
+		InputHandler playerListener = new InputHandler(movePlayerForward, movePlayerLeft, movePlayerBackward, movePlayerRight, fire, aim);
 		frame.addKeyListener(playerListener);
 		frame.addMouseListener(playerListener);
 		frame.canvas.addKeyListener(playerListener);
@@ -98,6 +98,19 @@ public class PlayerGameObject extends GameObject {
 			}
 		}
 	}
+	
+	private void aim(Graphics2D g)
+	{ 
+		if(aim.get())
+		{
+			
+		}
+		
+	}
+		
+		
+	}
+	
 	
 	private void move() {
 		Vector2 moveDir = new Vector2(0, 0);
