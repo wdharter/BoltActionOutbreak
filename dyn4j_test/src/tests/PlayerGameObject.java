@@ -80,4 +80,8 @@ public class PlayerGameObject extends GameObject {
 		player.applyForce(moveDir);
 	}
 	
+	public SimulationBody getBody() {
+		return player;
+	}
+	
 }

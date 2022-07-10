@@ -11,6 +11,7 @@ public class ZombieGameObject extends GameObject {
 	double initialX;
 	double initialY;
 	PlayerGameObject player;
+	private float zombieMoveForce = 10;
 	
 	public ZombieGameObject(int id, BAOSimulationFrame frame, String name, double x, double y, PlayerGameObject player) {
 		super(id, frame, name);
@@ -37,7 +38,12 @@ public class ZombieGameObject extends GameObject {
 
 	@Override
 	public void handleEvents() {
-		// TODO Auto-generated method stub
+		Vector2 playerPosition = player.getBody().getTransform().getTranslation();
+		Vector2 myPosition = zombie.getTransform().getTranslation();
+		Vector2 moveDir = playerPosition.subtract(myPosition).getNormalized();
+
+		moveDir.multiply(zombieMoveForce);
+		zombie.applyForce(moveDir);
 
 	}
 
