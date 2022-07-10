@@ -2,13 +2,19 @@ package tests;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+
+import dyn4j.geometry.MassType;
+import dyn4j.geometry.Vector2;
 import dyn4j.world.World;
+import framework.SimulationBody;
 import framework.SimulationFrame;
 
 public class BAOSimulationFrame extends SimulationFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private ArrayList<GameObject> objects;
+
+	SimulationBody anchor;
 	
 	public BAOSimulationFrame(String name, double scale) {
 		super(name, scale);
@@ -32,6 +38,10 @@ public class BAOSimulationFrame extends SimulationFrame {
 	
 	protected void initializeWorld() {
 		this.world.setGravity(World.ZERO_GRAVITY);
+		anchor = new SimulationBody();
+		anchor.translate(new Vector2(1.5, -2.0));
+		anchor.setMass(MassType.INFINITE);
+		this.world.addBody(anchor);
 		
 		for(GameObject g : objects) {
 			g.initialize();
@@ -50,5 +60,9 @@ public class BAOSimulationFrame extends SimulationFrame {
 		for(GameObject g : objects) {
 			g.handleEvents();
 		}
+	}
+	
+	public SimulationBody getAnchor() {
+		return anchor;
 	}
 }

@@ -11,8 +11,6 @@ import framework.SimulationBody;
 public class PlayerGameObject extends GameObject {
 	
 	SimulationBody player;
-	SimulationBody anchor;
-	FrictionJoint<SimulationBody> playerAnchorFriction;
 	
 
 	private final AtomicBoolean movePlayerForward = new AtomicBoolean(false);
@@ -32,18 +30,16 @@ public class PlayerGameObject extends GameObject {
 
 	@Override
 	public void initialize() {
-		// TODO Auto-generated method stub
-		anchor = new SimulationBody();
-		anchor.translate(new Vector2(1.5, -2.0));
-		anchor.setMass(MassType.INFINITE);
-		frame.world.addBody(anchor);
-		
 		player = new SimulationBody();
 		player.addFixture(Geometry.createSquare(1.0));
 		player.setMass(MassType.NORMAL);
 		frame.world.addBody(player);
 		
-		playerAnchorFriction = new FrictionJoint<SimulationBody>(player, anchor, player.getWorldCenter());
+
+		FrictionJoint<SimulationBody> playerAnchorFriction = new FrictionJoint<SimulationBody>(
+				player, 
+				frame.getAnchor(), 
+				player.getWorldCenter());
 		playerAnchorFriction.setMaximumForce(100);
 		playerAnchorFriction.setMaximumTorque(1000);
 		playerAnchorFriction.setCollisionAllowed(false);
