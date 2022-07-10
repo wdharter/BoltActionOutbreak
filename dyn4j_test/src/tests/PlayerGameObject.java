@@ -105,12 +105,7 @@ public class PlayerGameObject extends GameObject {
 		{
 			
 		}
-		
 	}
-		
-		
-	}
-	
 	
 	private void move() {
 		Vector2 moveDir = new Vector2(0, 0);

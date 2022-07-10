@@ -19,6 +19,7 @@ public class InputHandler extends KeyAdapter implements MouseListener{
 		saction = s;
 		daction = d;
 		releaseaction = release;
+		pressaction = press;
 	}
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
@@ -66,6 +67,7 @@ public class InputHandler extends KeyAdapter implements MouseListener{
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		releaseaction.set(true);	
+		pressaction.set(false);
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
