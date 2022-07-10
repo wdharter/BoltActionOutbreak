@@ -8,7 +8,6 @@ public abstract class GameObject {
 	
 	public GameObject(int id, BAOSimulationFrame frame, String name) {
 		this.frame = frame;
-		this.frame.AddGameObject(this);
 		this.id = id;
 		this.name = name;
 	}

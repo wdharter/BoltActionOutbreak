@@ -22,10 +22,12 @@ public class PlayerGameObject extends GameObject {
 	
 	public PlayerGameObject(int id, BAOSimulationFrame frame, String name) {
 		super(id, frame, name);
-
+		
 		BAOKeyListener playerListener = new BAOKeyListener(movePlayerForward, movePlayerLeft, movePlayerBackward, movePlayerRight);
 		frame.addKeyListener(playerListener);
 		frame.canvas.addKeyListener(playerListener);
+		
+		this.frame.AddGameObject(this);
 	}
 
 	@Override

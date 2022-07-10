@@ -17,9 +17,12 @@ public class ZombieGameObject extends GameObject {
 	
 	public ZombieGameObject(int id, BAOSimulationFrame frame, String name, double x, double y, PlayerGameObject player) {
 		super(id, frame, name);
+		
 		this.player = player;
 		initialX = x;
 		initialY = y;
+		
+		this.frame.AddGameObject(this);
 	}
 
 	@Override

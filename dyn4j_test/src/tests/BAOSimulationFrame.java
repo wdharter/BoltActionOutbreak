@@ -2,6 +2,7 @@ package tests;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import dyn4j.geometry.MassType;
 import dyn4j.geometry.Vector2;
@@ -16,14 +17,21 @@ public class BAOSimulationFrame extends SimulationFrame {
 
 	SimulationBody anchor;
 	
+	private AtomicBoolean initialized = new AtomicBoolean();
+	
 	public BAOSimulationFrame(String name, double scale) {
 		super(name, scale);
 		this.setMousePanningEnabled(false);
 		this.setMousePickingEnabled(false);
 		objects = new ArrayList<GameObject>();
+		initialized.set(false);
 	}
 	
 	public void AddGameObject(GameObject g) {
+		// If we have already initialized then initialize manually
+		if(initialized.get()) {
+			g.initialize();
+		}
 		objects.add(g);
 	}
 	
@@ -46,6 +54,7 @@ public class BAOSimulationFrame extends SimulationFrame {
 		for(GameObject g : objects) {
 			g.initialize();
 		}
+		initialized.set(true);
 	}
 	
 	protected void render(Graphics2D g, double deltaTime) {
