@@ -15,6 +15,7 @@ public class BAOSimulationFrame extends SimulationFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private Vector<GameObject> objects;
+	private Vector<Integer> objectIDsToDelete;
 
 	SimulationBody anchor;
 	
@@ -25,6 +26,7 @@ public class BAOSimulationFrame extends SimulationFrame {
 		this.setMousePanningEnabled(false);
 		this.setMousePickingEnabled(false);
 		objects = new Vector<GameObject>();
+		objectIDsToDelete = new Vector<Integer>();
 		initialized.set(false);
 	}
 	
@@ -36,17 +38,17 @@ public class BAOSimulationFrame extends SimulationFrame {
 		objects.add(g);
 	}
 	
-	public void DeleteGameObject(int id) {
-		//for(int i = 0; i < objects.size(); i++) {
-			//if(objects.get(i).getID() == id) {
-				//objects.remove(i);
-				//i++;
-			//}
-		//}
-		for(GameObject g : objects) {
-			System.out.println(g.id);
-			if(g.id == id) {
-				g.active.set(false);
+	public void QueueObjectToDelete(int id) {
+		objectIDsToDelete.add(id);
+	}
+	
+	private void DeleteQueuedGameObjects() {
+		for(Integer i : objectIDsToDelete) {
+			for(int j = 0; j < objects.size(); j++) {
+				if(objects.elementAt(j).id == i) {
+					objects.remove(j);
+					break;
+				}
 			}
 		}
 	}
@@ -67,18 +69,16 @@ public class BAOSimulationFrame extends SimulationFrame {
 	protected void render(Graphics2D g, double deltaTime) {
 		super.render(g, deltaTime);
 		for(GameObject gObject : objects) {
-			if(gObject.active.get())
-				gObject.render(g, deltaTime);
+			gObject.render(g, deltaTime);
 		}
 	}
 	
 	protected void handleEvents() {
 		super.handleEvents();
 		for(GameObject g : objects) {
-			if(g.active.get())
-				g.handleEvents();
+			g.handleEvents();
 		}
-		
+		DeleteQueuedGameObjects();
 	}
 	
 	public SimulationBody getAnchor() {

@@ -91,8 +91,7 @@ public class PlayerGameObject extends GameObject {
 			for(RaycastResult<SimulationBody, BodyFixture> result : results) {
 				int enemyID = result.getBody().id;
 				if(enemyID != 0) {
-					frame.DeleteGameObject(enemyID);
-					System.out.println("hello");
+					frame.QueueObjectToDelete(enemyID);
 					frame.world.removeBody(result.getBody());
 				}
 			}
