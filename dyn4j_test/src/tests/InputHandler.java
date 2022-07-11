@@ -8,10 +8,12 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.swing.SwingUtilities;
+
 public class InputHandler extends KeyAdapter implements MouseListener, MouseWheelListener{
 	static int fullScrollAmount;
 	private int currentScrollAmount;
-	private boolean locked;
+	private boolean locked = true;
 	AtomicBoolean waction;
 	AtomicBoolean aaction;
 	AtomicBoolean saction;
@@ -80,14 +82,18 @@ public class InputHandler extends KeyAdapter implements MouseListener, MouseWhee
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		pressaction.set(true);
+		if(SwingUtilities.isLeftMouseButton(e)) {
+			pressaction.set(true);
+		}
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		releaseaction.set(true);	
-		pressaction.set(false);
+		if(SwingUtilities.isLeftMouseButton(e)) {
+			releaseaction.set(true);	
+			pressaction.set(false);
+		}
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {

@@ -15,16 +15,21 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 public class BAOLauncher {
 	public static void main(String[] args) {
-		LauncherFrame launcher = new LauncherFrame();
-		launcher.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		launcher.setVisible(true);
+		boolean skip = true;
+		if(!skip) {
+			LauncherFrame launcher = new LauncherFrame();
+			launcher.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+			launcher.setVisible(true);
+		}
+		else {
+			new Game(21, 21);
+		}
 	}
 }
 
 class Game {
 	Game(int firstScrollCheck, int secondScrollCheck){
 		InputHandler.fullScrollAmount = (int) (Math.abs((Math.abs(firstScrollCheck) + Math.abs(secondScrollCheck))/2) * 0.85f);
-		System.out.println(InputHandler.fullScrollAmount);
 		BAOSimulationFrame game = new BAOSimulationFrame("Bolt Action Outbreak", 10);
 		PlayerGameObject player = new PlayerGameObject(0, game, "player", game.camera);
 		EnemySpawner spawner = new EnemySpawner(game, player);
