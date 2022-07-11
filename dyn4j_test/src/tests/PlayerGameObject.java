@@ -28,16 +28,31 @@ public class PlayerGameObject extends GameObject {
 	private final AtomicBoolean movePlayerRight = new AtomicBoolean(false);
 	private final AtomicBoolean aim = new AtomicBoolean(false);
 	private final AtomicBoolean fire = new AtomicBoolean(false);
+	private final AtomicBoolean toggleBolt = new AtomicBoolean(false);
+	private final AtomicBoolean boltBack = new AtomicBoolean(false);
+	private final AtomicBoolean boltForward = new AtomicBoolean(false);
+	
 	private Camera camera;
 	private float playerMoveForce = 50;
 	
 	public PlayerGameObject(int id, BAOSimulationFrame frame, String name, Camera mainCam) {
 		super(id, frame, name);
-		InputHandler playerListener = new InputHandler(movePlayerForward, movePlayerLeft, movePlayerBackward, movePlayerRight, fire, aim);
+		InputHandler playerListener = new InputHandler(
+				movePlayerForward, 
+				movePlayerLeft, 
+				movePlayerBackward, 
+				movePlayerRight, 
+				fire, 
+				aim,
+				toggleBolt,
+				boltBack,
+				boltForward);
 		frame.addKeyListener(playerListener);
 		frame.addMouseListener(playerListener);
+		frame.addMouseWheelListener(playerListener);
 		frame.canvas.addKeyListener(playerListener);
 		frame.canvas.addMouseListener(playerListener);
+		frame.canvas.addMouseWheelListener(playerListener);
 		camera = mainCam;
 		this.frame.AddGameObject(this);
 	}

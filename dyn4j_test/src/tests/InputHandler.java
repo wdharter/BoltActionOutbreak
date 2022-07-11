@@ -4,22 +4,41 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class InputHandler extends KeyAdapter implements MouseListener{
+public class InputHandler extends KeyAdapter implements MouseListener, MouseWheelListener{
+	static int fullScrollAmount = 6;
+	
 	AtomicBoolean waction;
 	AtomicBoolean aaction;
 	AtomicBoolean saction;
 	AtomicBoolean daction;
 	AtomicBoolean releaseaction;
 	AtomicBoolean pressaction;
-	public InputHandler(AtomicBoolean w, AtomicBoolean a, AtomicBoolean s, AtomicBoolean d, AtomicBoolean release, AtomicBoolean press) {
+	AtomicBoolean rightpressaction;
+	AtomicBoolean mwdownaction;
+	AtomicBoolean mwupaction;
+	public InputHandler(
+			AtomicBoolean w, 
+			AtomicBoolean a, 
+			AtomicBoolean s, 
+			AtomicBoolean d, 
+			AtomicBoolean release, 
+			AtomicBoolean press,
+			AtomicBoolean rightpress,
+			AtomicBoolean mwdown,
+			AtomicBoolean mwup) {
 		waction = w;
 		aaction = a;
 		saction = s;
 		daction = d;
 		releaseaction = release;
 		pressaction = press;
+		rightpressaction = rightpress;
+		mwdownaction = mwdown;
+		mwupaction = mwup;
 	}
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
@@ -77,5 +96,20 @@ public class InputHandler extends KeyAdapter implements MouseListener{
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
+	}
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		// Ensure that the scroll-wheel is being used (or arrow keys)
+		if(e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
+			//in here modify some tracking variable and then actually change booleans after some check
+			//that we overcame the fullScrollAmount, then reset it
+			int totalScrollAmount = e.getUnitsToScroll();
+			System.out.println(totalScrollAmount);
+			int rotation = e.getWheelRotation();
+			if(rotation < 0) {
+				//mouse wheel up
+			}else {
+			}
+		}
 	}
 }

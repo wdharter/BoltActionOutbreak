@@ -19,9 +19,9 @@ public class MouseZoomInputHandler extends AbstractMouseInputHandler implements 
 		super.onMouseWheel(rotation);
 		
 		if (rotation > 0) {
-			this.camera.scale *= 0.8;
+			//this.camera.scale *= 0.8;
 		} else {
-			this.camera.scale *= 1.2;
+			//this.camera.scale *= 1.2;
 		}
 	}
 }
