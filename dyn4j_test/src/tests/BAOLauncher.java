@@ -23,7 +23,8 @@ public class BAOLauncher {
 
 class Game {
 	Game(int firstScrollCheck, int secondScrollCheck){
-		InputHandler.fullScrollAmount = Math.abs((Math.abs(firstScrollCheck) + Math.abs(secondScrollCheck))/2);
+		InputHandler.fullScrollAmount = (int) (Math.abs((Math.abs(firstScrollCheck) + Math.abs(secondScrollCheck))/2) * 0.85f);
+		System.out.println(InputHandler.fullScrollAmount);
 		BAOSimulationFrame game = new BAOSimulationFrame("Bolt Action Outbreak", 10);
 		PlayerGameObject player = new PlayerGameObject(0, game, "player", game.camera);
 		EnemySpawner spawner = new EnemySpawner(game, player);

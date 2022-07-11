@@ -10,7 +10,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InputHandler extends KeyAdapter implements MouseListener, MouseWheelListener{
 	static int fullScrollAmount;
-	
+	private int currentScrollAmount;
+	private boolean locked;
 	AtomicBoolean waction;
 	AtomicBoolean aaction;
 	AtomicBoolean saction;
@@ -103,12 +104,17 @@ public class InputHandler extends KeyAdapter implements MouseListener, MouseWhee
 		if(e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
 			//in here modify some tracking variable and then actually change booleans after some check
 			//that we overcame the fullScrollAmount, then reset it
-			int totalScrollAmount = e.getUnitsToScroll();
-			System.out.println(totalScrollAmount);
-			int rotation = e.getWheelRotation();
-			if(rotation < 0) {
-				//mouse wheel up
-			}else {
+			currentScrollAmount += e.getUnitsToScroll();
+			if(Math.abs(currentScrollAmount) >= fullScrollAmount) {
+				if(currentScrollAmount >= 0 && locked) {
+					System.out.println("Unlocked");
+					locked = false;
+				}
+				else if(currentScrollAmount < 0 && !locked) {
+					System.out.println("Locked");
+					locked = true;
+				}
+				currentScrollAmount = 0;
 			}
 		}
 	}
