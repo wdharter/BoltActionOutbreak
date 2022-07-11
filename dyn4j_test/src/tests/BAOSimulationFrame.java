@@ -1,7 +1,6 @@
 package tests;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -68,7 +67,9 @@ public class BAOSimulationFrame extends SimulationFrame {
 	
 	protected void render(Graphics2D g, double deltaTime) {
 		super.render(g, deltaTime);
-		for(GameObject gObject : objects) {
+		@SuppressWarnings("unchecked")
+		Vector<GameObject> objectsCopy = (Vector<GameObject>) objects.clone();
+		for(GameObject gObject : objectsCopy) {
 			gObject.render(g, deltaTime);
 		}
 	}
