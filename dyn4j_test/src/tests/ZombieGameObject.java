@@ -1,6 +1,12 @@
 package tests;
 
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.swing.Timer;
 
 import dyn4j.dynamics.joint.FrictionJoint;
 import dyn4j.geometry.Geometry;
@@ -16,6 +22,7 @@ public class ZombieGameObject extends GameObject {
 	PlayerGameObject player;
 	private float zombieMoveForce = 50;
 	private float maxSpeed = 5;
+	private AtomicBoolean moving = new AtomicBoolean();
 	
 	public ZombieGameObject(int id, BAOSimulationFrame frame, String name, double x, double y, PlayerGameObject player) {
 		super(id, frame, name);
@@ -23,7 +30,8 @@ public class ZombieGameObject extends GameObject {
 		this.player = player;
 		initialX = x;
 		initialY = y;
-		
+		moving.set(true);
+		new StepTimer(moving);
 		this.frame.AddGameObject(this);
 	}
 
@@ -59,7 +67,8 @@ public class ZombieGameObject extends GameObject {
 		Vector2 moveDir = playerPosition.subtract(myPosition).getNormalized();
 
 		moveDir.multiply(zombieMoveForce);
-		zombie.applyForce(moveDir);
+		if(moving.get())
+			zombie.applyForce(moveDir);
 		
 		Vector2 currentVelocity = zombie.getLinearVelocity();
 		double currentSpeed = zombie.getLinearVelocity().getMagnitude();
@@ -71,4 +80,28 @@ public class ZombieGameObject extends GameObject {
 		
 	}
 
+}
+
+
+class StepTimer implements ActionListener{
+	private int delay;
+	protected Timer timer;
+	AtomicBoolean moving;
+	
+	public StepTimer(AtomicBoolean moving) {
+		Random r = new Random();
+		delay = r.nextInt(200) + 300;
+		timer = new Timer(delay, this);
+		timer.start();
+		this.moving = moving;
+	}
+
+	public void actionPerformed(ActionEvent e)
+	{
+		//moving.set(!moving.get());
+		if(moving.get())
+			moving.set(false);
+		else
+			moving.set(true);
+	}
 }
