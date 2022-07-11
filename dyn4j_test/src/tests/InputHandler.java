@@ -9,7 +9,7 @@ import java.awt.event.MouseWheelListener;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InputHandler extends KeyAdapter implements MouseListener, MouseWheelListener{
-	static int fullScrollAmount = 6;
+	static int fullScrollAmount;
 	
 	AtomicBoolean waction;
 	AtomicBoolean aaction;
