@@ -94,7 +94,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 		if(SwingUtilities.isLeftMouseButton(e) && chambered) {
 			releaseaction.set(true);	
 			pressaction.set(false);
-			chambered = false;
+			chambered = true;
 		}
 		else if(SwingUtilities.isRightMouseButton(e)) {
 			if(locked) {

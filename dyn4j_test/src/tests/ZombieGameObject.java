@@ -21,8 +21,8 @@ public class ZombieGameObject extends GameObject {
 	double initialX;
 	double initialY;
 	PlayerGameObject player;
-	private float zombieMoveForce = 50;
-	private float maxSpeed = 5;
+	private float zombieMoveForce = 100;
+	private float maxSpeed = 10;
 	private AtomicBoolean moving = new AtomicBoolean();
 	private float lungeLength = 15;
 	
@@ -105,9 +105,16 @@ class StepTimer implements ActionListener{
 	public void actionPerformed(ActionEvent e)
 	{
 		//moving.set(!moving.get());
-		if(moving.get())
+		if(moving.get()) {
 			moving.set(false);
-		else
+			Random r = new Random();
+			timer = new Timer(r.nextInt(200)+300, this);
+		}
+		else {
 			moving.set(true);
+			timer.stop();
+			Random r = new Random();
+			timer = new Timer(r.nextInt(200)+700, this);
+		}
 	}
 }

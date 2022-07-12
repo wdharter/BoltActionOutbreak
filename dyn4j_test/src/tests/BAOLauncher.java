@@ -139,7 +139,7 @@ class LauncherFrame extends JFrame{
 class EnemySpawner implements ActionListener{
 	BAOSimulationFrame game;
 	PlayerGameObject player;
-	private int delay = 1000;
+	private int delay = 500;
 	protected Timer timer;
 	int enemyAmount = 0;
 	
