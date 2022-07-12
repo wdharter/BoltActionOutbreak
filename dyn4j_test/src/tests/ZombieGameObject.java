@@ -54,6 +54,7 @@ public class ZombieGameObject extends GameObject {
 		zombieAnchorFriction.setMaximumTorque(1000);
 		zombieAnchorFriction.setCollisionAllowed(false);
 		frame.world.addJoint(zombieAnchorFriction);
+		initialized = true;
 	}
 
 	@Override
@@ -64,26 +65,32 @@ public class ZombieGameObject extends GameObject {
 
 	@Override
 	public void handleEvents() {
-		Vector2 playerPosition = player.getBody().getTransform().getTranslation();
-		Vector2 myPosition = zombie.getTransform().getTranslation();
-		Vector2 moveDir = playerPosition.subtract(myPosition).getNormalized();
-		moveDir.multiply(zombieMoveForce);
-		Vector2 distance = (new Vector2((int)myPosition.x-(int)playerPosition.x, (int)myPosition.y-(int)playerPosition.y)).subtract(myPosition);
-		if(distance.getMagnitude() <= lungeLength) {
-			moveDir.multiply(2.3);
+		if(initialized) {
+			Vector2 playerPosition = player.getBody().getTransform().getTranslation();
+			Vector2 myPosition = zombie.getTransform().getTranslation();
+			Vector2 moveDir = playerPosition.subtract(myPosition).getNormalized();
+			moveDir.multiply(zombieMoveForce);
+			Vector2 distance = (new Vector2((int)myPosition.x-(int)playerPosition.x, (int)myPosition.y-(int)playerPosition.y)).subtract(myPosition);
+			if(distance.getMagnitude() <= lungeLength) {
+				moveDir.multiply(2.3);
+			}
+			
+			if(moving.get())
+				zombie.applyForce(moveDir);
+			
+			Vector2 currentVelocity = zombie.getLinearVelocity();
+			double currentSpeed = zombie.getLinearVelocity().getMagnitude();
+			if(currentSpeed > maxSpeed)
+				currentSpeed = maxSpeed;
+			currentVelocity.normalize();
+			currentVelocity.multiply(currentSpeed);
+			zombie.setLinearVelocity(currentVelocity);
 		}
-		
-		if(moving.get())
-			zombie.applyForce(moveDir);
-		
-		Vector2 currentVelocity = zombie.getLinearVelocity();
-		double currentSpeed = zombie.getLinearVelocity().getMagnitude();
-		if(currentSpeed > maxSpeed)
-			currentSpeed = maxSpeed;
-		currentVelocity.normalize();
-		currentVelocity.multiply(currentSpeed);
-		zombie.setLinearVelocity(currentVelocity);
-		
+	}
+
+	@Override
+	public void destroy() {
+		frame.world.removeBody(zombie);
 	}
 
 }

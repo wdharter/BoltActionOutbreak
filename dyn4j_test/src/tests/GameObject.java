@@ -8,11 +8,13 @@ public abstract class GameObject {
 	protected int id;
 	private String name;
 	public AtomicBoolean active = new AtomicBoolean();
+	public boolean initialized;
 	
 	public GameObject(int id, BAOSimulationFrame frame, String name) {
 		this.frame = frame;
 		this.id = id;
 		this.name = name;
+		initialized = false;
 		active.set(true);
 	}
 	
@@ -29,4 +31,6 @@ public abstract class GameObject {
 	public abstract void render(Graphics2D g, double elapsedTime);
 	
 	public abstract void handleEvents();
+	
+	public abstract void destroy();
 }

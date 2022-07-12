@@ -25,7 +25,10 @@ public class VaporTrailGameObject extends GameObject {
 	}
 
 	@Override
-	public void initialize() {}
+	public void initialize() 
+	{
+		initialized = true;
+	}
 
 	@Override
 	public void render(Graphics2D g, double elapsedTime) {
@@ -49,5 +52,8 @@ public class VaporTrailGameObject extends GameObject {
 
 	@Override
 	public void handleEvents() {}
+
+	@Override
+	public void destroy() {}
 
 }

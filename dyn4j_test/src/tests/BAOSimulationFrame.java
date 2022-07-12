@@ -16,6 +16,7 @@ public class BAOSimulationFrame extends SimulationFrame {
 	
 	private Vector<GameObject> objects;
 	private Vector<Integer> objectIDsToDelete;
+	private Vector<GameObject> objectsToInitialize;
 	private static AtomicInteger lastID = new AtomicInteger(0);
 	SimulationBody anchor;
 	
@@ -26,6 +27,7 @@ public class BAOSimulationFrame extends SimulationFrame {
 		this.setMousePanningEnabled(false);
 		this.setMousePickingEnabled(false);
 		objects = new Vector<GameObject>();
+		objectsToInitialize = new Vector<GameObject>();
 		objectIDsToDelete = new Vector<Integer>();
 		initialized.set(false);
 	}
@@ -38,9 +40,20 @@ public class BAOSimulationFrame extends SimulationFrame {
 	public void AddGameObject(GameObject g) {
 		// If we have already initialized then initialize manually
 		if(initialized.get()) {
-			g.initialize();
+			objectsToInitialize.add(g);
+		}else {
+			objects.add(g);
 		}
-		objects.add(g);
+	}
+	
+	public void InitializeQueuedGameObjects() {
+		if(initialized.get()) {
+			for(GameObject g : objectsToInitialize) {
+				g.initialize();
+				objects.add(g);
+			}
+			objectsToInitialize.clear();
+		}
 	}
 	
 	public void QueueObjectToDelete(int id) {
@@ -51,6 +64,7 @@ public class BAOSimulationFrame extends SimulationFrame {
 		for(Integer i : objectIDsToDelete) {
 			for(int j = 0; j < objects.size(); j++) {
 				if(objects.elementAt(j).id == i) {
+					objects.elementAt(j).destroy();
 					objects.remove(j);
 					break;
 				}
@@ -79,6 +93,8 @@ public class BAOSimulationFrame extends SimulationFrame {
 		for(GameObject gObject : objectsCopy) {
 			gObject.render(g, deltaTime);
 		}
+		DeleteQueuedGameObjects();
+		InitializeQueuedGameObjects();
 	}
 	
 	protected void handleEvents() {
@@ -87,7 +103,6 @@ public class BAOSimulationFrame extends SimulationFrame {
 		for(GameObject g : objectsCopy) {
 			g.handleEvents();
 		}
-		DeleteQueuedGameObjects();
 	}
 	
 	public SimulationBody getAnchor() {

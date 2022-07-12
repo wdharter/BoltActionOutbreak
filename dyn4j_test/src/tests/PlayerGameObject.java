@@ -73,6 +73,7 @@ public class PlayerGameObject extends GameObject {
 		playerAnchorFriction.setMaximumTorque(1000);
 		playerAnchorFriction.setCollisionAllowed(false);
 		frame.world.addJoint(playerAnchorFriction);
+		initialized = true;
 	}
 
 	@Override
@@ -107,7 +108,6 @@ public class PlayerGameObject extends GameObject {
 				int enemyID = result.getBody().id;
 				if(enemyID != 0) {
 					frame.QueueObjectToDelete(enemyID);
-					frame.world.removeBody(result.getBody());
 				}
 			}
 			
@@ -181,6 +181,11 @@ public class PlayerGameObject extends GameObject {
 	
 	public SimulationBody getBody() {
 		return body;
+	}
+
+	@Override
+	public void destroy() {
+		frame.world.removeBody(body);
 	}
 	
 }
