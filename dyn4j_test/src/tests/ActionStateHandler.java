@@ -10,10 +10,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.SwingUtilities;
 
-public class InputHandler extends KeyAdapter implements MouseListener, MouseWheelListener{
+public class ActionStateHandler extends KeyAdapter implements MouseListener, MouseWheelListener{
 	static int fullScrollAmount;
 	private int currentScrollAmount;
 	private boolean locked = true;
+	private boolean boltUp = false;
 	AtomicBoolean waction;
 	AtomicBoolean aaction;
 	AtomicBoolean saction;
@@ -23,7 +24,7 @@ public class InputHandler extends KeyAdapter implements MouseListener, MouseWhee
 	AtomicBoolean rightpressaction;
 	AtomicBoolean mwdownaction;
 	AtomicBoolean mwupaction;
-	public InputHandler(
+	public ActionStateHandler(
 			AtomicBoolean w, 
 			AtomicBoolean a, 
 			AtomicBoolean s, 
@@ -85,14 +86,15 @@ public class InputHandler extends KeyAdapter implements MouseListener, MouseWhee
 		if(SwingUtilities.isLeftMouseButton(e)) {
 			pressaction.set(true);
 		}
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if(SwingUtilities.isLeftMouseButton(e)) {
 			releaseaction.set(true);	
 			pressaction.set(false);
+		}
+		else if(SwingUtilities.isRightMouseButton(e)) {
+			
 		}
 	}
 	@Override
@@ -106,19 +108,18 @@ public class InputHandler extends KeyAdapter implements MouseListener, MouseWhee
 	}
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		// Ensure that the scroll-wheel is being used (or arrow keys)
 		if(e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
-			//in here modify some tracking variable and then actually change booleans after some check
-			//that we overcame the fullScrollAmount, then reset it
 			currentScrollAmount += e.getUnitsToScroll();
 			if(Math.abs(currentScrollAmount) >= fullScrollAmount) {
 				if(currentScrollAmount >= 0 && locked) {
 					System.out.println("Unlocked");
 					locked = false;
+					mwdownaction.set(true);
 				}
 				else if(currentScrollAmount < 0 && !locked) {
 					System.out.println("Locked");
 					locked = true;
+					mwdownaction.set(false);
 				}
 				currentScrollAmount = 0;
 			}

@@ -37,7 +37,7 @@ public class PlayerGameObject extends GameObject {
 	
 	public PlayerGameObject(int id, BAOSimulationFrame frame, String name, Camera mainCam) {
 		super(id, frame, name);
-		InputHandler playerListener = new InputHandler(
+		ActionStateHandler playerListener = new ActionStateHandler(
 				movePlayerForward, 
 				movePlayerLeft, 
 				movePlayerBackward, 
