@@ -110,6 +110,9 @@ public class PlayerGameObject extends GameObject {
 					frame.world.removeBody(result.getBody());
 				}
 			}
+			
+			Vector2 end = start.copy().add(direction.multiply(400));
+			new VaporTrailGameObject(1000, this.frame, "vapor", new Point((int)start.x, (int)start.y), new Point((int)end.x, (int)end.y), 3);
 		}
 	}
 	
@@ -130,7 +133,7 @@ public class PlayerGameObject extends GameObject {
 			for(RaycastResult<SimulationBody, BodyFixture> result : results) {
 				Vector2 point = result.getRaycast().getPoint();
 				hitObject = true;
-				g.setColor(Color.GRAY);
+				g.setColor(new Color(20, 20, 20, 20));
 				g.draw(new Line2D.Double(
 						ray.getStart().x * scale, 
 						ray.getStart().y * scale, 
@@ -140,7 +143,7 @@ public class PlayerGameObject extends GameObject {
 						
 			}
 			if(!hitObject) {
-				g.setColor(Color.BLACK);
+				g.setColor(new Color(25, 25, 25, 25));
 				g.draw(new Line2D.Double(
 						ray.getStart().x * scale, 
 						ray.getStart().y * scale, 
