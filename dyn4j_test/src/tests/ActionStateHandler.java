@@ -15,6 +15,8 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	private int currentScrollAmount;
 	private boolean locked = true;
 	private boolean boltUp = false;
+	private boolean chambered = true;
+	private boolean almostChambered = false;
 	AtomicBoolean waction;
 	AtomicBoolean aaction;
 	AtomicBoolean saction;
@@ -83,18 +85,31 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(SwingUtilities.isLeftMouseButton(e)) {
+		if(SwingUtilities.isLeftMouseButton(e) && chambered) {
 			pressaction.set(true);
 		}
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(SwingUtilities.isLeftMouseButton(e)) {
+		if(SwingUtilities.isLeftMouseButton(e) && chambered) {
 			releaseaction.set(true);	
 			pressaction.set(false);
+			chambered = false;
 		}
 		else if(SwingUtilities.isRightMouseButton(e)) {
-			
+			if(locked) {
+				if(boltUp) {
+					boltUp = false;
+					System.out.println("Locked");
+					if(almostChambered) {
+						almostChambered = false;
+						chambered = true;
+					}
+				}else {
+					boltUp = true;
+					System.out.println("Unlocked");
+				}
+			}
 		}
 	}
 	@Override
@@ -108,16 +123,17 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	}
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		if(e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
+		if(boltUp && e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
 			currentScrollAmount += e.getUnitsToScroll();
 			if(Math.abs(currentScrollAmount) >= fullScrollAmount) {
 				if(currentScrollAmount >= 0 && locked) {
-					System.out.println("Unlocked");
+					System.out.println("Opened");
 					locked = false;
 					mwdownaction.set(true);
 				}
 				else if(currentScrollAmount < 0 && !locked) {
-					System.out.println("Locked");
+					System.out.println("Closed");
+					almostChambered = true;
 					locked = true;
 					mwdownaction.set(false);
 				}

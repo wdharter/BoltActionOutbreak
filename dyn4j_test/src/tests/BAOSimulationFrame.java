@@ -76,7 +76,8 @@ public class BAOSimulationFrame extends SimulationFrame {
 	
 	protected void handleEvents() {
 		super.handleEvents();
-		for(GameObject g : objects) {
+		Vector<GameObject> objectsCopy = (Vector<GameObject>) objects.clone();
+		for(GameObject g : objectsCopy) {
 			g.handleEvents();
 		}
 		DeleteQueuedGameObjects();
