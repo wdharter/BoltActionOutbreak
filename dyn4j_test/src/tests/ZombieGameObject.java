@@ -1,6 +1,7 @@
 package tests;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
@@ -23,6 +24,7 @@ public class ZombieGameObject extends GameObject {
 	private float zombieMoveForce = 50;
 	private float maxSpeed = 5;
 	private AtomicBoolean moving = new AtomicBoolean();
+	private float lungeLength = 15;
 	
 	public ZombieGameObject(int id, BAOSimulationFrame frame, String name, double x, double y, PlayerGameObject player) {
 		super(id, frame, name);
@@ -65,8 +67,12 @@ public class ZombieGameObject extends GameObject {
 		Vector2 playerPosition = player.getBody().getTransform().getTranslation();
 		Vector2 myPosition = zombie.getTransform().getTranslation();
 		Vector2 moveDir = playerPosition.subtract(myPosition).getNormalized();
-
 		moveDir.multiply(zombieMoveForce);
+		Vector2 distance = (new Vector2((int)myPosition.x-(int)playerPosition.x, (int)myPosition.y-(int)playerPosition.y)).subtract(myPosition);
+		if(distance.getMagnitude() <= lungeLength) {
+			moveDir.multiply(2.3);
+		}
+		
 		if(moving.get())
 			zombie.applyForce(moveDir);
 		
