@@ -112,7 +112,7 @@ public class PlayerGameObject extends GameObject {
 			}
 			
 			Vector2 end = start.copy().add(direction.multiply(400));
-			new VaporTrailGameObject(1000, this.frame, "vapor", new Point((int)start.x, (int)start.y), new Point((int)end.x, (int)end.y), 3);
+			new VaporTrailGameObject(frame.GetID(), this.frame, "vapor", new Point((int)start.x, (int)start.y), new Point((int)end.x, (int)end.y), 3);
 		}
 	}
 	

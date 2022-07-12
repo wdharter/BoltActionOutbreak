@@ -32,7 +32,6 @@ public class VaporTrailGameObject extends GameObject {
 		if(!disabled) {
 			final double scale = frame.getScale();
 			float currentGray = startingGray - (startingGray * (totalTime/duration));
-			System.out.println((int)currentGray);
 			currentGray = currentGray < 0? 0 : currentGray;
 			g.setColor(new Color((int)currentGray, (int)currentGray, (int)currentGray, (int)currentGray));
 			g.draw(new Line2D.Double(

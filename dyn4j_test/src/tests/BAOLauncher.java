@@ -31,7 +31,7 @@ class Game {
 	Game(int firstScrollCheck, int secondScrollCheck){
 		ActionStateHandler.fullScrollAmount = (int) (Math.abs((Math.abs(firstScrollCheck) + Math.abs(secondScrollCheck))/2) * 0.85f);
 		BAOSimulationFrame game = new BAOSimulationFrame("Bolt Action Outbreak", 10);
-		PlayerGameObject player = new PlayerGameObject(0, game, "player", game.camera);
+		PlayerGameObject player = new PlayerGameObject(game.GetID(), game, "player", game.camera);
 		EnemySpawner spawner = new EnemySpawner(game, player);
 		game.run();
 	}
@@ -179,7 +179,7 @@ class EnemySpawner implements ActionListener{
 					x = 40;
 					break;
 			}
-			new ZombieGameObject((enemyAmount * 2)+1, game, "zombie1", x, y, player);
+			new ZombieGameObject(game.GetID(), game, "zombie1", x, y, player);
 			enemyAmount++;
 		}
 	}

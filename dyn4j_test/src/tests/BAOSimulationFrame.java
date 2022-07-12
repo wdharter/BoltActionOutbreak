@@ -3,6 +3,7 @@ package tests;
 import java.awt.Graphics2D;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import dyn4j.geometry.MassType;
 import dyn4j.geometry.Vector2;
@@ -15,7 +16,7 @@ public class BAOSimulationFrame extends SimulationFrame {
 	
 	private Vector<GameObject> objects;
 	private Vector<Integer> objectIDsToDelete;
-
+	private static AtomicInteger lastID = new AtomicInteger(0);
 	SimulationBody anchor;
 	
 	private AtomicBoolean initialized = new AtomicBoolean();
@@ -27,6 +28,11 @@ public class BAOSimulationFrame extends SimulationFrame {
 		objects = new Vector<GameObject>();
 		objectIDsToDelete = new Vector<Integer>();
 		initialized.set(false);
+	}
+	
+	public int GetID() {
+		lastID.set(lastID.get()+1);
+		return lastID.get();
 	}
 	
 	public void AddGameObject(GameObject g) {
@@ -50,6 +56,7 @@ public class BAOSimulationFrame extends SimulationFrame {
 				}
 			}
 		}
+		objectIDsToDelete.clear();
 	}
 	
 	protected void initializeWorld() {
