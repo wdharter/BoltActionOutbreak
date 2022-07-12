@@ -6,8 +6,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.SwingUtilities;
 
 public class ActionStateHandler extends KeyAdapter implements MouseListener, MouseWheelListener{
@@ -92,6 +95,13 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if(SwingUtilities.isLeftMouseButton(e) && chambered) {
+			try {
+				SoundManager Fire = new SoundManager(Sound.FIRE);
+				Fire.play();
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			releaseaction.set(true);	
 			pressaction.set(false);
 			chambered = false;
