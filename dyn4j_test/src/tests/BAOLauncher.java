@@ -98,10 +98,10 @@ class LauncherFrame extends JFrame{
 	
 	private void phase2() {
 		help.setText("<html>Now repeat that "
-				+ "but the other way</html>");
+				+ "but the other way. If reloading is too hard in-game, <br>reload and try scrolling less at calibration.</html>");
 		number.setText("<html> <font size=\"+5\">"+rotationTally+"</font></html>");
 		rightButton.setText("Launch");
-	    setSize( 260, 126 ); 
+	    setSize( 260, 158 ); 
 	}
 	
 	private class NextButton implements ActionListener{
