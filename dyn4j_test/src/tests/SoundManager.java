@@ -36,7 +36,7 @@ public class SoundManager {
 				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Lock.wav").getAbsoluteFile());
 				break;
 			case FIRE:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Unlock.wav").getAbsoluteFile());
+				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Fire.wav").getAbsoluteFile());
 				break;
 			case AIM:
 				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Aim.wav").getAbsoluteFile());
@@ -110,43 +110,43 @@ public class SoundManager {
 	    	switch(s)
 			{
 				case UNLOCK:
-					audioInputStream = AudioSystem.getAudioInputStream(new File("Unlock.wav").getAbsoluteFile());
+					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Unlock.wav").getAbsoluteFile());
 					break;
 				case OPEN:
-					audioInputStream = AudioSystem.getAudioInputStream(new File("Open.wav").getAbsoluteFile());
+					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Open.wav").getAbsoluteFile());
 					break;
 				case CLOSE:
-					audioInputStream = AudioSystem.getAudioInputStream(new File("Close.wav").getAbsoluteFile());
+					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Close.wav").getAbsoluteFile());
 					break;
 				case LOCK:
-					audioInputStream = AudioSystem.getAudioInputStream(new File("Lock.wav").getAbsoluteFile());
+					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Lock.wav").getAbsoluteFile());
 					break;
 				case FIRE:
 					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Fire.wav").getAbsoluteFile());
 					break;
 				case AIM:
-					audioInputStream = AudioSystem.getAudioInputStream(new File("Aim.wav").getAbsoluteFile());
+					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Aim.wav").getAbsoluteFile());
 					break;
 				case ZOMBIE:
-					audioInputStream = AudioSystem.getAudioInputStream(new File("Zombie.wav").getAbsoluteFile());
+					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Zombie.wav").getAbsoluteFile());
 					break;
 				case ZOMBIE_WALK:
-					audioInputStream = AudioSystem.getAudioInputStream(new File("Zombie_Walk.wav").getAbsoluteFile());
+					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Zombie_Walk.wav").getAbsoluteFile());
 					break;
 				case PLAYER_WALK:
-					audioInputStream = AudioSystem.getAudioInputStream(new File("Player_Walk.wav").getAbsoluteFile());
+					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Player_Walk.wav").getAbsoluteFile());
 					break;
 				case DAMAGE_2_ZOMBIE:
-					audioInputStream = AudioSystem.getAudioInputStream(new File("Damage_2_Zombie.wav").getAbsoluteFile());
+					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Damage_2_Zombie.wav").getAbsoluteFile());
 					break;
 				case DAMAGE_2_PLAYER:
-					audioInputStream = AudioSystem.getAudioInputStream(new File("Damage_2_Player.wav").getAbsoluteFile());
+					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Damage_2_Player.wav").getAbsoluteFile());
 					break;
 				case IT_HAS_TO_BE:
-					audioInputStream = AudioSystem.getAudioInputStream(new File("It_Has_To_Be.wav").getAbsoluteFile());
+					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\It_Has_To_Be.wav").getAbsoluteFile());
 					break;
 				case AMBIANCE:
-					audioInputStream = AudioSystem.getAudioInputStream(new File("Ambiance.wav").getAbsoluteFile());
+					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Ambiance.wav").getAbsoluteFile());
 					break;
 			}
 	        clip.open(audioInputStream);
