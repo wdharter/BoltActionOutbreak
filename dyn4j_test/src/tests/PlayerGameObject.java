@@ -31,6 +31,7 @@ public class PlayerGameObject extends GameObject {
 	private final AtomicBoolean toggleBolt = new AtomicBoolean(false);
 	private final AtomicBoolean boltBack = new AtomicBoolean(false);
 	private final AtomicBoolean boltForward = new AtomicBoolean(false);
+	private final AtomicBoolean load = new AtomicBoolean(false);
 	
 	private Camera camera;
 	private float playerMoveForce = 50;
@@ -46,7 +47,8 @@ public class PlayerGameObject extends GameObject {
 				aim,
 				toggleBolt,
 				boltBack,
-				boltForward);
+				boltForward,
+				load);
 		frame.addKeyListener(playerListener);
 		frame.addMouseListener(playerListener);
 		frame.addMouseWheelListener(playerListener);

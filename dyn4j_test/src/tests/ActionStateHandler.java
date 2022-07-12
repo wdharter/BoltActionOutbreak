@@ -8,6 +8,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -16,8 +17,9 @@ import javax.swing.SwingUtilities;
 public class ActionStateHandler extends KeyAdapter implements MouseListener, MouseWheelListener{
 	static int fullScrollAmount;
 	private int currentScrollAmount;
-	private boolean locked = true;
-	private boolean boltUp = false;
+	private AtomicInteger magRoundCount = new AtomicInteger();
+	private boolean closed = true;
+	private boolean unlocked = false;
 	private boolean chambered = true;
 	private boolean almostChambered = false;
 	AtomicBoolean waction;
@@ -29,6 +31,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	AtomicBoolean rightpressaction;
 	AtomicBoolean mwdownaction;
 	AtomicBoolean mwupaction;
+	AtomicBoolean spaceaction;
 	public ActionStateHandler(
 			AtomicBoolean w, 
 			AtomicBoolean a, 
@@ -38,7 +41,8 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			AtomicBoolean press,
 			AtomicBoolean rightpress,
 			AtomicBoolean mwdown,
-			AtomicBoolean mwup) {
+			AtomicBoolean mwup,
+			AtomicBoolean space) {
 		waction = w;
 		aaction = a;
 		saction = s;
@@ -48,6 +52,8 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 		rightpressaction = rightpress;
 		mwdownaction = mwdown;
 		mwupaction = mwup;
+		spaceaction = space;
+		magRoundCount.set(5);
 	}
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
@@ -63,8 +69,30 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			case KeyEvent.VK_D:
 				daction.set(true);
 				break;
+			case KeyEvent.VK_SPACE:
+				spaceaction.set(true);
+				loadBullets();
+				break;
 		}
 		
+	}
+	public void loadBullets()
+	{
+		if(!closed && magRoundCount.get() < 5)
+		{
+			int rounds = magRoundCount.get();
+			magRoundCount.set(++rounds);
+			SoundManager load;
+			try {
+				 load = new SoundManager(Sound.CLOSE);
+				 load.play();
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		System.out.println(magRoundCount.get());
+		return;
 	}
 	
 	public void keyReleased(KeyEvent e) {
@@ -81,6 +109,9 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			case KeyEvent.VK_D:
 				daction.set(false);
 				break;
+			case KeyEvent.VK_SPACE:
+				spaceaction.set(false);
+				break;
 		}
 	}
 	@Override
@@ -88,13 +119,13 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(SwingUtilities.isLeftMouseButton(e) && chambered) {
+		if(SwingUtilities.isLeftMouseButton(e) && chambered && magRoundCount.get() > 0 && closed && !unlocked) {
 			pressaction.set(true);
 		}
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(SwingUtilities.isLeftMouseButton(e) && chambered) {
+		if(SwingUtilities.isLeftMouseButton(e) && chambered && !unlocked && magRoundCount.get() > 0) {
 			try {
 				SoundManager Fire = new SoundManager(Sound.FIRE);
 				Fire.play();
@@ -105,11 +136,14 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			releaseaction.set(true);	
 			pressaction.set(false);
 			chambered = false;
+			int roundCount = magRoundCount.get();
+			magRoundCount.set(roundCount - 1);
+			System.out.println(magRoundCount.get());
 		}
 		else if(SwingUtilities.isRightMouseButton(e)) {
-			if(locked) {
-				if(boltUp) {
-					boltUp = false;
+			if(closed) {
+				if(unlocked) {
+					unlocked = false;
 					System.out.println("Locked");
 					if(almostChambered) {
 						almostChambered = false;
@@ -125,7 +159,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 						
 					}
 				}else {
-					boltUp = true;
+					unlocked = true;
 					System.out.println("Unlocked");
 					SoundManager Unlock;
 					try {
@@ -151,12 +185,12 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	}
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		if(boltUp && e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
+		if(unlocked && e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
 			currentScrollAmount += e.getUnitsToScroll();
 			if(Math.abs(currentScrollAmount) >= fullScrollAmount) {
-				if(currentScrollAmount >= 0 && locked) {
+				if(currentScrollAmount >= 0 && closed) {
 					System.out.println("Opened");
-					locked = false;
+					closed = false;
 					mwdownaction.set(true);
 					SoundManager Open;
 					try {
@@ -166,12 +200,11 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					
 				}
-				else if(currentScrollAmount < 0 && !locked) {
+				else if(currentScrollAmount < 0 && !closed) {
 					System.out.println("Closed");
 					almostChambered = true;
-					locked = true;
+					closed = true;
 					mwdownaction.set(false);
 					SoundManager Close;
 					try {

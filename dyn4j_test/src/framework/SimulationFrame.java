@@ -180,7 +180,7 @@ public abstract class SimulationFrame extends JFrame {
 		this.zoom = new MouseZoomInputHandler(this.canvas, this.camera, MouseEvent.BUTTON1);
 		this.zoom.install();
 		
-		this.paused = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_SPACE);
+		this.paused = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_ESCAPE);
 		this.step = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_ENTER);
 		this.renderContacts = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_C);
 		this.renderBodyAABBs = new ToggleStateKeyboardInputHandler(this.canvas, KeyEvent.VK_B);
