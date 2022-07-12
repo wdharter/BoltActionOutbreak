@@ -6,8 +6,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.SwingUtilities;
 
 public class ActionStateHandler extends KeyAdapter implements MouseListener, MouseWheelListener{
@@ -92,6 +95,13 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if(SwingUtilities.isLeftMouseButton(e) && chambered) {
+			try {
+				SoundManager Fire = new SoundManager(Sound.FIRE);
+				Fire.play();
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			releaseaction.set(true);	
 			pressaction.set(false);
 			chambered = false;
@@ -104,10 +114,28 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 					if(almostChambered) {
 						almostChambered = false;
 						chambered = true;
+						SoundManager Lock;
+						try {
+							Lock = new SoundManager(Sound.LOCK);
+							Lock.play();
+						} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
 					}
 				}else {
 					boltUp = true;
 					System.out.println("Unlocked");
+					SoundManager Unlock;
+					try {
+						Unlock = new SoundManager(Sound.UNLOCK);
+						Unlock.play();
+					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 				}
 			}
 		}
@@ -130,12 +158,29 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 					System.out.println("Opened");
 					locked = false;
 					mwdownaction.set(true);
+					SoundManager Open;
+					try {
+						Open = new SoundManager(Sound.OPEN);
+						Open.play();
+					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 				}
 				else if(currentScrollAmount < 0 && !locked) {
 					System.out.println("Closed");
 					almostChambered = true;
 					locked = true;
 					mwdownaction.set(false);
+					SoundManager Close;
+					try {
+						Close = new SoundManager(Sound.CLOSE);
+						Close.play();
+					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 				currentScrollAmount = 0;
 			}
