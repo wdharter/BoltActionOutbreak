@@ -1,5 +1,6 @@
 package tests;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -85,24 +86,28 @@ public class BAOSimulationFrame extends SimulationFrame {
 		leftWall.addFixture(Geometry.createRectangle(2, 60), 0.2);
 		leftWall.setMass(MassType.INFINITE);
 		leftWall.translate(-41.7, 0);
+		leftWall.setColor(Color.gray);
 	    this.world.addBody(leftWall);
 	    
 	    SimulationBody rightWall = new SimulationBody();
 	    rightWall.addFixture(Geometry.createRectangle(2, 60), 0.2);
 	    rightWall.setMass(MassType.INFINITE);
 	    rightWall.translate(41.7, 0);
+	    rightWall.setColor(Color.gray);
 	    this.world.addBody(rightWall);
 	    
 	    SimulationBody topWall = new SimulationBody();
 	    topWall.addFixture(Geometry.createRectangle(81.28, 2), 0.2);
 	    topWall.setMass(MassType.INFINITE);
 	    topWall.translate(0, 23);
+	    topWall.setColor(Color.gray);
 	    this.world.addBody(topWall);
 	    
 	    SimulationBody bottomWall = new SimulationBody();
 	    bottomWall.addFixture(Geometry.createRectangle(81.28, 2), 0.2);
 	    bottomWall.setMass(MassType.INFINITE);
 	    bottomWall.translate(0, -23);
+	    bottomWall.setColor(Color.gray);
 	    this.world.addBody(bottomWall);
 		
 		for(GameObject g : objects) {

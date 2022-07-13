@@ -67,7 +67,8 @@ public class PlayerGameObject extends GameObject {
 	@Override
 	public void initialize() {
 		body = new SimulationBody(id);
-		body.addFixture(Geometry.createSquare(1.0));
+		body.addFixture(Geometry.createCircle(0.5));
+		body.setColor(new Color(161, 136, 92));
 		body.setMass(MassType.NORMAL);
 		frame.world.addBody(body);
 		

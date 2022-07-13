@@ -1,5 +1,6 @@
 package tests;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -49,6 +50,7 @@ public class ZombieGameObject extends GameObject {
 		zombie.zombieRef = this;
 		zombie.addFixture(Geometry.createCircle(0.5));
 		zombie.translate(new Vector2(initialX, initialY));
+		zombie.setColor(new Color(32, 79, 54));
 		zombie.setMass(MassType.NORMAL);
 		frame.world.addBody(zombie);
 		
