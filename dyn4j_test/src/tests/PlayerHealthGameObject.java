@@ -1,5 +1,6 @@
 package tests;
 
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,18 +23,23 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 		super(id, frame, name);
 		frame.world.addContactListener(this);
 		health.set(100);
+		this.frame.AddGameObject(this);
 	}
 
 	@Override
 	public void initialize() {
-		// TODO Auto-generated method stub
-
+		
+		initialized = true;
 	}
 
 	@Override
 	public void render(Graphics2D g, double elapsedTime) {
-		// TODO Auto-generated method stub
-
+		Font font = new Font("Serif", Font.BOLD, -50);
+		g.scale(-1.0, 1);
+		g.setFont(font);
+		System.out.println(frame.getHeight());
+		g.drawString(Integer.toString(health.get()), (int) (frame.getWidth()/2.1f), (int) (frame.getHeight()/2.55f));
+		g.scale(-1.0, 1);
 	}
 
 	@Override
