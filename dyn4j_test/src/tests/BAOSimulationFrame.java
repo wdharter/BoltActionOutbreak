@@ -104,10 +104,12 @@ public class BAOSimulationFrame extends SimulationFrame {
 	    addWall(0, -23, 81.28, 2);
 	    
 	    addWall(-35.9, 9.7, 5, 20.5);
-	    Vector2 p1 = new Vector2(-30, -10); 
-	    Vector2 p2 = new Vector2(-56.4, -20);
-	    Vector2 p3 = new Vector2(-10.4, -20);
-	    addPolygon(p1, p2, p3);
+	    Vector2 p1 = new Vector2(-38.2, -3.9); 
+	    Vector2 p2 = new Vector2(-38.2, -19.9);
+	    Vector2 p3 = new Vector2(-16.3, -19.9);
+	    Vector2 p4 = new Vector2(-16.3, -19.9);
+	    Vector2 p5 = new Vector2(-33.3, -3.9);
+	    addPolygon(p1, p2, p3, p4, p5);
 	}
 	
 	private void level2() {
