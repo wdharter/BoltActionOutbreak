@@ -32,7 +32,7 @@ public class PlayerGameObject extends GameObject {
 	private final AtomicBoolean boltBack = new AtomicBoolean(false);
 	private final AtomicBoolean boltForward = new AtomicBoolean(false);
 	private final AtomicBoolean load = new AtomicBoolean(false);
-	
+	private ScoreBoardGameObject scoreboard;
 	private Camera camera;
 	private float playerMoveForce = 7;
 
@@ -40,8 +40,9 @@ public class PlayerGameObject extends GameObject {
 
 	public static final double NANO_TO_BASE = 1.0e9;
 	
-	public PlayerGameObject(int id, BAOSimulationFrame frame, String name, Camera mainCam) {
+	public PlayerGameObject(int id, BAOSimulationFrame frame, String name, Camera mainCam, ScoreBoardGameObject scoreboard) {
 		super(id, frame, name);
+		this.scoreboard = scoreboard;
 		ActionStateHandler playerListener = new ActionStateHandler(
 				movePlayerForward, 
 				movePlayerLeft, 
@@ -110,10 +111,16 @@ public class PlayerGameObject extends GameObject {
 			Ray ray = new Ray(start, direction);
 			double length = 100000;
 			List<RaycastResult<SimulationBody, BodyFixture>> results = frame.world.raycast(ray, length, new DetectFilter<SimulationBody, BodyFixture>(true, true, null));
+			int zombieCount = 0;
+			for(RaycastResult<SimulationBody, BodyFixture> result : results) {
+				if(result.getBody().zombieRef != null)
+					zombieCount++;
+			}
 			for(RaycastResult<SimulationBody, BodyFixture> result : results) {
 				int enemyID = result.getBody().id;
-				if(enemyID != 0) {
+				if(enemyID != 0 && result.getBody().zombieRef != null) {
 					frame.QueueObjectToDelete(enemyID);
+					scoreboard.score.addAndGet(1 * zombieCount);
 				}
 			}
 			

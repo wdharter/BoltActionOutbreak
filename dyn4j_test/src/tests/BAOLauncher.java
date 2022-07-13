@@ -31,7 +31,8 @@ class Game {
 	Game(int firstScrollCheck, int secondScrollCheck){
 		ActionStateHandler.fullScrollAmount = (int) (Math.abs((Math.abs(firstScrollCheck) + Math.abs(secondScrollCheck))/2) * 0.85f);
 		BAOSimulationFrame game = new BAOSimulationFrame("Bolt Action Outbreak", 15);
-		PlayerGameObject player = new PlayerGameObject(game.GetID(), game, "player", game.camera);
+		ScoreBoardGameObject scoreboard = new ScoreBoardGameObject(-1, game, "scoreboard");
+		PlayerGameObject player = new PlayerGameObject(game.GetID(), game, "player", game.camera, scoreboard);
 		PlayerHealthGameObject health = new PlayerHealthGameObject(game.GetID(), game, "health");
 		EnemySpawner spawner = new EnemySpawner(game, player);
 		game.run();
