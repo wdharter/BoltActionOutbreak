@@ -134,10 +134,14 @@ class StepTimer implements ActionListener{
 		//moving.set(!moving.get());
 		if(moving.get()) {
 			moving.set(false);
+			Random r = new Random();
+			delay = r.nextInt(200);
 		}
 		else {
 			moving.set(true);
 			dealtDamage.set(false);
+			Random r = new Random();
+			delay = r.nextInt(200) + 300;
 		}
 	}
 }
