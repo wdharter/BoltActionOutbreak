@@ -1,6 +1,8 @@
 package tests;
 
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import dyn4j.dynamics.contact.Contact;
 import dyn4j.dynamics.contact.SolvedContact;
@@ -10,6 +12,8 @@ import framework.SimulationBody;
 
 public class PlayerHealthGameObject extends GameObject implements ContactListener<SimulationBody> {
 
+	Vector<DamageTimer> timers;
+	
 	public PlayerHealthGameObject(int id, BAOSimulationFrame frame, String name) {
 		super(id, frame, name);
 		frame.world.addContactListener(this);
@@ -42,44 +46,46 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 
 	@Override
 	public void begin(ContactCollisionData<SimulationBody> collision, Contact contact) {
-		System.out.println("SOMETHING TOUCHED SOMETHING");
-		
-	}
-
-	@Override
-	public void persist(ContactCollisionData<SimulationBody> collision, Contact oldContact, Contact newContact) {
-		System.out.println("SOMETHING TOUCHING SOMETHING");
-		
+		if(collision.getBody1().id == 1 || collision.getBody2().id == 1) {
+			System.out.println("touching");
+		}
 	}
 
 	@Override
 	public void end(ContactCollisionData<SimulationBody> collision, Contact contact) {
-		// TODO Auto-generated method stub
-		
+		if(collision.getBody1().id == 1 || collision.getBody2().id == 1) {
+			System.out.println("no longer touching");
+		}
 	}
+	
+	
+	@Override
+	public void persist(ContactCollisionData<SimulationBody> collision, Contact oldContact, Contact newContact) {}
+
 
 	@Override
-	public void destroyed(ContactCollisionData<SimulationBody> collision, Contact contact) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void destroyed(ContactCollisionData<SimulationBody> collision, Contact contact) {}
 
 	@Override
-	public void collision(ContactCollisionData<SimulationBody> collision) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void collision(ContactCollisionData<SimulationBody> collision) {}
 
 	@Override
-	public void preSolve(ContactCollisionData<SimulationBody> collision, Contact contact) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void preSolve(ContactCollisionData<SimulationBody> collision, Contact contact) {}
 
 	@Override
-	public void postSolve(ContactCollisionData<SimulationBody> collision, SolvedContact contact) {
+	public void postSolve(ContactCollisionData<SimulationBody> collision, SolvedContact contact) {}
+}
+
+class DamageTimer implements ActionListener{
+
+	DamageTimer(int id){
+		
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 }
