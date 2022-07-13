@@ -82,38 +82,26 @@ public class BAOSimulationFrame extends SimulationFrame {
 		anchor.setMass(MassType.INFINITE);
 		this.world.addBody(anchor);
 		
-		SimulationBody leftWall = new SimulationBody();
-		leftWall.addFixture(Geometry.createRectangle(2, 60), 0.2);
-		leftWall.setMass(MassType.INFINITE);
-		leftWall.translate(-41.7, 0);
-		leftWall.setColor(Color.gray);
-	    this.world.addBody(leftWall);
+	    addWall(-41.7, 0, 2, 60);
+	    addWall(41.7, 0, 2, 60);
+	    addWall(0, 23, 81.28, 2);
+	    addWall(0, -23, 81.28, 2);
 	    
-	    SimulationBody rightWall = new SimulationBody();
-	    rightWall.addFixture(Geometry.createRectangle(2, 60), 0.2);
-	    rightWall.setMass(MassType.INFINITE);
-	    rightWall.translate(41.7, 0);
-	    rightWall.setColor(Color.gray);
-	    this.world.addBody(rightWall);
-	    
-	    SimulationBody topWall = new SimulationBody();
-	    topWall.addFixture(Geometry.createRectangle(81.28, 2), 0.2);
-	    topWall.setMass(MassType.INFINITE);
-	    topWall.translate(0, 23);
-	    topWall.setColor(Color.gray);
-	    this.world.addBody(topWall);
-	    
-	    SimulationBody bottomWall = new SimulationBody();
-	    bottomWall.addFixture(Geometry.createRectangle(81.28, 2), 0.2);
-	    bottomWall.setMass(MassType.INFINITE);
-	    bottomWall.translate(0, -23);
-	    bottomWall.setColor(Color.gray);
-	    this.world.addBody(bottomWall);
+	    addWall(0, 15, 20, 10);
 		
 		for(GameObject g : objects) {
 			g.initialize();
 		}
 		initialized.set(true);
+	}
+	
+	private void addWall(double x, double y, double w, double h) {
+		SimulationBody wall = new SimulationBody();
+		wall.addFixture(Geometry.createRectangle(w, h), 0.2);
+		wall.setMass(MassType.INFINITE);
+		wall.translate(x, y);
+		wall.setColor(Color.gray);
+	    this.world.addBody(wall);
 	}
 	
 	protected void render(Graphics2D g, double deltaTime) {
@@ -129,6 +117,7 @@ public class BAOSimulationFrame extends SimulationFrame {
 	
 	protected void handleEvents() {
 		super.handleEvents();
+		@SuppressWarnings("unchecked")
 		Vector<GameObject> objectsCopy = (Vector<GameObject>) objects.clone();
 		for(GameObject g : objectsCopy) {
 			g.handleEvents();
