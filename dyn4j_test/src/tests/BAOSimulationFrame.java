@@ -102,6 +102,8 @@ public class BAOSimulationFrame extends SimulationFrame {
 	    addWall(41.7, 0, 2, 60);
 	    addWall(0, 23, 81.28, 2);
 	    addWall(0, -23, 81.28, 2);
+	    
+	    addWall(-35.9, 9.7, 5, 20.5);
 	}
 	
 	private void level2() {
@@ -137,6 +139,15 @@ public class BAOSimulationFrame extends SimulationFrame {
 		triangle.translate(x, y);
 		triangle.setColor(Color.gray);
 	    this.world.addBody(triangle);
+	}
+	
+	private void addPolygon(double x, double y, Vector2...vertices) {
+		SimulationBody polygon = new SimulationBody();
+		polygon.addFixture(Geometry.createPolygon(vertices));
+		polygon.setMass(MassType.INFINITE);
+		polygon.translate(x, y);
+		polygon.setColor(Color.gray);
+	    this.world.addBody(polygon);
 	}
 	
 	protected void render(Graphics2D g, double deltaTime) {

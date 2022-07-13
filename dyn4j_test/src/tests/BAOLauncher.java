@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 public class BAOLauncher {
-	public static boolean Debug = false;
+	public static boolean Debug = true;
 	public static void main(String[] args) {
 		boolean skip = true;
 		if(!skip) {
