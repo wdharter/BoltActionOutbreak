@@ -15,7 +15,7 @@ import framework.SimulationFrame;
 
 public class BAOSimulationFrame extends SimulationFrame {
 	private static final long serialVersionUID = 1L;
-	
+	private int level = 0;
 	private Vector<GameObject> objects;
 	private Vector<Integer> objectIDsToDelete;
 	private Vector<GameObject> objectsToInitialize;
@@ -24,8 +24,9 @@ public class BAOSimulationFrame extends SimulationFrame {
 	
 	private AtomicBoolean initialized = new AtomicBoolean();
 	
-	public BAOSimulationFrame(String name, double scale) {
+	public BAOSimulationFrame(String name, double scale, int level) {
 		super(name, scale);
+		this.level = level;
 		this.setMousePanningEnabled(false);
 		this.setMousePickingEnabled(false);
 		objects = new Vector<GameObject>();
@@ -82,17 +83,33 @@ public class BAOSimulationFrame extends SimulationFrame {
 		anchor.setMass(MassType.INFINITE);
 		this.world.addBody(anchor);
 		
-	    addWall(-41.7, 0, 2, 60);
-	    addWall(41.7, 0, 2, 60);
-	    addWall(0, 23, 81.28, 2);
-	    addWall(0, -23, 81.28, 2);
-	    
-	    addWall(0, 15, 20, 10);
+		switch(level) {
+			case 1:
+				level1();
+			case 2:
+				level2();
+		}
 		
 		for(GameObject g : objects) {
 			g.initialize();
 		}
 		initialized.set(true);
+	}
+	
+	private void level1() {
+		// Basic level walls
+	    addWall(-41.7, 0, 2, 60);
+	    addWall(41.7, 0, 2, 60);
+	    addWall(0, 23, 81.28, 2);
+	    addWall(0, -23, 81.28, 2);
+	}
+	
+	private void level2() {
+		// Basic level walls
+	    addWall(-41.7, 0, 2, 60);
+	    addWall(41.7, 0, 2, 60);
+	    addWall(0, 23, 81.28, 2);
+	    addWall(0, -23, 81.28, 2);
 	}
 	
 	private void addWall(double x, double y, double w, double h) {
@@ -102,6 +119,24 @@ public class BAOSimulationFrame extends SimulationFrame {
 		wall.translate(x, y);
 		wall.setColor(Color.gray);
 	    this.world.addBody(wall);
+	}
+	
+	private void addCircle(double x, double y, double r) {
+		SimulationBody circle = new SimulationBody();
+		circle.addFixture(Geometry.createCircle(r), 0.2);
+		circle.setMass(MassType.INFINITE);
+		circle.translate(x, y);
+		circle.setColor(Color.gray);
+	    this.world.addBody(circle);
+	}
+	
+	private void addTriangle(double x, double y, Vector2 p1, Vector2 p2, Vector2 p3) {
+		SimulationBody triangle = new SimulationBody();
+		triangle.addFixture(Geometry.createTriangle(p1, p2, p3));
+		triangle.setMass(MassType.INFINITE);
+		triangle.translate(x, y);
+		triangle.setColor(Color.gray);
+	    this.world.addBody(triangle);
 	}
 	
 	protected void render(Graphics2D g, double deltaTime) {
