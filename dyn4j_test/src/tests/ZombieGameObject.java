@@ -43,6 +43,7 @@ public class ZombieGameObject extends GameObject {
 	public void initialize() {
 		// TODO Auto-generated method stub
 		zombie = new SimulationBody(id);
+		zombie.zombieRef = this;
 		zombie.addFixture(Geometry.createCircle(0.5));
 		zombie.translate(new Vector2(initialX, initialY));
 		zombie.setMass(MassType.NORMAL);

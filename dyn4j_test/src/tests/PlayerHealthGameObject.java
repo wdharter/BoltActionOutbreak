@@ -21,7 +21,7 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 	public PlayerHealthGameObject(int id, BAOSimulationFrame frame, String name) {
 		super(id, frame, name);
 		frame.world.addContactListener(this);
-		health.set(0);
+		health.set(100);
 	}
 
 	@Override
@@ -50,16 +50,19 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 
 	@Override
 	public void begin(ContactCollisionData<SimulationBody> collision, Contact contact) {
-		if(collision.getBody1().id == 1 || collision.getBody2().id == 1) {
-			int enemyID = collision.getBody1().id == 1? collision.getBody2().id : collision.getBody1().id;
-		}
 	}
 	
 	@Override
 	public void persist(ContactCollisionData<SimulationBody> collision, Contact oldContact, Contact newContact) {
 		if(collision.getBody1().id == 1 || collision.getBody2().id == 1) {
-			int enemyID = collision.getBody1().id == 1? collision.getBody2().id : collision.getBody1().id;
-			System.out.println("test");
+			SimulationBody enemy = collision.getBody1().id == 1? collision.getBody2() : collision.getBody1();
+			if(enemy.zombieRef != null && !enemy.zombieRef.dealtDamageInMove.get() && enemy.zombieRef.moving.get()) {
+				System.out.println(health.addAndGet(-10));
+				enemy.zombieRef.dealtDamageInMove.set(true);
+				if(health.get() <= 0) {
+					frame.QueueObjectToDelete(1);
+				}
+			}
 		}
 	}
 
