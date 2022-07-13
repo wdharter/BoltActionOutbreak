@@ -119,13 +119,24 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(SwingUtilities.isLeftMouseButton(e) && chambered && magRoundCount.get() > 0 && closed && !unlocked) {
+		if(SwingUtilities.isLeftMouseButton(e) && closed && !unlocked) {
 			pressaction.set(true);
 		}
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(SwingUtilities.isLeftMouseButton(e) && chambered && !unlocked && magRoundCount.get() > 0) {
+	    if(SwingUtilities.isLeftMouseButton(e) && !unlocked && magRoundCount.get() == 0)
+		{
+			try {
+				SoundManager Dryfire = new SoundManager(Sound.DRYFIRE);
+				Dryfire.play();
+			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+	    if(SwingUtilities.isLeftMouseButton(e) && chambered && !unlocked && magRoundCount.get() > 0) {
 			try {
 				SoundManager Fire = new SoundManager(Sound.FIRE);
 				Fire.play();
@@ -143,7 +154,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 				chambered = true;
 				magRoundCount.set(roundCount + 1);
 			}
-		}
+		}		
 		else if(SwingUtilities.isRightMouseButton(e)) {
 			if(closed) {
 				if(unlocked) {
@@ -172,7 +183,6 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					
 				}
 			}
 		}
