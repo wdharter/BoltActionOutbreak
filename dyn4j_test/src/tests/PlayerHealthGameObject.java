@@ -1,5 +1,6 @@
 package tests;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -22,7 +23,7 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 	public PlayerHealthGameObject(int id, BAOSimulationFrame frame, String name) {
 		super(id, frame, name);
 		frame.world.addContactListener(this);
-		health.set(100);
+		health.set(10);
 		this.frame.AddGameObject(this);
 	}
 
@@ -37,7 +38,10 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 		Font font = new Font("Serif", Font.BOLD, -50);
 		g.scale(-1.0, 1);
 		g.setFont(font);
-		System.out.println(frame.getHeight());
+		g.setColor(Color.BLACK);
+		if(health.get() < 4) {
+			g.setColor(Color.red);
+		}
 		g.drawString(Integer.toString(health.get()), (int) (frame.getWidth()/2.1f), (int) (frame.getHeight()/2.55f));
 		g.scale(-1.0, 1);
 	}
@@ -63,7 +67,7 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 		if(collision.getBody1().id == 1 || collision.getBody2().id == 1) {
 			SimulationBody enemy = collision.getBody1().id == 1? collision.getBody2() : collision.getBody1();
 			if(enemy.zombieRef != null && !enemy.zombieRef.dealtDamageInMove.get() && enemy.zombieRef.moving.get()) {
-				System.out.println(health.addAndGet(-10));
+				health.addAndGet(-1);
 				enemy.zombieRef.dealtDamageInMove.set(true);
 				if(health.get() <= 0) {
 					frame.QueueObjectToDelete(1);
