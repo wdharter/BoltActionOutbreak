@@ -21,6 +21,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	private boolean closed = true;
 	private boolean unlocked = false;
 	private boolean chambered = true;
+	private boolean cocked = true;
 	private boolean almostChambered = false;
 	AtomicBoolean waction;
 	AtomicBoolean aaction;
@@ -119,13 +120,13 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(SwingUtilities.isLeftMouseButton(e) && closed && !unlocked) {
+		if(SwingUtilities.isLeftMouseButton(e) && cocked && closed && !unlocked) {
 			pressaction.set(true);
 		}
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
-	    if(SwingUtilities.isLeftMouseButton(e) && !unlocked && magRoundCount.get() == 0)
+	    if(SwingUtilities.isLeftMouseButton(e) && !unlocked && magRoundCount.get() == 0 && cocked)
 		{
 			try {
 				SoundManager Dryfire = new SoundManager(Sound.DRYFIRE);
@@ -134,9 +135,11 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			pressaction.set(false);
+			cocked = false;
 		}
 		
-	    if(SwingUtilities.isLeftMouseButton(e) && chambered && !unlocked && magRoundCount.get() > 0) {
+	    if(SwingUtilities.isLeftMouseButton(e) && chambered && !unlocked && magRoundCount.get() > 0 && cocked) {
 			try {
 				SoundManager Fire = new SoundManager(Sound.FIRE);
 				Fire.play();
@@ -147,6 +150,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			releaseaction.set(true);	
 			pressaction.set(false);
 			chambered = false;
+			cocked = false;
 			int roundCount = magRoundCount.get();
 			magRoundCount.set(roundCount - 1);
 			System.out.println(magRoundCount.get());
@@ -204,6 +208,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 				if(currentScrollAmount >= 0 && closed) {
 					System.out.println("Opened");
 					closed = false;
+					cocked = true;
 					mwdownaction.set(true);
 					SoundManager Open;
 					try {
