@@ -139,6 +139,10 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			int roundCount = magRoundCount.get();
 			magRoundCount.set(roundCount - 1);
 			System.out.println(magRoundCount.get());
+			if(BAOLauncher.Debug) {
+				chambered = true;
+				magRoundCount.set(roundCount + 1);
+			}
 		}
 		else if(SwingUtilities.isRightMouseButton(e)) {
 			if(closed) {

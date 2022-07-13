@@ -104,6 +104,9 @@ public class PlayerGameObject extends GameObject {
 			Point mousePosition = MouseInfo.getPointerInfo().getLocation();
 			
 			Vector2 mouseWorldPosition = camera.toWorldCoordinates(frame.getWidth(), frame.getHeight(), mousePosition);
+			if(BAOLauncher.Debug) {
+				System.out.println("DEBUG: " + mouseWorldPosition);
+			}
 			Vector2 direction = mouseWorldPosition.subtract(start);
 			Vector2 recoil = direction.getNormalized();
 			recoil.multiply(-1200);
