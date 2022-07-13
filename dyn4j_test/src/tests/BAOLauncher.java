@@ -30,7 +30,7 @@ public class BAOLauncher {
 class Game {
 	Game(int firstScrollCheck, int secondScrollCheck){
 		ActionStateHandler.fullScrollAmount = (int) (Math.abs((Math.abs(firstScrollCheck) + Math.abs(secondScrollCheck))/2) * 0.85f);
-		BAOSimulationFrame game = new BAOSimulationFrame("Bolt Action Outbreak", 10);
+		BAOSimulationFrame game = new BAOSimulationFrame("Bolt Action Outbreak", 15);
 		PlayerGameObject player = new PlayerGameObject(game.GetID(), game, "player", game.camera);
 		PlayerHealthGameObject health = new PlayerHealthGameObject(game.GetID(), game, "health");
 		EnemySpawner spawner = new EnemySpawner(game, player);
@@ -143,7 +143,7 @@ class EnemySpawner implements ActionListener{
 	private int delay = 1000;
 	protected Timer timer;
 	int enemyAmount = 0;
-	
+	int maxEnemies = 40;
 	public EnemySpawner(BAOSimulationFrame game, PlayerGameObject player) {
 		this.game = game;
 		this.player = player;
@@ -153,35 +153,40 @@ class EnemySpawner implements ActionListener{
 
 	public void actionPerformed(ActionEvent e)
 	{
-		Random r = new Random();
-	    int x = 40;
-	    int y = 30;
-		for(int i = 0; i < 1; i++) {
-			int side = r.nextInt(3);
-			switch (side){
-				case 0:
-					//top
-					x = r.nextInt(80) - 40;
-					y = 30;
-					break;
-				case 1:
-					//bottom
-					x = r.nextInt(80) - 40;
-					y = -30;
-					break;
-				case 2:
-					//left
-					y = r.nextInt(60) - 30;
-					x = -40;
-					break;
-				case 3:
-					//right
-					y = r.nextInt(60) - 30;
-					x = 40;
-					break;
+		if(enemyAmount <= maxEnemies) {
+			Random r = new Random();
+		    int x = 40;
+		    int y = 30;
+		    int spawnWidth = 80;
+		    int spawnHeight = 60;
+			for(int i = 0; i < 1; i++) {
+				int side = r.nextInt(4);
+				switch (side){
+					case 0:
+						//top
+						x = r.nextInt(spawnWidth) - spawnWidth/2;
+						y = spawnHeight/2;
+						break;
+					case 1:
+						//bottom
+						x = r.nextInt(spawnWidth) - spawnWidth/2;
+						y = -spawnHeight/2;
+						break;
+					case 2:
+						//left
+						y = r.nextInt(spawnHeight) - spawnHeight/2;
+						x = -spawnWidth/2;
+						break;
+					case 3:
+						//right
+						y = r.nextInt(spawnHeight) - spawnHeight/2;
+						x = spawnWidth/2;
+						break;
+				}
+				new ZombieGameObject(game.GetID(), game, "zombie1", x, y, player);
+				enemyAmount++;
 			}
-			new ZombieGameObject(game.GetID(), game, "zombie1", x, y, player);
-			enemyAmount++;
 		}
+		System.out.println(enemyAmount);
 	}
 }
