@@ -3,6 +3,9 @@ package tests;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
+
+import javax.swing.Timer;
 
 import dyn4j.dynamics.contact.Contact;
 import dyn4j.dynamics.contact.SolvedContact;
@@ -17,7 +20,7 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 	public PlayerHealthGameObject(int id, BAOSimulationFrame frame, String name) {
 		super(id, frame, name);
 		frame.world.addContactListener(this);
-		// TODO Auto-generated constructor stub
+		timers = new Vector<DamageTimer>();
 	}
 
 	@Override
@@ -47,14 +50,23 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 	@Override
 	public void begin(ContactCollisionData<SimulationBody> collision, Contact contact) {
 		if(collision.getBody1().id == 1 || collision.getBody2().id == 1) {
+			int enemyID = collision.getBody1().id == 1? collision.getBody2().id : collision.getBody1().id;
 			System.out.println("touching");
+			timers.add(new DamageTimer(enemyID));
 		}
 	}
 
 	@Override
 	public void end(ContactCollisionData<SimulationBody> collision, Contact contact) {
 		if(collision.getBody1().id == 1 || collision.getBody2().id == 1) {
-			System.out.println("no longer touching");
+			int enemyID = collision.getBody1().id == 1? collision.getBody2().id : collision.getBody1().id;
+			for(int i = 0; i < timers.size(); i++) {
+				if(enemyID == timers.elementAt(i).enemyID) {
+					timers.elementAt(i).StopTimer();
+					timers.remove(i);
+					break;
+				}
+			}
 		}
 	}
 	
@@ -77,15 +89,22 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 }
 
 class DamageTimer implements ActionListener{
-
+	public int enemyID;
+	private int delay = 10;
+	protected Timer timer;
+	
 	DamageTimer(int id){
-		
+		enemyID = id;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void StopTimer() {
+		timer.stop();
 	}
 	
 }
