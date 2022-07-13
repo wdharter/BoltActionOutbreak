@@ -38,6 +38,9 @@ public class SoundManager {
 			case FIRE:
 				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Fire.wav").getAbsoluteFile());
 				break;
+			case DRYFIRE:
+				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Dryfire.wav").getAbsoluteFile());
+				break;
 			case AIM:
 				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Aim.wav").getAbsoluteFile());
 				break;
@@ -124,6 +127,9 @@ public class SoundManager {
 				case FIRE:
 					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Fire.wav").getAbsoluteFile());
 					break;
+				case DRYFIRE:
+					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Dryfire.wav").getAbsoluteFile());
+					 break;
 				case AIM:
 					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\tests\\Aim.wav").getAbsoluteFile());
 					break;
@@ -158,6 +164,7 @@ enum Sound{
 	CLOSE,
 	LOCK,
 	FIRE,
+	DRYFIRE,
 	AIM,
 	ZOMBIE,
 	ZOMBIE_WALK,
