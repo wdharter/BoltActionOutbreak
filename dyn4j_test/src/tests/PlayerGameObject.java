@@ -34,7 +34,11 @@ public class PlayerGameObject extends GameObject {
 	private final AtomicBoolean load = new AtomicBoolean(false);
 	
 	private Camera camera;
-	private float playerMoveForce = 50;
+	private float playerMoveForce = 7;
+
+	private long last;
+
+	public static final double NANO_TO_BASE = 1.0e9;
 	
 	public PlayerGameObject(int id, BAOSimulationFrame frame, String name, Camera mainCam) {
 		super(id, frame, name);
@@ -178,6 +182,20 @@ public class PlayerGameObject extends GameObject {
 		
 		moveDir.normalize();
 		moveDir.multiply(playerMoveForce);
+		
+
+		// get the current time
+        long time = System.nanoTime();
+        // get the elapsed time from the last iteration
+        long diff = time - this.last;
+        // set the last time
+        this.last = time;
+    	// convert from nanoseconds to seconds
+    	double elapsedTime = (double)diff / NANO_TO_BASE;
+    	
+    	moveDir.multiply(elapsedTime * 1000);
+    	
+		
 		body.applyForce(moveDir);
 	}
 	

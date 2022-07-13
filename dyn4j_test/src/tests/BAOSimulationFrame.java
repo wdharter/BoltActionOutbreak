@@ -5,6 +5,7 @@ import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import dyn4j.geometry.Geometry;
 import dyn4j.geometry.MassType;
 import dyn4j.geometry.Vector2;
 import dyn4j.world.World;
@@ -79,6 +80,30 @@ public class BAOSimulationFrame extends SimulationFrame {
 		anchor.translate(new Vector2(1.5, -2.0));
 		anchor.setMass(MassType.INFINITE);
 		this.world.addBody(anchor);
+		
+		SimulationBody leftWall = new SimulationBody();
+		leftWall.addFixture(Geometry.createRectangle(2, 60), 0.2);
+		leftWall.setMass(MassType.INFINITE);
+		leftWall.translate(-41.7, 0);
+	    this.world.addBody(leftWall);
+	    
+	    SimulationBody rightWall = new SimulationBody();
+	    rightWall.addFixture(Geometry.createRectangle(2, 60), 0.2);
+	    rightWall.setMass(MassType.INFINITE);
+	    rightWall.translate(41.7, 0);
+	    this.world.addBody(rightWall);
+	    
+	    SimulationBody topWall = new SimulationBody();
+	    topWall.addFixture(Geometry.createRectangle(81.28, 2), 0.2);
+	    topWall.setMass(MassType.INFINITE);
+	    topWall.translate(0, 23);
+	    this.world.addBody(topWall);
+	    
+	    SimulationBody bottomWall = new SimulationBody();
+	    bottomWall.addFixture(Geometry.createRectangle(81.28, 2), 0.2);
+	    bottomWall.setMass(MassType.INFINITE);
+	    bottomWall.translate(0, -23);
+	    this.world.addBody(bottomWall);
 		
 		for(GameObject g : objects) {
 			g.initialize();

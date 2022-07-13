@@ -21,11 +21,14 @@ public class ZombieGameObject extends GameObject {
 	double initialX;
 	double initialY;
 	PlayerGameObject player;
-	private float zombieMoveForce = 50;
+	private float zombieMoveForce = 7;
 	private float maxSpeed = 5;
 	public AtomicBoolean moving = new AtomicBoolean();
 	public AtomicBoolean dealtDamageInMove = new AtomicBoolean();
 	private float lungeLength = 15;
+	private long last;
+
+	public static final double NANO_TO_BASE = 1.0e9;
 	
 	public ZombieGameObject(int id, BAOSimulationFrame frame, String name, double x, double y, PlayerGameObject player) {
 		super(id, frame, name);
@@ -77,7 +80,17 @@ public class ZombieGameObject extends GameObject {
 			if(distance.getMagnitude() <= lungeLength) {
 				moveDir.multiply(2.3);
 			}
-			
+			// get the current time
+	        long time = System.nanoTime();
+	        // get the elapsed time from the last iteration
+	        long diff = time - this.last;
+	        // set the last time
+	        this.last = time;
+	    	// convert from nanoseconds to seconds
+	    	double elapsedTime = (double)diff / NANO_TO_BASE;
+	    	
+	    	moveDir.multiply(elapsedTime * 1000);
+	    	
 			if(moving.get())
 				zombie.applyForce(moveDir);
 			

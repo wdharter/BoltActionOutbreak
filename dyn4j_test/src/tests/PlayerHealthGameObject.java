@@ -42,7 +42,7 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 		if(health.get() < 4) {
 			g.setColor(Color.red);
 		}
-		g.drawString(Integer.toString(health.get()), (int) (frame.getWidth()/2.1f), (int) (frame.getHeight()/2.55f));
+		g.drawString(Integer.toString(health.get()), (int) (frame.getWidth()/2.14f), (int) (frame.getHeight()/2.65f));
 		g.scale(-1.0, 1);
 	}
 

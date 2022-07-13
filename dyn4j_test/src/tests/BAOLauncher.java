@@ -157,8 +157,8 @@ class EnemySpawner implements ActionListener{
 			Random r = new Random();
 		    int x = 40;
 		    int y = 30;
-		    int spawnWidth = 80;
-		    int spawnHeight = 60;
+		    int spawnWidth = 60;
+		    int spawnHeight = 30;
 			for(int i = 0; i < 1; i++) {
 				int side = r.nextInt(4);
 				switch (side){
@@ -174,7 +174,7 @@ class EnemySpawner implements ActionListener{
 						break;
 					case 2:
 						//left
-						y = r.nextInt(spawnHeight) - spawnHeight/2;
+						y = r.nextInt(spawnHeight) - spawnHeight/4;
 						x = -spawnWidth/2;
 						break;
 					case 3:
@@ -187,6 +187,5 @@ class EnemySpawner implements ActionListener{
 				enemyAmount++;
 			}
 		}
-		System.out.println(enemyAmount);
 	}
 }
