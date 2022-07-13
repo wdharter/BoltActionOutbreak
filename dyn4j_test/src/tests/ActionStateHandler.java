@@ -145,18 +145,17 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 				if(unlocked) {
 					unlocked = false;
 					System.out.println("Locked");
+					SoundManager Lock;
+					try {
+						Lock = new SoundManager(Sound.LOCK);
+						Lock.play();
+					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					if(almostChambered) {
 						almostChambered = false;
 						chambered = true;
-						SoundManager Lock;
-						try {
-							Lock = new SoundManager(Sound.LOCK);
-							Lock.play();
-						} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						
 					}
 				}else {
 					unlocked = true;
