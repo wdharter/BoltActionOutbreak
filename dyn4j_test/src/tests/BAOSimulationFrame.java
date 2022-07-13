@@ -104,7 +104,10 @@ public class BAOSimulationFrame extends SimulationFrame {
 	    addWall(0, -23, 81.28, 2);
 	    
 	    addWall(-35.9, 9.7, 5, 20.5);
-	    addPolygon();
+	    Vector2 p1 = new Vector2(-30, -10); 
+	    Vector2 p2 = new Vector2(-56.4, -20);
+	    Vector2 p3 = new Vector2(-10.4, -20);
+	    addPolygon(p1, p2, p3);
 	}
 	
 	private void level2() {
@@ -146,7 +149,6 @@ public class BAOSimulationFrame extends SimulationFrame {
 		SimulationBody polygon = new SimulationBody();
 		polygon.addFixture(Geometry.createPolygon(vertices));
 		polygon.setMass(MassType.INFINITE);
-		polygon.translate(x, y);
 		polygon.setColor(Color.gray);
 	    this.world.addBody(polygon);
 	}
