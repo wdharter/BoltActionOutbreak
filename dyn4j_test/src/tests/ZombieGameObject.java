@@ -23,7 +23,8 @@ public class ZombieGameObject extends GameObject {
 	PlayerGameObject player;
 	private float zombieMoveForce = 50;
 	private float maxSpeed = 5;
-	private AtomicBoolean moving = new AtomicBoolean();
+	public AtomicBoolean moving = new AtomicBoolean();
+	public AtomicBoolean dealtDamageInMove = new AtomicBoolean();
 	private float lungeLength = 15;
 	
 	public ZombieGameObject(int id, BAOSimulationFrame frame, String name, double x, double y, PlayerGameObject player) {
@@ -33,8 +34,9 @@ public class ZombieGameObject extends GameObject {
 		initialX = x;
 		initialY = y;
 		moving.set(true);
-		new StepTimer(moving);
+		new StepTimer(moving, dealtDamageInMove);
 		this.frame.AddGameObject(this);
+		dealtDamageInMove.set(false);
 	}
 
 	@Override
@@ -100,21 +102,26 @@ class StepTimer implements ActionListener{
 	private int delay;
 	protected Timer timer;
 	AtomicBoolean moving;
+	AtomicBoolean dealtDamage;
 	
-	public StepTimer(AtomicBoolean moving) {
+	public StepTimer(AtomicBoolean moving, AtomicBoolean dealtDamage) {
 		Random r = new Random();
 		delay = r.nextInt(200) + 300;
 		timer = new Timer(delay, this);
 		timer.start();
 		this.moving = moving;
+		this.dealtDamage = dealtDamage;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
 		//moving.set(!moving.get());
-		if(moving.get())
+		if(moving.get()) {
 			moving.set(false);
-		else
+		}
+		else {
 			moving.set(true);
+			dealtDamage.set(false);
+		}
 	}
 }

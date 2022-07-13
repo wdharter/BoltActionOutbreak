@@ -7,6 +7,7 @@ import java.awt.geom.Ellipse2D;
 import dyn4j.dynamics.Body;
 import dyn4j.dynamics.BodyFixture;
 import dyn4j.geometry.Convex;
+import tests.ZombieGameObject;
 
 /**
  * Custom Body class to add drawing functionality.
@@ -18,6 +19,8 @@ public class SimulationBody extends Body {
 	/** The color of the object */
 	protected Color color;
 	public int id;
+	//will ONLY be set if this belongs to a zombie
+	public ZombieGameObject zombieRef;
 	/**
 	 * Default constructor.
 	 */
