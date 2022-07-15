@@ -29,7 +29,7 @@ public class AnimationManagerGameObject extends GameObject {
 			Sprite.getSprite("BoltActionStages", 0, 3),
 			Sprite.getSprite("BoltActionStages", 1, 3),
 			Sprite.getSprite("BoltActionStages", 2, 3),
-			//Sprite.getSprite("BoltActionDryOpen", 2, 0) //included so bullet transitions to bullet anim
+			Sprite.getSprite("BoltActionStages", 3, 3)
 			};
 	private final BufferedImage[] openEmpty = {
 			Sprite.getSprite("BoltActionDryOpen", 0, 0),
@@ -71,10 +71,12 @@ public class AnimationManagerGameObject extends GameObject {
 	private Animation currBulletAnim = bulletAnim;
 	private Anim curr;
 	private boolean idleAtEnd;
+	private boolean playingBullet;
 	
 	public AnimationManagerGameObject(int id, BAOSimulationFrame frame, String name) {
 		super(id, frame, name);
 		this.frame.AddGameObject(this);
+		playingBullet = false;
 	}
 
 	@Override
@@ -86,13 +88,18 @@ public class AnimationManagerGameObject extends GameObject {
 	public void render(Graphics2D g, double elapsedTime) {
 		if(currAnim.isStopped() && idleAtEnd)
 			PlayAnimation(Anim.IDLE, true);
-		if(currAnim.isStopped() && curr == Anim.OPEN) {
+		if(currAnim.isStopped() && curr == Anim.OPEN && !playingBullet) {
 			PlayBullet();
 		}
 		currAnim.update();
 		g.scale(1.0, -1.0);
 		g.drawImage(currAnim.getSprite(), -520, -350, null);
+		if(!currBulletAnim.isStopped()) {
+			currBulletAnim.update();
+			g.drawImage(currBulletAnim.getSprite(), -520, -350, null);
+		}
 		g.scale(1.0, -1.0);
+		
 	}
 	
 	public void PlayAnimation(Anim a, boolean idleAtEnd) {
@@ -101,11 +108,18 @@ public class AnimationManagerGameObject extends GameObject {
 		currAnim.stop();
 		currAnim.reset();
 		currAnim = GetAnim(a);
-		currAnim.start();
+		currAnim.start();	
+		if(playingBullet && currBulletAnim.isStopped()) {
+			playingBullet = false;
+		}
 	}
 	
 	public void PlayBullet() {
-		
+		currBulletAnim.stop();
+		currBulletAnim.reset();
+		currBulletAnim = bulletAnim;
+		playingBullet = true;
+		currBulletAnim.start();
 	}
 
 	@Override

@@ -16,21 +16,17 @@ public class Sprite {
     public static BufferedImage loadSprite(String file) {
 
         BufferedImage sprite = null;
-
+        
         try {
             sprite = ImageIO.read(new File(".\\sprites\\" + file + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return sprite;
     }
 
     public static BufferedImage getSprite(String sheet, int xGrid, int yGrid) {
-
-        if (spriteSheet == null) {
-            spriteSheet = loadSprite(sheet);
-        }
+        spriteSheet = loadSprite(sheet);
 
         return spriteSheet.getSubimage(xGrid * TILE_SIZE_X, yGrid * TILE_SIZE_Y, TILE_SIZE_X, TILE_SIZE_Y);
     }

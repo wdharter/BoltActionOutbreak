@@ -105,7 +105,7 @@ public class Animation {
                 		currentFrame = 0;
                 	else
                 		currentFrame = totalFrames - 1;
-                		stopped = true;
+                	stopped = true;
                 }
                 else if (currentFrame < 0) {
                     currentFrame = totalFrames - 1;
