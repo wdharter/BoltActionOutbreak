@@ -9,8 +9,9 @@ import javax.imageio.ImageIO;
 public class Sprite {
 
     private static BufferedImage spriteSheet;
-    private static final int TILE_SIZE_X = 74;
-    private static final int TILE_SIZE_Y = 72;
+    //actual pixel count 74, 72
+    private static final int TILE_SIZE_X = 74 * 3;
+    private static final int TILE_SIZE_Y = 72 * 3;
 
     public static BufferedImage loadSprite(String file) {
 

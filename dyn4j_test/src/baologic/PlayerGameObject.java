@@ -91,6 +91,8 @@ public class PlayerGameObject extends GameObject {
 	}
 
 	private BufferedImage[] idle = {Sprite.getSprite("BoltActionStages", 0, 0)};
+
+	private BufferedImage[] shoot = {Sprite.getSprite("BoltActionStages", 0, 0)};
 	private Animation idleAnim = new Animation(idle, 80);
 	private Animation animation = idleAnim;
 	@Override
@@ -101,15 +103,10 @@ public class PlayerGameObject extends GameObject {
 			animation = idleAnim;
 		}
 		animation.update();
+		g.scale(1.0, -1.0);
 		g.drawImage(animation.getSprite(), 0, 0, null);
 
-		g.scale(1.0, -1.0);
-		try {
-			g.drawImage(ImageIO.read(new File(".\\sprites\\" + "BoltActionStages" + ".png")), null, 0, 0);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
+		
 		g.scale(0.0, -1.0);
 		aim(g);
 		
