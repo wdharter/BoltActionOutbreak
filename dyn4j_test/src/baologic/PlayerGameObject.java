@@ -90,27 +90,9 @@ public class PlayerGameObject extends GameObject {
 		initialized = true;
 	}
 
-	private BufferedImage[] idle = {Sprite.getSprite("BoltActionStages", 0, 0)};
-
-	private BufferedImage[] shoot = {
-			Sprite.getSprite("BoltActionStages", 0, 1),
-			Sprite.getSprite("BoltActionStages", 1, 1),
-			Sprite.getSprite("BoltActionStages", 2, 1),
-			Sprite.getSprite("BoltActionStages", 3, 1),
-			Sprite.getSprite("BoltActionStages", 4, 1),
-			Sprite.getSprite("BoltActionStages", 5, 1),
-			Sprite.getSprite("BoltActionStages", 6, 1)
-			};
-	private Animation idleAnim = new Animation(idle, 80, false);
-	private Animation shootAnim = new Animation(shoot, 8, false);
-	private Animation animation = idleAnim;
+	
 	@Override
 	public void render(Graphics2D g, double elapsedTime){
-		
-		animation.update();
-		g.scale(1.0, -1.0);
-		g.drawImage(animation.getSprite(), -520, -350, null);
-		g.scale(1.0, -1.0);
 		aim(g);
 		
 	}
@@ -124,10 +106,6 @@ public class PlayerGameObject extends GameObject {
 	private void fire() {
 		if(fire.get()) {
 			fire.set(false);
-			
-			animation = shootAnim;
-			animation.reset();
-			animation.start();
 			Vector2 start = body.getTransform().getTranslation();
 			Point mousePosition = MouseInfo.getPointerInfo().getLocation();
 			
