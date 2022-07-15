@@ -8,6 +8,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+// SOURCE: https://www.geeksforgeeks.org/play-audio-file-using-java/ (Heavily modified and adapted code)
 public class SoundManager {
 
 	Long currentFrame;
@@ -16,13 +17,15 @@ public class SoundManager {
 	String filePath = ".\\src\\baologic\\";
 	String fileName;
 	AudioInputStream audioInputStream;
+	boolean Loop = false;
 	Sound s;
 	
 	// .\src\tests\
-	public SoundManager(Sound s)
+	public SoundManager(Sound s, boolean Loop)
 			throws UnsupportedAudioFileException, 
 			IOException, LineUnavailableException
 	{
+		this.Loop = Loop;
 		this.s = s;
 		switch(s)
 		{
@@ -77,7 +80,8 @@ public class SoundManager {
 		audioInputStream = AudioSystem.getAudioInputStream(new File(absolutePath).getAbsoluteFile());
 		clip = AudioSystem.getClip();
 		clip.open(audioInputStream);
-		
+		if(Loop)
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}
 	    public void play() 
 	    {
@@ -121,6 +125,8 @@ public class SoundManager {
 			String absolutePath = filePath + fileName.concat(".wav");
 			audioInputStream = AudioSystem.getAudioInputStream(new File(absolutePath).getAbsoluteFile());
 	        clip.open(audioInputStream);
+			if(Loop)
+				clip.loop(Clip.LOOP_CONTINUOUSLY);
 		}
 }
 enum Sound{

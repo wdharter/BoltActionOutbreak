@@ -94,7 +94,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			}
 			SoundManager load;
 			try {
-				 load = new SoundManager(Sound.LOAD);
+				 load = new SoundManager(Sound.LOAD, false);
 				 load.play();
 			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 				// TODO Auto-generated catch block
@@ -137,7 +137,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	    if(SwingUtilities.isLeftMouseButton(e) && !unlocked && magRoundCount.get() == 0 && cocked)
 		{
 			try {
-				SoundManager Dryfire = new SoundManager(Sound.DRYFIRE);
+				SoundManager Dryfire = new SoundManager(Sound.DRYFIRE, false);
 				Dryfire.play();
 			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
 				// TODO Auto-generated catch block
@@ -149,7 +149,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 		
 	    if(SwingUtilities.isLeftMouseButton(e) && chambered && !unlocked && magRoundCount.get() > 0 && cocked) {
 			try {
-				SoundManager Fire = new SoundManager(Sound.FIRE);
+				SoundManager Fire = new SoundManager(Sound.FIRE, false);
 				Fire.play();
 			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
 				// TODO Auto-generated catch block
@@ -175,7 +175,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 					anims.PlayAnimation(Anim.LOCK, true);
 					SoundManager Lock;
 					try {
-						Lock = new SoundManager(Sound.LOCK);
+						Lock = new SoundManager(Sound.LOCK, false);
 						Lock.play();
 					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
 						// TODO Auto-generated catch block
@@ -190,7 +190,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 					SoundManager Unlock;
 					anims.PlayAnimation(Anim.UNLOCK, false);
 					try {
-						Unlock = new SoundManager(Sound.UNLOCK);
+						Unlock = new SoundManager(Sound.UNLOCK, false);
 						Unlock.play();
 					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
 						// TODO Auto-generated catch block
@@ -230,7 +230,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 						anims.PlayAnimation(Anim.OPENEMPTY, false);
 					}
 					try {
-						Open = new SoundManager(Sound.OPEN);
+						Open = new SoundManager(Sound.OPEN, false);
 						Open.play();
 					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
 						// TODO Auto-generated catch block
@@ -244,7 +244,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 					SoundManager Close;
 					anims.PlayAnimation(Anim.CLOSE, false);
 					try {
-						Close = new SoundManager(Sound.CLOSE);
+						Close = new SoundManager(Sound.CLOSE, false);
 						Close.play();
 					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
 						// TODO Auto-generated catch block

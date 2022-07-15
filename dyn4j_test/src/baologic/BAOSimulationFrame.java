@@ -2,9 +2,13 @@ package baologic;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.io.IOException;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import dyn4j.geometry.Geometry;
 import dyn4j.geometry.MassType;
@@ -94,6 +98,15 @@ public class BAOSimulationFrame extends SimulationFrame {
 			g.initialize();
 		}
 		initialized.set(true);
+		SoundManager Ambiance;
+		try {
+			Ambiance = new SoundManager(Sound.AMBIANCE, true);
+			Ambiance.play();
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private void level1() {
