@@ -13,8 +13,11 @@ public class SoundManager {
 	Long currentFrame;
 	Clip clip;
 	String status;
+	String filePath = ".\\src\\baologic\\";
+	String fileName;
 	AudioInputStream audioInputStream;
 	Sound s;
+	
 	// .\src\tests\
 	public SoundManager(Sound s)
 			throws UnsupportedAudioFileException, 
@@ -24,49 +27,54 @@ public class SoundManager {
 		switch(s)
 		{
 			case UNLOCK:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Unlock.wav").getAbsoluteFile());
+				fileName = "Unlock";
 				break;
 			case OPEN:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Open.wav").getAbsoluteFile());
+				fileName = "Open";
+				break;
+			case LOAD:
+				fileName = "Load";
 				break;
 			case CLOSE:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Close.wav").getAbsoluteFile());
+				fileName = "Close";
 				break;
 			case LOCK:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Lock.wav").getAbsoluteFile());
+				fileName = "Lock";
 				break;
 			case FIRE:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Fire.wav").getAbsoluteFile());
+				fileName = "Fire";
 				break;
 			case DRYFIRE:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Dryfire.wav").getAbsoluteFile());
+				fileName = "Dryfire";
 				break;
 			case AIM:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Aim.wav").getAbsoluteFile());
+				fileName = "Aim";
 				break;
 			case ZOMBIE:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Zombie.wav").getAbsoluteFile());
+				fileName = "Zombie";
 				break;
 			case ZOMBIE_WALK:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Zombie_Walk.wav").getAbsoluteFile());
+				fileName = "Zombie_Walk";
 				break;
 			case PLAYER_WALK:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Player_Walk.wav").getAbsoluteFile());
+				fileName = "Player_Walk";
 				break;
 			case DAMAGE_2_ZOMBIE:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Damage_2_Zombie.wav").getAbsoluteFile());
+				fileName = "Damage_2_Zombie";
 				break;
 			case DAMAGE_2_PLAYER:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Damage_2_Player.wav").getAbsoluteFile());
+				fileName = "Damage_2_Player";
 				break;
 			case IT_HAS_TO_BE:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\It_Has_To_Be.wav").getAbsoluteFile());
+				fileName = "It_Has_To_Be";
 				break;
 			case AMBIANCE:
-				audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Ambiance.wav").getAbsoluteFile());
+				fileName = "Ambiance";
 				break;
 		}
 		
+		String absolutePath = filePath + fileName.concat(".wav");
+		audioInputStream = AudioSystem.getAudioInputStream(new File(absolutePath).getAbsoluteFile());
 		clip = AudioSystem.getClip();
 		clip.open(audioInputStream);
 		
@@ -93,7 +101,7 @@ public class SoundManager {
 		{
 		clip.stop();
 		clip.close();
-		resetAudioStream(this.s);
+		resetAudioStream();
 		currentFrame = 0L;
 		clip.setMicrosecondPosition(0);
 		this.play();
@@ -107,60 +115,18 @@ public class SoundManager {
 	        clip.close();
 	    }
 	
-	    public void resetAudioStream(Sound s) throws UnsupportedAudioFileException, IOException,
+	    public void resetAudioStream() throws UnsupportedAudioFileException, IOException,
 	    LineUnavailableException 
 		{
-	    	switch(s)
-			{
-				case UNLOCK:
-					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Unlock.wav").getAbsoluteFile());
-					break;
-				case OPEN:
-					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Open.wav").getAbsoluteFile());
-					break;
-				case CLOSE:
-					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Close.wav").getAbsoluteFile());
-					break;
-				case LOCK:
-					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Lock.wav").getAbsoluteFile());
-					break;
-				case FIRE:
-					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Fire.wav").getAbsoluteFile());
-					break;
-				case DRYFIRE:
-					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Dryfire.wav").getAbsoluteFile());
-					 break;
-				case AIM:
-					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Aim.wav").getAbsoluteFile());
-					break;
-				case ZOMBIE:
-					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Zombie.wav").getAbsoluteFile());
-					break;
-				case ZOMBIE_WALK:
-					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Zombie_Walk.wav").getAbsoluteFile());
-					break;
-				case PLAYER_WALK:
-					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Player_Walk.wav").getAbsoluteFile());
-					break;
-				case DAMAGE_2_ZOMBIE:
-					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Damage_2_Zombie.wav").getAbsoluteFile());
-					break;
-				case DAMAGE_2_PLAYER:
-					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Damage_2_Player.wav").getAbsoluteFile());
-					break;
-				case IT_HAS_TO_BE:
-					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\It_Has_To_Be.wav").getAbsoluteFile());
-					break;
-				case AMBIANCE:
-					audioInputStream = AudioSystem.getAudioInputStream(new File(".\\src\\baologic\\Ambiance.wav").getAbsoluteFile());
-					break;
-			}
+			String absolutePath = filePath + fileName.concat(".wav");
+			audioInputStream = AudioSystem.getAudioInputStream(new File(absolutePath).getAbsoluteFile());
 	        clip.open(audioInputStream);
 		}
 }
 enum Sound{
 	UNLOCK,
 	OPEN,
+	LOAD,
 	CLOSE,
 	LOCK,
 	FIRE,

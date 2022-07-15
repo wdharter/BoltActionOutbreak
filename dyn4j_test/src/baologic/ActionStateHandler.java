@@ -94,7 +94,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			}
 			SoundManager load;
 			try {
-				 load = new SoundManager(Sound.CLOSE);
+				 load = new SoundManager(Sound.LOAD);
 				 load.play();
 			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 				// TODO Auto-generated catch block
