@@ -5,8 +5,13 @@ import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.imageio.ImageIO;
 
 import dyn4j.dynamics.joint.FrictionJoint;
 import dyn4j.geometry.Geometry;
@@ -39,7 +44,7 @@ public class PlayerGameObject extends GameObject {
 	private long last;
 
 	public static final double NANO_TO_BASE = 1.0e9;
-	
+	boolean test;
 	public PlayerGameObject(int id, BAOSimulationFrame frame, String name, Camera mainCam, ScoreBoardGameObject scoreboard) {
 		super(id, frame, name);
 		this.scoreboard = scoreboard;
@@ -61,6 +66,7 @@ public class PlayerGameObject extends GameObject {
 		frame.canvas.addMouseListener(playerListener);
 		frame.canvas.addMouseWheelListener(playerListener);
 		camera = mainCam;
+		test = true;
 		this.frame.AddGameObject(this);
 	}
 
@@ -84,8 +90,27 @@ public class PlayerGameObject extends GameObject {
 		initialized = true;
 	}
 
+	private BufferedImage[] idle = {Sprite.getSprite("BoltActionStages", 0, 0)};
+	private Animation idleAnim = new Animation(idle, 80);
+	private Animation animation = idleAnim;
 	@Override
 	public void render(Graphics2D g, double elapsedTime){
+		
+		if(test) {
+			test = false;
+			animation = idleAnim;
+		}
+		animation.update();
+		g.drawImage(animation.getSprite(), 0, 0, null);
+
+		g.scale(1.0, -1.0);
+		try {
+			g.drawImage(ImageIO.read(new File(".\\sprites\\" + "BoltActionStages" + ".png")), null, 0, 0);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		g.scale(0.0, -1.0);
 		aim(g);
 		
 	}
