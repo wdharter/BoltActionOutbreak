@@ -34,7 +34,8 @@ class Game {
 		int level = 1;
 		BAOSimulationFrame game = new BAOSimulationFrame("Bolt Action Outbreak", 15, level);
 		ScoreBoardGameObject scoreboard = new ScoreBoardGameObject(-1, game, "scoreboard");
-		PlayerGameObject player = new PlayerGameObject(game.GetID(), game, "player", game.camera, scoreboard);
+		AnimationManagerGameObject anims = new AnimationManagerGameObject(-2, game, "anims");
+		PlayerGameObject player = new PlayerGameObject(game.GetID(), game, "player", game.camera, scoreboard, anims);
 		PlayerHealthGameObject health = new PlayerHealthGameObject(game.GetID(), game, "health");
 		EnemySpawner spawner = new EnemySpawner(game, player);
 		game.run();

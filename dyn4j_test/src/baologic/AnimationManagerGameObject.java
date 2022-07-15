@@ -29,7 +29,7 @@ public class AnimationManagerGameObject extends GameObject {
 			Sprite.getSprite("BoltActionStages", 0, 3),
 			Sprite.getSprite("BoltActionStages", 1, 3),
 			Sprite.getSprite("BoltActionStages", 2, 3),
-			Sprite.getSprite("BoltActionDryOpen", 2, 0) //included so bullet transitions to bullet anim
+			//Sprite.getSprite("BoltActionDryOpen", 2, 0) //included so bullet transitions to bullet anim
 			};
 	private final BufferedImage[] openEmpty = {
 			Sprite.getSprite("BoltActionDryOpen", 0, 0),
@@ -60,11 +60,11 @@ public class AnimationManagerGameObject extends GameObject {
 			};
 	private Animation idleAnim = new Animation(idle, 8, false);
 	private Animation shootAnim = new Animation(shoot, 8, false);
-	private Animation unlockAnim = new Animation(unlock, 8, false);
-	private Animation openFullAnim = new Animation(openFull, 8, false);
-	private Animation openEmptyAnim = new Animation(openEmpty, 8, false);
-	private Animation closeAnim = new Animation(close, 8, false);
-	private Animation lockAnim = new Animation(lock, 8, false);
+	private Animation unlockAnim = new Animation(unlock, 4, false);
+	private Animation openFullAnim = new Animation(openFull, 4, false);
+	private Animation openEmptyAnim = new Animation(openEmpty, 4, false);
+	private Animation closeAnim = new Animation(close, 4, false);
+	private Animation lockAnim = new Animation(lock, 4, false);
 	private Animation bulletAnim = new Animation(bullet, 8, false);
 	
 	private Animation currAnim = idleAnim;
@@ -74,13 +74,12 @@ public class AnimationManagerGameObject extends GameObject {
 	
 	public AnimationManagerGameObject(int id, BAOSimulationFrame frame, String name) {
 		super(id, frame, name);
-		
+		this.frame.AddGameObject(this);
 	}
 
 	@Override
 	public void initialize() {
-		// TODO Auto-generated method stub
-		
+		initialized = true;
 	}
 
 	@Override
@@ -102,6 +101,7 @@ public class AnimationManagerGameObject extends GameObject {
 		currAnim.stop();
 		currAnim.reset();
 		currAnim = GetAnim(a);
+		currAnim.start();
 	}
 	
 	public void PlayBullet() {

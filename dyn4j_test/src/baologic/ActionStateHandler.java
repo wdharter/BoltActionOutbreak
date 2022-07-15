@@ -14,6 +14,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.SwingUtilities;
 
+import baologic.AnimationManagerGameObject.Anim;
+
 public class ActionStateHandler extends KeyAdapter implements MouseListener, MouseWheelListener{
 	static int fullScrollAmount;
 	private int currentScrollAmount;
@@ -23,6 +25,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	private boolean chambered = true;
 	private boolean cocked = true;
 	private boolean almostChambered = false;
+	AnimationManagerGameObject anims;
 	AtomicBoolean waction;
 	AtomicBoolean aaction;
 	AtomicBoolean saction;
@@ -34,6 +37,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	AtomicBoolean mwupaction;
 	AtomicBoolean spaceaction;
 	public ActionStateHandler(
+			AnimationManagerGameObject anims,
 			AtomicBoolean w, 
 			AtomicBoolean a, 
 			AtomicBoolean s, 
@@ -44,6 +48,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			AtomicBoolean mwdown,
 			AtomicBoolean mwup,
 			AtomicBoolean space) {
+		this.anims = anims;
 		waction = w;
 		aaction = a;
 		saction = s;
@@ -154,6 +159,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			int roundCount = magRoundCount.get();
 			magRoundCount.set(roundCount - 1);
 			System.out.println(magRoundCount.get());
+			anims.PlayAnimation(Anim.FIRE, true);
 			if(BAOLauncher.Debug) {
 				chambered = true;
 				magRoundCount.set(roundCount + 1);
@@ -164,6 +170,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 				if(unlocked) {
 					unlocked = false;
 					System.out.println("Locked");
+					anims.PlayAnimation(Anim.LOCK, true);
 					SoundManager Lock;
 					try {
 						Lock = new SoundManager(Sound.LOCK);
@@ -180,6 +187,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 					unlocked = true;
 					System.out.println("Unlocked");
 					SoundManager Unlock;
+					anims.PlayAnimation(Anim.UNLOCK, false);
 					try {
 						Unlock = new SoundManager(Sound.UNLOCK);
 						Unlock.play();
@@ -211,6 +219,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 					cocked = true;
 					mwdownaction.set(true);
 					SoundManager Open;
+					anims.PlayAnimation(Anim.OPEN, false);
 					try {
 						Open = new SoundManager(Sound.OPEN);
 						Open.play();
@@ -225,6 +234,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 					closed = true;
 					mwdownaction.set(false);
 					SoundManager Close;
+					anims.PlayAnimation(Anim.CLOSE, false);
 					try {
 						Close = new SoundManager(Sound.CLOSE);
 						Close.play();

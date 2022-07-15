@@ -45,10 +45,19 @@ public class PlayerGameObject extends GameObject {
 
 	public static final double NANO_TO_BASE = 1.0e9;
 	boolean test;
-	public PlayerGameObject(int id, BAOSimulationFrame frame, String name, Camera mainCam, ScoreBoardGameObject scoreboard) {
+	public PlayerGameObject(
+			int id, 
+			BAOSimulationFrame frame, 
+			String name, 
+			Camera mainCam, 
+			ScoreBoardGameObject 
+			scoreboard, 
+			AnimationManagerGameObject anims) 
+	{	
 		super(id, frame, name);
 		this.scoreboard = scoreboard;
 		ActionStateHandler playerListener = new ActionStateHandler(
+				anims,
 				movePlayerForward, 
 				movePlayerLeft, 
 				movePlayerBackward, 
