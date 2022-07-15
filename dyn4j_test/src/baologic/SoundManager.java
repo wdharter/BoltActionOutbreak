@@ -35,6 +35,9 @@ public class SoundManager {
 			case OPEN:
 				fileName = "Open";
 				break;
+			case EJECT:
+				fileName = "Eject";
+				break;
 			case LOAD:
 				fileName = "Load";
 				break;
@@ -132,6 +135,7 @@ public class SoundManager {
 enum Sound{
 	UNLOCK,
 	OPEN,
+	EJECT,
 	LOAD,
 	CLOSE,
 	LOCK,

@@ -220,7 +220,14 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 					mwdownaction.set(true);
 					SoundManager Open;
 					if(justFired) {
-						// Play casing sound
+						SoundManager Eject;
+						try {
+							Eject = new SoundManager(Sound.EJECT, false);
+							Eject.play();
+						} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						anims.PlayAnimation(Anim.OPEN, false);
 						justFired = false;
 					}
