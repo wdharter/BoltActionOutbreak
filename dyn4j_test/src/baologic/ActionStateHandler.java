@@ -89,6 +89,9 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 		{
 			int rounds = magRoundCount.get();
 			magRoundCount.set(++rounds);
+			if(magRoundCount.get() == 5) {
+				anims.PlayAnimation(Anim.OPENEDFULL, false);
+			}
 			SoundManager load;
 			try {
 				 load = new SoundManager(Sound.CLOSE);
@@ -98,7 +101,6 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 				e.printStackTrace();
 			}
 		}
-		System.out.println(magRoundCount.get());
 		return;
 	}
 	
@@ -159,7 +161,6 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			cocked = false;
 			int roundCount = magRoundCount.get();
 			magRoundCount.set(roundCount - 1);
-			System.out.println(magRoundCount.get());
 			anims.PlayAnimation(Anim.FIRE, true);
 			justFired = true;
 			if(BAOLauncher.Debug) {
@@ -171,7 +172,6 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			if(closed) {
 				if(unlocked) {
 					unlocked = false;
-					System.out.println("Locked");
 					anims.PlayAnimation(Anim.LOCK, true);
 					SoundManager Lock;
 					try {
@@ -187,7 +187,6 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 					}
 				}else {
 					unlocked = true;
-					System.out.println("Unlocked");
 					SoundManager Unlock;
 					anims.PlayAnimation(Anim.UNLOCK, false);
 					try {
@@ -216,12 +215,12 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			currentScrollAmount += e.getUnitsToScroll();
 			if(Math.abs(currentScrollAmount) >= fullScrollAmount) {
 				if(currentScrollAmount >= 0 && closed) {
-					System.out.println("Opened");
 					closed = false;
 					cocked = true;
 					mwdownaction.set(true);
 					SoundManager Open;
 					if(justFired) {
+						// Play casing sound
 						anims.PlayAnimation(Anim.OPEN, false);
 						justFired = false;
 					}
@@ -239,7 +238,6 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 					}
 				}
 				else if(currentScrollAmount < 0 && !closed) {
-					System.out.println("Closed");
 					almostChambered = true;
 					closed = true;
 					mwdownaction.set(false);
