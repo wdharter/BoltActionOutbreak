@@ -31,6 +31,11 @@ public class AnimationManagerGameObject extends GameObject {
 			Sprite.getSprite("BoltActionStages", 2, 3),
 			Sprite.getSprite("BoltActionStages", 3, 3)
 			};
+	private final BufferedImage[] openFullNoShot = {
+			Sprite.getSprite("BoltActionFullNoShotOpen", 0, 0),
+			Sprite.getSprite("BoltActionFullNoShotOpen", 1, 0),
+			Sprite.getSprite("BoltActionFullNoShotOpen", 2, 0)
+			};
 	private final BufferedImage[] openEmpty = {
 			Sprite.getSprite("BoltActionDryOpen", 0, 0),
 			Sprite.getSprite("BoltActionDryOpen", 1, 0),
@@ -62,6 +67,7 @@ public class AnimationManagerGameObject extends GameObject {
 	private Animation shootAnim = new Animation(shoot, 8, false);
 	private Animation unlockAnim = new Animation(unlock, 4, false);
 	private Animation openFullAnim = new Animation(openFull, 4, false);
+	private Animation openFullNoShotAnim = new Animation(openFullNoShot, 4, false);
 	private Animation openEmptyAnim = new Animation(openEmpty, 4, false);
 	private Animation closeAnim = new Animation(close, 4, false);
 	private Animation lockAnim = new Animation(lock, 4, false);
@@ -152,6 +158,8 @@ public class AnimationManagerGameObject extends GameObject {
 			return openEmptyAnim;
 		case BULLET:
 			return bulletAnim;
+		case OPENFULLNOSHOT:
+			return openFullNoShotAnim;
 		}
 		return null;
 	}
@@ -164,7 +172,8 @@ public class AnimationManagerGameObject extends GameObject {
 		LOCK,
 		FIRE,
 		OPENEMPTY,
-		BULLET
+		BULLET,
+		OPENFULLNOSHOT
 	}
 
 }

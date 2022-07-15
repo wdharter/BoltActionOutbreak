@@ -25,6 +25,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	private boolean chambered = true;
 	private boolean cocked = true;
 	private boolean almostChambered = false;
+	private boolean justFired = false;
 	AnimationManagerGameObject anims;
 	AtomicBoolean waction;
 	AtomicBoolean aaction;
@@ -160,6 +161,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			magRoundCount.set(roundCount - 1);
 			System.out.println(magRoundCount.get());
 			anims.PlayAnimation(Anim.FIRE, true);
+			justFired = true;
 			if(BAOLauncher.Debug) {
 				chambered = true;
 				magRoundCount.set(roundCount + 1);
@@ -219,7 +221,15 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 					cocked = true;
 					mwdownaction.set(true);
 					SoundManager Open;
-					anims.PlayAnimation(Anim.OPEN, false);
+					if(justFired) {
+						anims.PlayAnimation(Anim.OPEN, false);
+						justFired = false;
+					}
+					else if(magRoundCount.get() > 0) {
+						anims.PlayAnimation(Anim.OPENFULLNOSHOT, false);
+					}else {
+						anims.PlayAnimation(Anim.OPENEMPTY, false);
+					}
 					try {
 						Open = new SoundManager(Sound.OPEN);
 						Open.play();
