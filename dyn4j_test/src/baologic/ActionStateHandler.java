@@ -1,4 +1,4 @@
-package tests;
+package baologic;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

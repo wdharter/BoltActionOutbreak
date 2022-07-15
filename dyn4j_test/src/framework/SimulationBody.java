@@ -4,10 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 
+import baologic.ZombieGameObject;
 import dyn4j.dynamics.Body;
 import dyn4j.dynamics.BodyFixture;
 import dyn4j.geometry.Convex;
-import tests.ZombieGameObject;
 
 /**
  * Custom Body class to add drawing functionality.

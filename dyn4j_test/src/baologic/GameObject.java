@@ -1,4 +1,4 @@
-package tests;
+package baologic;
 
 import java.awt.Graphics2D;
 import java.util.concurrent.atomic.AtomicBoolean;

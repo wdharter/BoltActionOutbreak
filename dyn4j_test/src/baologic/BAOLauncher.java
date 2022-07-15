@@ -1,4 +1,4 @@
-package tests;
+package baologic;
 
 import javax.swing.Box;
 import javax.swing.JButton;

@@ -1,4 +1,4 @@
-package tests;
+package baologic;
 
 /*
  * Copyright (c) 2010-2021 William Bittle  http://www.dyn4j.org/
