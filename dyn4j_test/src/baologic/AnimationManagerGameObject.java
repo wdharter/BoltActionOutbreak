@@ -98,7 +98,7 @@ public class AnimationManagerGameObject extends GameObject {
 	public void render(Graphics2D g, double elapsedTime) {
 		if(currAnim.isStopped() && idleAtEnd)
 			PlayAnimation(Anim.IDLE, true);
-		if(currAnim.isStopped() && curr == Anim.OPEN && !playingBullet) {
+		if(curr == Anim.OPEN && !playingBullet) {
 			PlayBullet();
 		}
 		currAnim.update();
