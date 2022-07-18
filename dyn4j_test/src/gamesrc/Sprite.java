@@ -1,8 +1,9 @@
 // SOURCE: https://gamedev.stackexchange.com/questions/53705/how-can-i-make-a-sprite-sheet-based-animation-system
-package baologic;
+package gamesrc;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
@@ -13,22 +14,20 @@ public class Sprite {
     private static final int TILE_SIZE_X = 74 * 3;
     private static final int TILE_SIZE_Y = 72 * 3;
 
-    public static BufferedImage loadSprite(String file) {
+    public static BufferedImage loadSprite(InputStream file) {
 
         BufferedImage sprite = null;
-        
         try {
-            sprite = ImageIO.read(new File(".\\sprites\\" + file + ".png"));
+            sprite = ImageIO.read(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return sprite;
     }
 
-    public static BufferedImage getSprite(String sheet, int xGrid, int yGrid) {
+    public static BufferedImage getSprite(InputStream sheet, int xGrid, int yGrid) {
         spriteSheet = loadSprite(sheet);
 
         return spriteSheet.getSubimage(xGrid * TILE_SIZE_X, yGrid * TILE_SIZE_Y, TILE_SIZE_X, TILE_SIZE_Y);
     }
-
 }

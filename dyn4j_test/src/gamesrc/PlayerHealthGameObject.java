@@ -1,4 +1,4 @@
-package baologic;
+package gamesrc;
 
 import java.awt.Color;
 import java.awt.Font;

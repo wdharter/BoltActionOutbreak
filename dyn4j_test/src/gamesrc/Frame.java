@@ -1,5 +1,5 @@
 // SOURCE: https://gamedev.stackexchange.com/questions/53705/how-can-i-make-a-sprite-sheet-based-animation-system
-package baologic;
+package gamesrc;
 
 import java.awt.image.BufferedImage;
 

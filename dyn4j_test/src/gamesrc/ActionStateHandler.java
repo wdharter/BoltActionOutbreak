@@ -1,4 +1,4 @@
-package baologic;
+package gamesrc;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -14,7 +14,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.SwingUtilities;
 
-import baologic.AnimationManagerGameObject.Anim;
+import gamesrc.AnimationManagerGameObject.Anim;
 
 public class ActionStateHandler extends KeyAdapter implements MouseListener, MouseWheelListener{
 	static int fullScrollAmount;

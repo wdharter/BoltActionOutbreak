@@ -1,4 +1,5 @@
-package baologic;
+package gamesrc;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
@@ -14,7 +15,7 @@ public class SoundManager {
 	Long currentFrame;
 	Clip clip;
 	String status;
-	String filePath = ".\\src\\baologic\\";
+	String filePath = "sound/";
 	String fileName;
 	AudioInputStream audioInputStream;
 	boolean Loop = false;
@@ -78,59 +79,58 @@ public class SoundManager {
 				fileName = "Ambiance";
 				break;
 		}
-		
-		String absolutePath = filePath + fileName.concat(".wav");
-		audioInputStream = AudioSystem.getAudioInputStream(new File(absolutePath).getAbsoluteFile());
+		String path = filePath + fileName.concat(".wav");
+		audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream((path))));
 		clip = AudioSystem.getClip();
 		clip.open(audioInputStream);
 		if(Loop)
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
-		}
-	    public void play() 
+	}
+	public void play() 
+	{
+	    clip.start();     
+	    status = "play";
+	}
+	public void pause() 
+	{
+	    if (status.equals("paused")) 
 	    {
-	        clip.start();     
-	        status = "play";
+	        System.out.println("audio is already paused");
+	        return;
 	    }
-	    public void pause() 
-	    {
-	        if (status.equals("paused")) 
-	        {
-	            System.out.println("audio is already paused");
-	            return;
-	        }
-	        this.currentFrame = 
-	        this.clip.getMicrosecondPosition();
-	        clip.stop();
-	        status = "paused";
-	    }
-		public void restart() throws IOException, LineUnavailableException,
+	    this.currentFrame = 
+	    this.clip.getMicrosecondPosition();
+	    clip.stop();
+	    status = "paused";
+	}
+	public void restart() throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException 
-		{
+	{
 		clip.stop();
 		clip.close();
 		resetAudioStream();
 		currentFrame = 0L;
 		clip.setMicrosecondPosition(0);
 		this.play();
-		}
+	}
 	
-	    public void stop() throws UnsupportedAudioFileException,
-	    IOException, LineUnavailableException 
-	    {
-	        currentFrame = 0L;
-	        clip.stop();
-	        clip.close();
-	    }
+	public void stop() throws UnsupportedAudioFileException,
+	IOException, LineUnavailableException 
+	{
+	    currentFrame = 0L;
+	    clip.stop();
+	    clip.close();
+	}
 	
-	    public void resetAudioStream() throws UnsupportedAudioFileException, IOException,
+	public void resetAudioStream() throws UnsupportedAudioFileException, IOException,
 	    LineUnavailableException 
-		{
-			String absolutePath = filePath + fileName.concat(".wav");
-			audioInputStream = AudioSystem.getAudioInputStream(new File(absolutePath).getAbsoluteFile());
-	        clip.open(audioInputStream);
-			if(Loop)
-				clip.loop(Clip.LOOP_CONTINUOUSLY);
-		}
+	{
+		String path = filePath + fileName.concat(".wav");
+		audioInputStream = AudioSystem.getAudioInputStream(new BufferedInputStream(getClass().getResourceAsStream((path))));
+	    clip.open(audioInputStream);
+		if(Loop)
+			clip.loop(Clip.LOOP_CONTINUOUSLY);
+	}
 }
 enum Sound{
 	UNLOCK,

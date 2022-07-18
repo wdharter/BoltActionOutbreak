@@ -1,70 +1,72 @@
-package baologic;
+package gamesrc;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.InputStream;
 
 public class AnimationManagerGameObject extends GameObject {
 	private final BufferedImage[] idle = {
-			Sprite.getSprite("BoltActionStages", 0, 0)
+			Sprite.getSprite(GetStream("BoltActionStages"), 0, 0)
 			};
 	private final BufferedImage[] shoot = {
-			Sprite.getSprite("BoltActionStages", 0, 1),
-			Sprite.getSprite("BoltActionStages", 1, 1),
-			Sprite.getSprite("BoltActionStages", 2, 1),
-			Sprite.getSprite("BoltActionStages", 3, 1),
-			Sprite.getSprite("BoltActionStages", 4, 1),
-			Sprite.getSprite("BoltActionStages", 5, 1),
-			Sprite.getSprite("BoltActionStages", 6, 1)
+			Sprite.getSprite(GetStream("BoltActionStages"), 0, 1),
+			Sprite.getSprite(GetStream("BoltActionStages"), 1, 1),
+			Sprite.getSprite(GetStream("BoltActionStages"), 2, 1),
+			Sprite.getSprite(GetStream("BoltActionStages"), 3, 1),
+			Sprite.getSprite(GetStream("BoltActionStages"), 4, 1),
+			Sprite.getSprite(GetStream("BoltActionStages"), 5, 1),
+			Sprite.getSprite(GetStream("BoltActionStages"), 6, 1)
 			};
 	private final BufferedImage[] unlock = {
-			Sprite.getSprite("BoltActionStages", 0, 2),
-			Sprite.getSprite("BoltActionStages", 1, 2),
-			Sprite.getSprite("BoltActionStages", 2, 2),
-			Sprite.getSprite("BoltActionStages", 3, 2),
-			Sprite.getSprite("BoltActionStages", 4, 2),
-			Sprite.getSprite("BoltActionStages", 5, 2),
-			Sprite.getSprite("BoltActionStages", 6, 2)
+			Sprite.getSprite(GetStream("BoltActionStages"), 0, 2),
+			Sprite.getSprite(GetStream("BoltActionStages"), 1, 2),
+			Sprite.getSprite(GetStream("BoltActionStages"), 2, 2),
+			Sprite.getSprite(GetStream("BoltActionStages"), 3, 2),
+			Sprite.getSprite(GetStream("BoltActionStages"), 4, 2),
+			Sprite.getSprite(GetStream("BoltActionStages"), 5, 2),
+			Sprite.getSprite(GetStream("BoltActionStages"), 6, 2)
 			};
 	private final BufferedImage[] openFull = {
-			Sprite.getSprite("BoltActionStages", 0, 3),
-			Sprite.getSprite("BoltActionStages", 1, 3),
-			Sprite.getSprite("BoltActionStages", 2, 3),
-			Sprite.getSprite("BoltActionStages", 3, 3)
+			Sprite.getSprite(GetStream("BoltActionStages"), 0, 3),
+			Sprite.getSprite(GetStream("BoltActionStages"), 1, 3),
+			Sprite.getSprite(GetStream("BoltActionStages"), 2, 3),
+			Sprite.getSprite(GetStream("BoltActionStages"), 3, 3)
 			};
 	private final BufferedImage[] openFullNoShot = {
-			Sprite.getSprite("BoltActionFullNoShotOpen", 0, 0),
-			Sprite.getSprite("BoltActionFullNoShotOpen", 1, 0),
-			Sprite.getSprite("BoltActionFullNoShotOpen", 2, 0)
+			Sprite.getSprite(GetStream("BoltActionFullNoShotOpen"), 0, 0),
+			Sprite.getSprite(GetStream("BoltActionFullNoShotOpen"), 1, 0),
+			Sprite.getSprite(GetStream("BoltActionFullNoShotOpen"), 2, 0)
 			};
 	private final BufferedImage[] openEmpty = {
-			Sprite.getSprite("BoltActionDryOpen", 0, 0),
-			Sprite.getSprite("BoltActionDryOpen", 1, 0),
-			Sprite.getSprite("BoltActionDryOpen", 2, 0)
+			Sprite.getSprite(GetStream("BoltActionDryOpen"), 0, 0),
+			Sprite.getSprite(GetStream("BoltActionDryOpen"), 1, 0),
+			Sprite.getSprite(GetStream("BoltActionDryOpen"), 2, 0)
 			};
 	private final BufferedImage[] openedFull = {
-			Sprite.getSprite("BoltActionOpenedFull", 0, 0)
+			Sprite.getSprite(GetStream("BoltActionOpenedFull"), 0, 0)
 			};
 	private final BufferedImage[] close = {
-			Sprite.getSprite("BoltActionStages", 0, 4),
-			Sprite.getSprite("BoltActionStages", 1, 4),
-			Sprite.getSprite("BoltActionStages", 2, 4)
+			Sprite.getSprite(GetStream("BoltActionStages"), 0, 4),
+			Sprite.getSprite(GetStream("BoltActionStages"), 1, 4),
+			Sprite.getSprite(GetStream("BoltActionStages"), 2, 4)
 			};
 	private BufferedImage[] lock = {
-			Sprite.getSprite("BoltActionStages", 0, 5),
-			Sprite.getSprite("BoltActionStages", 1, 5),
-			Sprite.getSprite("BoltActionStages", 2, 5),
-			Sprite.getSprite("BoltActionStages", 3, 5),
-			Sprite.getSprite("BoltActionStages", 4, 5),
-			Sprite.getSprite("BoltActionStages", 5, 5)
+			Sprite.getSprite(GetStream("BoltActionStages"), 0, 5),
+			Sprite.getSprite(GetStream("BoltActionStages"), 1, 5),
+			Sprite.getSprite(GetStream("BoltActionStages"), 2, 5),
+			Sprite.getSprite(GetStream("BoltActionStages"), 3, 5),
+			Sprite.getSprite(GetStream("BoltActionStages"), 4, 5),
+			Sprite.getSprite(GetStream("BoltActionStages"), 5, 5)
 			};
 	private BufferedImage[] bullet = {
-			Sprite.getSprite("Bullet_For_BoltAction_19_25", 0, 0),
-			Sprite.getSprite("Bullet_For_BoltAction_19_25", 1, 0),
-			Sprite.getSprite("Bullet_For_BoltAction_19_25", 2, 0),
-			Sprite.getSprite("Bullet_For_BoltAction_19_25", 3, 0),
-			Sprite.getSprite("Bullet_For_BoltAction_19_25", 4, 0),
-			Sprite.getSprite("Bullet_For_BoltAction_19_25", 5, 0),
-			Sprite.getSprite("Bullet_For_BoltAction_19_25", 6, 0)
+			Sprite.getSprite(GetStream("Bullet_For_BoltAction_19_25"), 0, 0),
+			Sprite.getSprite(GetStream("Bullet_For_BoltAction_19_25"), 1, 0),
+			Sprite.getSprite(GetStream("Bullet_For_BoltAction_19_25"), 2, 0),
+			Sprite.getSprite(GetStream("Bullet_For_BoltAction_19_25"), 3, 0),
+			Sprite.getSprite(GetStream("Bullet_For_BoltAction_19_25"), 4, 0),
+			Sprite.getSprite(GetStream("Bullet_For_BoltAction_19_25"), 5, 0),
+			Sprite.getSprite(GetStream("Bullet_For_BoltAction_19_25"), 6, 0)
 			};
 	private Animation idleAnim = new Animation(idle, 8, false);
 	private Animation shootAnim = new Animation(shoot, 8, false);
@@ -142,6 +144,10 @@ public class AnimationManagerGameObject extends GameObject {
 	public void destroy() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public InputStream GetStream(String file) {
+		return AnimationManagerGameObject.class.getResourceAsStream("sprites/" + file + ".png");
 	}
 	
 	private Animation GetAnim(Anim a) {

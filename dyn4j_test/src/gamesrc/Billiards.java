@@ -1,4 +1,4 @@
-package baologic;
+package gamesrc;
 
 /*
  * Copyright (c) 2010-2021 William Bittle  http://www.dyn4j.org/

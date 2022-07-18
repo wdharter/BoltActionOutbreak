@@ -1,4 +1,4 @@
-package baologic;
+package gamesrc;
 
 import java.awt.Graphics2D;
 import java.util.concurrent.atomic.AtomicBoolean;

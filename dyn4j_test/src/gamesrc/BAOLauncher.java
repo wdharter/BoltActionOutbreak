@@ -1,4 +1,4 @@
-package baologic;
+package gamesrc;
 
 import javax.swing.Box;
 import javax.swing.JButton;
