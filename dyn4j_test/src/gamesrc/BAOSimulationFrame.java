@@ -116,15 +116,10 @@ public class BAOSimulationFrame extends SimulationFrame {
 	    addWall(0, 23, 81.28, 2);
 	    addWall(0, -23, 81.28, 2);
 	    
-	    addWall(-35.9, 9.7, 5, 20.5);
-	    Vector2 p1 = new Vector2(-38.2, -3.9); 
-	    Vector2 p2 = new Vector2(-38.2, -19.9);
-	    Vector2 p3 = new Vector2(-16.3, -19.9);
-	    //height / 4 = 4
-	    Vector2 p4 = new Vector2(-16.3, -15.9);
-	    Vector2 p5 = new Vector2(-33.3, -15.9);
-	    Vector2 p6 = new Vector2(-33.3, -6);
-	    addPolygon(p1, p2, p3, p4, p6);
+	    addWall(-35.9, 9.7, 5, 17.5);
+	    addWall(-35.9, -9.7, 5, 14);
+	    addWall(-25.9, -3.7, 14, 2);
+	    
 	}
 	
 	private void level2() {
@@ -160,15 +155,6 @@ public class BAOSimulationFrame extends SimulationFrame {
 		triangle.translate(x, y);
 		triangle.setColor(Color.gray);
 	    this.world.addBody(triangle);
-	}
-	
-	//POLYGONS CANNOT HAVE ACUTE OUTER ANGLES
-	private void addPolygon(Vector2...vertices) {
-		SimulationBody polygon = new SimulationBody();
-		polygon.addFixture(Geometry.createPolygon(vertices));
-		polygon.setMass(MassType.INFINITE);
-		polygon.setColor(Color.gray);
-	    this.world.addBody(polygon);
 	}
 	
 	protected void render(Graphics2D g, double deltaTime) {
