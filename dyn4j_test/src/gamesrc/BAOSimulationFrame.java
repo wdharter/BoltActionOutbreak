@@ -118,7 +118,41 @@ public class BAOSimulationFrame extends SimulationFrame {
 	    
 	    addWall(-35.9, 9.7, 5, 17.5);
 	    addWall(-35.9, -9.7, 5, 14);
-	    addWall(-25.9, -3.7, 14, 2);
+	    addWall(-26.4, -3.7, 14, 2);
+	    addWall(0, -15.7, 40, 2);
+	    addWall(30, -15.7, 10, 2);
+	    addWall(30, -10, 10, 2);
+	    addWall(30, -5, 10, 2);
+	    addWall(10, -10, 20, 4);
+	    addWall(12.3, -4, 15, 4);
+	    addWall(-4, -8.5, 4, 7);
+
+	    addWall(-13.5, -3, 6, 5);
+	    addWall(-3, -2, 10, 2);
+	    addWall(-20, -10, 24, 4);
+	    
+	    
+	    addCircle(-10, 10, 8);
+	    addCircle(-25, 10, 4);
+	    addCircle(-31, 10, 1);
+	    addCircle(30, 0, 1);
+	    addCircle(30, 5, 1);
+	    addCircle(30, 10, 1);
+	    addCircle(30, 15, 1);
+	    addCircle(30, 20, 1);
+	    addCircle(35, 0, 1);
+	    addCircle(35, 5, 1);
+	    addCircle(35, 10, 1);
+	    addCircle(35, 15, 1);
+	    addCircle(35, 20, 1);
+	    addCircle(32.5, 2.5, 0.5);
+	    addCircle(32.5, 7.5, 0.5);
+	    addCircle(32.5, 12.5, 0.5);
+	    addCircle(32.5, 17.5, 0.5);
+
+	    addTriangle(5, 2, new Vector2(0, 0), new Vector2(15, 0), new Vector2(0, 15));
+	    addTriangle(24, 20, new Vector2(0, 0), new Vector2(-15, 0), new Vector2(0, -15));
+	    
 	    
 	}
 	
