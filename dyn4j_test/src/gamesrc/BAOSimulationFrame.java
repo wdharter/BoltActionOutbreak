@@ -111,23 +111,23 @@ public class BAOSimulationFrame extends SimulationFrame {
 	
 	private void level1() {
 		// Basic level walls
-	    addWall(-41.7, 0, 2, 60);
-	    addWall(41.7, 0, 2, 60);
-	    addWall(0, 23, 81.28, 2);
-	    addWall(0, -23, 81.28, 2);
+	    //addWall(-41.7, 0, 2, 60);
+	    //addWall(41.7, 0, 2, 60);
+	    //addWall(0, 23, 81.28, 2);
+	    //addWall(0, -23, 81.28, 2);
 	    
-	    addWall(-35.9, 9.7, 5, 17.5);
-	    addWall(-35.9, -9.7, 5, 14);
+	    //addWall(-35.9, 9.7, 5, 17.5);
+	    //daddWall(-35.9, -9.7, 5, 14);
 	    addWall(-25.9, -3.7, 14, 2);
 	    
 	}
 	
 	private void level2() {
 		// Basic level walls
-	    addWall(-41.7, 0, 2, 60);
-	    addWall(41.7, 0, 2, 60);
-	    addWall(0, 23, 81.28, 2);
-	    addWall(0, -23, 81.28, 2);
+	    //addWall(-41.7, 0, 2, 60);
+	    //addWall(41.7, 0, 2, 60);
+	    //addWall(0, 23, 81.28, 2);
+	    //addWall(0, -23, 81.28, 2);
 	}
 	
 	private void addWall(double x, double y, double w, double h) {
@@ -136,6 +136,7 @@ public class BAOSimulationFrame extends SimulationFrame {
 		wall.setMass(MassType.INFINITE);
 		wall.translate(x, y);
 		wall.setColor(Color.gray);
+		wall.isWall = true;
 	    this.world.addBody(wall);
 	}
 	

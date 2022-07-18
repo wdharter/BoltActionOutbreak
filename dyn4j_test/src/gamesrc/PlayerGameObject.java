@@ -40,7 +40,7 @@ public class PlayerGameObject extends GameObject {
 	private ScoreBoardGameObject scoreboard;
 	private Camera camera;
 	private float playerMoveForce = 7;
-
+	private float ricochetAmount = 2;
 	private long last;
 
 	public static final double NANO_TO_BASE = 1.0e9;
@@ -129,7 +129,8 @@ public class PlayerGameObject extends GameObject {
 			
 			Ray ray = new Ray(start, direction);
 			double length = 100000;
-			List<RaycastResult<SimulationBody, BodyFixture>> results = frame.world.raycast(ray, length, new DetectFilter<SimulationBody, BodyFixture>(true, true, null));
+			List<RaycastResult<SimulationBody, BodyFixture>> results = 
+					frame.world.raycast(ray, length, new DetectFilter<SimulationBody, BodyFixture>(true, true, null));
 			int zombieCount = 0;
 			for(RaycastResult<SimulationBody, BodyFixture> result : results) {
 				if(result.getBody().zombieRef != null)
@@ -141,9 +142,43 @@ public class PlayerGameObject extends GameObject {
 					frame.QueueObjectToDelete(enemyID);
 					scoreboard.score.addAndGet(1 * zombieCount);
 				}
+				else if(result.getBody().isWall) {
+					ricochet(0, result, direction);
+				}
 			}
 			
 			Vector2 end = start.copy().add(direction.multiply(400));
+			new VaporTrailGameObject(frame.GetID(), this.frame, "vapor", new Point((int)start.x, (int)start.y), new Point((int)end.x, (int)end.y), 3);
+		}
+	}
+	
+	private void ricochet(int ricochetsSoFar, RaycastResult<SimulationBody, BodyFixture> lastHit, Vector2 shotDir) {
+		if(ricochetsSoFar < ricochetAmount) {
+			//getting reflection of shotDir by lastHit normal using r=d-2(d dot n)n, where n=normal and d=shotDir
+				//equation retrieved from https://math.stackexchange.com/questions/13261/how-to-get-a-reflection-vector
+			shotDir.normalize();
+			Vector2 ricochetDir = shotDir.subtract(shotDir.getNormalized().multiply(2 * shotDir.dot(lastHit.getRaycast().getNormal())));
+			Ray ray = new Ray(lastHit.getBody().getTransform().getTranslation(), ricochetDir);
+			double length = 100000;
+			List<RaycastResult<SimulationBody, BodyFixture>> results = 
+					frame.world.raycast(ray, length, new DetectFilter<SimulationBody, BodyFixture>(true, true, null));
+			int zombieCount = 0;
+			for(RaycastResult<SimulationBody, BodyFixture> result : results) {
+				if(result.getBody().zombieRef != null)
+					zombieCount++;
+			}
+			for(RaycastResult<SimulationBody, BodyFixture> result : results) {
+				int enemyID = result.getBody().id;
+				if(enemyID != 0 && result.getBody().zombieRef != null) {
+					frame.QueueObjectToDelete(enemyID);
+					scoreboard.score.addAndGet(1 * zombieCount);
+				}
+				else if(enemyID != 0 && result.getBody().zombieRef != null) {
+					ricochet(ricochetsSoFar+1, result, ricochetDir);
+				}
+			}
+			Vector2 start = lastHit.getBody().getTransform().getTranslation();
+			Vector2 end = start.copy().add(shotDir.multiply(400));
 			new VaporTrailGameObject(frame.GetID(), this.frame, "vapor", new Point((int)start.x, (int)start.y), new Point((int)end.x, (int)end.y), 3);
 		}
 	}

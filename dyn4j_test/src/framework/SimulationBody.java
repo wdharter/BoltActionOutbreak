@@ -21,6 +21,8 @@ public class SimulationBody extends Body {
 	public int id;
 	//will ONLY be set if this belongs to a zombie
 	public ZombieGameObject zombieRef;
+	//will ONLY be set if this belongs to a wall
+	public boolean isWall = false;
 	/**
 	 * Default constructor.
 	 */
