@@ -24,6 +24,7 @@ public class BAOSimulationFrame extends SimulationFrame {
 	private Vector<Integer> objectIDsToDelete;
 	private Vector<GameObject> objectsToInitialize;
 	private static AtomicInteger lastID = new AtomicInteger(0);
+	private boolean reset = false;
 	SimulationBody anchor;
 	
 	private AtomicBoolean initialized = new AtomicBoolean();

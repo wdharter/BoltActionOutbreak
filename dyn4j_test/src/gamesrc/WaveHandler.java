@@ -19,7 +19,6 @@ public class WaveHandler implements ActionListener {
 	public WaveHandler(BAOSimulationFrame game, PlayerGameObject player) {
 		this.game = game;
 		this.player = player;
-		game.SetWaves(this);
 		timer = new Timer(delay, this);
 		timer.start();
 	}
