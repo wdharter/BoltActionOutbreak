@@ -25,7 +25,9 @@ public class BAOSimulationFrame extends SimulationFrame {
 	private Vector<GameObject> objectsToInitialize;
 	private static AtomicInteger lastID = new AtomicInteger(0);
 	private boolean reset = false;
+	private boolean ended = false;
 	SimulationBody anchor;
+	private boolean won = false;
 	
 	private AtomicBoolean initialized = new AtomicBoolean();
 	
@@ -199,7 +201,7 @@ public class BAOSimulationFrame extends SimulationFrame {
 		DeleteQueuedGameObjects();
 		InitializeQueuedGameObjects();
 		if(reset) {
-			Reset();
+			End();
 		}
 	}
 	
@@ -216,10 +218,16 @@ public class BAOSimulationFrame extends SimulationFrame {
 		return anchor;
 	}
 	
-	public void ResetGame() {
+	// Toggles a boolean so that at the end of the next render loop, we call Reset()
+	public void Endgame(boolean won) {
 		reset = true;
+		this.won = won;
 	}
-	private void Reset() {
-		System.out.println("hi");
+	private void End() {
+		if(!ended) {
+			ActionStateHandler.gameEnded = true;
+			new EndScreenGameObject(GetID(), this, "endscreen", won);
+			ended = true;
+		}
 	}
 }

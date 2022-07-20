@@ -26,6 +26,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	private boolean cocked = true;
 	private boolean almostChambered = false;
 	private boolean justFired = false;
+	public static boolean gameEnded = false;
 	AnimationManagerGameObject anims;
 	AtomicBoolean waction;
 	AtomicBoolean aaction;
@@ -63,6 +64,9 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 		magRoundCount.set(5);
 	}
 	public void keyPressed(KeyEvent e) {
+		if(gameEnded) {
+			return;
+		}
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_W:
 				waction.set(true);
@@ -105,6 +109,9 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	}
 	
 	public void keyReleased(KeyEvent e) {
+		if(gameEnded) {
+			return;
+		}
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_W:
 				waction.set(false);
@@ -128,12 +135,18 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
+		if(gameEnded) {
+			return;
+		}
 		if(SwingUtilities.isLeftMouseButton(e) && cocked && closed && !unlocked) {
 			pressaction.set(true);
 		}
 	}
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		if(gameEnded) {
+			return;
+		}
 	    if(SwingUtilities.isLeftMouseButton(e) && !unlocked && magRoundCount.get() == 0 && cocked)
 		{
 			try {
@@ -211,6 +224,9 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	}
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
+		if(gameEnded) {
+			return;
+		}
 		if(unlocked && e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
 			currentScrollAmount += e.getUnitsToScroll();
 			if(Math.abs(currentScrollAmount) >= fullScrollAmount) {

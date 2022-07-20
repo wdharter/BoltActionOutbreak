@@ -16,8 +16,8 @@ public class WaveHandler implements ActionListener {
 	public static AtomicInteger enemyAmount = new AtomicInteger(0);
 	private int enemiesSpawned = 0;
 	int maxEnemies = 40;
-	public WaveHandler(BAOSimulationFrame game, PlayerGameObject player) {
-		this.game = game;
+	public WaveHandler(BAOSimulationFrame frame, PlayerGameObject player) {
+		this.game = frame;
 		this.player = player;
 		timer = new Timer(delay, this);
 		timer.start();
@@ -62,7 +62,7 @@ public class WaveHandler implements ActionListener {
 		}
 		else if(enemyAmount.get() == 0) {
 			// If we have spawned all enemies, and they have all been killed
-			game.ResetGame();
+			game.Endgame(true);
 		}
 	}
 	

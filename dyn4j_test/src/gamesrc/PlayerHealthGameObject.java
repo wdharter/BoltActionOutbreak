@@ -23,7 +23,7 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 	public PlayerHealthGameObject(int id, BAOSimulationFrame frame, String name) {
 		super(id, frame, name);
 		frame.world.addContactListener(this);
-		health.set(10);
+		health.set(5);
 		this.frame.AddGameObject(this);
 	}
 
@@ -71,6 +71,7 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 				enemy.zombieRef.dealtDamageInMove.set(true);
 				if(health.get() <= 0) {
 					frame.QueueObjectToDelete(1);
+					frame.Endgame(false);
 				}
 			}
 		}
