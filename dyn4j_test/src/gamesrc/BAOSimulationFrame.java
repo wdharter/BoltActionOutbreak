@@ -103,7 +103,6 @@ public class BAOSimulationFrame extends SimulationFrame {
 			Ambiance = new SoundManager(Sound.AMBIANCE, true);
 			Ambiance.play();
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -152,8 +151,6 @@ public class BAOSimulationFrame extends SimulationFrame {
 
 	    addTriangle(5, 2, new Vector2(0, 0), new Vector2(15, 0), new Vector2(0, 15));
 	    addTriangle(24, 20, new Vector2(0, 0), new Vector2(-15, 0), new Vector2(0, -15));
-	    
-	    
 	}
 	
 	private void level2() {
@@ -200,6 +197,9 @@ public class BAOSimulationFrame extends SimulationFrame {
 		}
 		DeleteQueuedGameObjects();
 		InitializeQueuedGameObjects();
+		if(reset) {
+			Reset();
+		}
 	}
 	
 	protected void handleEvents() {
@@ -213,5 +213,12 @@ public class BAOSimulationFrame extends SimulationFrame {
 	
 	public SimulationBody getAnchor() {
 		return anchor;
+	}
+	
+	public void ResetGame() {
+		reset = true;
+	}
+	private void Reset() {
+		System.out.println("hi");
 	}
 }

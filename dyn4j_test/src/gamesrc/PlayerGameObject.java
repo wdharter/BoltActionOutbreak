@@ -140,6 +140,7 @@ public class PlayerGameObject extends GameObject {
 				if(enemyID != 0 && result.getBody().zombieRef != null) {
 					frame.QueueObjectToDelete(enemyID);
 					scoreboard.score.addAndGet(1 * zombieCount);
+					WaveHandler.enemyAmount.addAndGet(-1);
 				}
 			}
 			

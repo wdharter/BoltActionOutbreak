@@ -23,21 +23,21 @@ public class BAOLauncher {
 			launcher.setVisible(true);
 		}
 		else {
-			new Game(21, 21);
+			new GameStarter(21, 21);
 		}
 	}
 }
 
-class Game {
-	Game(int firstScrollCheck, int secondScrollCheck){
+class GameStarter {
+	GameStarter(int firstScrollCheck, int secondScrollCheck){
 		ActionStateHandler.fullScrollAmount = (int) (Math.abs((Math.abs(firstScrollCheck) + Math.abs(secondScrollCheck))/2) * 0.85f);
 		int level = 1;
 		BAOSimulationFrame game = new BAOSimulationFrame("Bolt Action Outbreak", 15, level);
 		ScoreBoardGameObject scoreboard = new ScoreBoardGameObject(-1, game, "scoreboard");
 		AnimationManagerGameObject anims = new AnimationManagerGameObject(-2, game, "anims");
 		PlayerGameObject player = new PlayerGameObject(game.GetID(), game, "player", game.camera, scoreboard, anims);
-		PlayerHealthGameObject health = new PlayerHealthGameObject(game.GetID(), game, "health");
-		EnemySpawner spawner = new EnemySpawner(game, player);
+		new PlayerHealthGameObject(game.GetID(), game, "health");
+		new WaveHandler(game, player);
 		game.run();
 	}
 }
@@ -114,7 +114,7 @@ class LauncherFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			if(rightButton.getText() == "Launch") {
 				frame.dispose();
-				new Game(rot1, rotationTally);
+				new GameStarter(rot1, rotationTally);
 			}
 			rot1 = rotationTally;
 			rotationTally = 0;
@@ -137,59 +137,6 @@ class LauncherFrame extends JFrame{
 			rotationTally += e.getUnitsToScroll();
 			number.setText("<html> <font size=\"+5\">"+rotationTally+"</font></html>");
 			repaint();
-		}
-	}
-}
-
-class EnemySpawner implements ActionListener{
-	BAOSimulationFrame game;
-	PlayerGameObject player;
-	private int delay = 1000;
-	protected Timer timer;
-	int enemyAmount = 0;
-	int maxEnemies = 40;
-	public EnemySpawner(BAOSimulationFrame game, PlayerGameObject player) {
-		this.game = game;
-		this.player = player;
-		timer = new Timer(delay, this);
-		timer.start();
-	}
-
-	public void actionPerformed(ActionEvent e)
-	{
-		if(enemyAmount <= maxEnemies) {
-			Random r = new Random();
-		    int x = 40;
-		    int y = 30;
-		    int spawnWidth = 60;
-		    int spawnHeight = 30;
-			for(int i = 0; i < 1; i++) {
-				int side = r.nextInt(4);
-				switch (side){
-					case 0:
-						//top
-						x = r.nextInt(spawnWidth) - spawnWidth/2;
-						y = spawnHeight/2;
-						break;
-					case 1:
-						//bottom
-						x = r.nextInt(spawnWidth) - spawnWidth/2;
-						y = -spawnHeight/2;
-						break;
-					case 2:
-						//left
-						y = r.nextInt(spawnHeight) - spawnHeight/4;
-						x = -spawnWidth/2;
-						break;
-					case 3:
-						//right
-						y = r.nextInt(spawnHeight) - spawnHeight/2;
-						x = spawnWidth/2;
-						break;
-				}
-				new ZombieGameObject(game.GetID(), game, "zombie1", x, y, player);
-				enemyAmount++;
-			}
 		}
 	}
 }
