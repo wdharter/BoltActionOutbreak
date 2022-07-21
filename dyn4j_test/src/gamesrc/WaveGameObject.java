@@ -22,11 +22,11 @@ public class WaveGameObject extends GameObject {
 
 	@Override
 	public void render(Graphics2D g, double elapsedTime) {
-		Font font = new Font("Chiller", Font.BOLD, -40);
+		Font font = new Font("Chiller", Font.BOLD, -50);
 		g.scale(-1.0, 1);
 		g.setFont(font);
 		g.setColor(Color.BLACK);
-		g.drawString("Wave "+ Integer.toString(wave.get()), (int) (frame.getWidth()/-2.6), (int) (frame.getHeight()/-2.40f));
+		g.drawString("Wave "+ Integer.toString(wave.get()), (int) (frame.getWidth()/-2.7), (int) (frame.getHeight()/-2.40f));
 		g.scale(-1.0, 1);
 	}
 
