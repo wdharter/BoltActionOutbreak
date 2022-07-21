@@ -22,7 +22,7 @@ public class ZombieGameObject extends GameObject {
 	double initialX;
 	double initialY;
 	PlayerGameObject player;
-	private float zombieMoveForce = 7;
+	private float zombieMoveForce;
 	private float maxSpeed = 5;
 	public AtomicBoolean moving = new AtomicBoolean();
 	public AtomicBoolean dealtDamageInMove = new AtomicBoolean();
@@ -31,7 +31,7 @@ public class ZombieGameObject extends GameObject {
 
 	public static final double NANO_TO_BASE = 1.0e9;
 	
-	public ZombieGameObject(int id, BAOSimulationFrame frame, String name, double x, double y, PlayerGameObject player) {
+	public ZombieGameObject(int id, BAOSimulationFrame frame, String name, double x, double y, PlayerGameObject player, float zombieMoveForce) {
 		super(id, frame, name);
 		
 		this.player = player;
@@ -40,6 +40,7 @@ public class ZombieGameObject extends GameObject {
 		moving.set(true);
 		new StepTimer(moving, dealtDamageInMove);
 		this.frame.AddGameObject(this);
+		this.zombieMoveForce = zombieMoveForce;
 		dealtDamageInMove.set(false);
 	}
 

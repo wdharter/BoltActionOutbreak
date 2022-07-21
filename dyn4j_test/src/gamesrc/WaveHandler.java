@@ -11,14 +11,18 @@ public class WaveHandler implements ActionListener {
 
 	BAOSimulationFrame game;
 	PlayerGameObject player;
+	WaveGameObject waves;
 	private int delay = 1000;
+	private int spawnRate = 1;
 	protected Timer timer;
 	public static AtomicInteger enemyAmount = new AtomicInteger(0);
 	private int enemiesSpawned = 0;
-	int maxEnemies = 40;
-	public WaveHandler(BAOSimulationFrame frame, PlayerGameObject player) {
+	int maxEnemies = 15;
+	float forceMultiplier = 1.0f;
+	public WaveHandler(BAOSimulationFrame frame, PlayerGameObject player, WaveGameObject waves) {
 		this.game = frame;
 		this.player = player;
+		this.waves = waves;
 		timer = new Timer(delay, this);
 		timer.start();
 	}
@@ -31,7 +35,7 @@ public class WaveHandler implements ActionListener {
 		    int y = 30;
 		    int spawnWidth = 60;
 		    int spawnHeight = 30;
-			for(int i = 0; i < 1; i++) {
+			for(int i = 0; i < spawnRate; i++) {
 				int side = r.nextInt(4);
 				switch (side){
 					case 0:
@@ -55,24 +59,26 @@ public class WaveHandler implements ActionListener {
 						x = spawnWidth/2;
 						break;
 				}
-				new ZombieGameObject(game.GetID(), game, "zombie1", x, y, player);
+				new ZombieGameObject(game.GetID(), game, "zombie1", x, y, player, (7.00f * forceMultiplier));
 				enemyAmount.addAndGet(1);
 				enemiesSpawned++;
 			}
 		}
-		else if(enemyAmount.get() == 0) {
+		else if(enemyAmount.get() == 0 &&  waves.wave.get() == 3) {
 			// If we have spawned all enemies, and they have all been killed
 			game.Endgame(true);
 		}
+		else if(enemyAmount.get() == 0)
+			NewWave();
 	}
-	
-	public void ResetWaves(PlayerGameObject player) {
+	public void NewWave() {
 		enemiesSpawned = 0;
 		enemyAmount.set(0);
-		this.player = player;
-		timer.stop();
-		timer = new Timer(delay, this);
-		timer.start();
+		waves.wave.getAndAdd(1);	
+		maxEnemies+=5 + (waves.wave.get() * 2);
+		if(maxEnemies >= 20)
+			maxEnemies+=5;
+		spawnRate++;
+		forceMultiplier+=.5f;
 	}
-
 }

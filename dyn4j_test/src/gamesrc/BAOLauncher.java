@@ -35,9 +35,10 @@ class GameStarter {
 		BAOSimulationFrame game = new BAOSimulationFrame("Bolt Action Outbreak", 15, level);
 		ScoreBoardGameObject scoreboard = new ScoreBoardGameObject(-1, game, "scoreboard");
 		AnimationManagerGameObject anims = new AnimationManagerGameObject(-2, game, "anims");
+		WaveGameObject waves = new WaveGameObject(-3, game, "waves");
 		PlayerGameObject player = new PlayerGameObject(game.GetID(), game, "player", game.camera, scoreboard, anims);
 		new PlayerHealthGameObject(game.GetID(), game, "health");
-		new WaveHandler(game, player);
+		new WaveHandler(game, player, waves);
 		game.run();
 	}
 }
