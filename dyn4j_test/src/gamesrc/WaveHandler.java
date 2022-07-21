@@ -65,7 +65,7 @@ public class WaveHandler implements ActionListener {
 			}
 		}
 		else if(enemyAmount.get() == 0 &&  waves.wave.get() == 3) {
-			// If we have spawned all enemies, and they have all been killed
+			// If we have spawned all enemies, and are on the final wave
 			game.Endgame(true);
 		}
 		else if(enemyAmount.get() == 0)
@@ -75,9 +75,9 @@ public class WaveHandler implements ActionListener {
 		enemiesSpawned = 0;
 		enemyAmount.set(0);
 		waves.wave.getAndAdd(1);	
-		maxEnemies+=5 + (waves.wave.get() * 2);
-		if(maxEnemies >= 20)
-			maxEnemies+=5;
+		maxEnemies+=5 + (waves.wave.get() * 1);
+		if(BAOLauncher.Debug)
+			System.out.println("DEBUG: Max Enemies =  "+ maxEnemies);
 		spawnRate++;
 		forceMultiplier+=.5f;
 	}

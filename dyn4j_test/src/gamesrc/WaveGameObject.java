@@ -22,7 +22,7 @@ public class WaveGameObject extends GameObject {
 
 	@Override
 	public void render(Graphics2D g, double elapsedTime) {
-		Font font = new Font("Papyrus", Font.BOLD, -30);
+		Font font = new Font("Chiller", Font.BOLD, -40);
 		g.scale(-1.0, 1);
 		g.setFont(font);
 		g.setColor(Color.BLACK);
