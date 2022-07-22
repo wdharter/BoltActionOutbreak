@@ -4,10 +4,16 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import javax.imageio.ImageIO;
 
 import dyn4j.dynamics.joint.FrictionJoint;
 import dyn4j.geometry.Geometry;
@@ -33,6 +39,7 @@ public class PlayerGameObject extends GameObject {
 	private final AtomicBoolean boltBack = new AtomicBoolean(false);
 	private final AtomicBoolean boltForward = new AtomicBoolean(false);
 	private final AtomicBoolean load = new AtomicBoolean(false);
+	private Point mousePos = new Point(0,0);
 	private ScoreBoardGameObject scoreboard;
 	private Camera camera;
 	private float playerMoveForce = 7;
@@ -70,6 +77,9 @@ public class PlayerGameObject extends GameObject {
 		frame.canvas.addKeyListener(playerListener);
 		frame.canvas.addMouseListener(playerListener);
 		frame.canvas.addMouseWheelListener(playerListener);
+		MouseTracker m = new MouseTracker(mousePos);
+		frame.canvas.addMouseListener(m);
+		frame.canvas.addMouseMotionListener(m);
 		camera = mainCam;
 		test = true;
 		this.frame.AddGameObject(this);
@@ -99,7 +109,6 @@ public class PlayerGameObject extends GameObject {
 	@Override
 	public void render(Graphics2D g, double elapsedTime){
 		aim(g);
-		
 	}
 
 	@Override
@@ -112,9 +121,9 @@ public class PlayerGameObject extends GameObject {
 		if(fire.get()) {
 			fire.set(false);
 			Vector2 start = body.getTransform().getTranslation();
-			Point mousePosition = getMousePos();
 			
-			Vector2 mouseWorldPosition = camera.toWorldCoordinates(frame.getWidth(), frame.getHeight(), mousePosition);
+			Vector2 mouseWorldPosition = camera.toWorldCoordinates(frame.getWidth(), frame.getHeight(), mousePos);
+			
 			if(BAOLauncher.Debug) {
 				System.out.println("DEBUG: " + mouseWorldPosition);
 			}
@@ -147,12 +156,11 @@ public class PlayerGameObject extends GameObject {
 	
 	private void aim(Graphics2D g)
 	{ 
+		// Aiming line
 		if(aim.get())
 		{
-			Vector2 start = body.getTransform().getTranslation();
-			Point mousePosition = getMousePos();
-			
-			Vector2 mouseWorldPosition = camera.toWorldCoordinates(frame.getWidth(), frame.getHeight(), mousePosition);
+			Vector2 start = body.getTransform().getTranslation();;
+			Vector2 mouseWorldPosition = camera.toWorldCoordinates(frame.getWidth(), frame.getHeight(), mousePos);
 			Vector2 direction = mouseWorldPosition.subtract(start);
 			final double scale = frame.getScale();
 			Ray ray = new Ray(start, direction);
@@ -179,22 +187,7 @@ public class PlayerGameObject extends GameObject {
 						ray.getStart().x * scale + ray.getDirectionVector().x * length * scale, 
 						ray.getStart().y * scale + ray.getDirectionVector().y * length * scale));
 			}
-
-			
 		}
-	}
-	
-	private Point getMousePos() {
-		// Code for getting reference and offset (to get correct position after moving screen) retrieved from 
-		// https://stackoverflow.com/questions/40890568/mouse-pos-relative-to-frame-java-windows-is-wrong\
-		Point reference = frame.getContentPane().getLocationOnScreen();
-		Point mousePositionOnScreen = MouseInfo.getPointerInfo().getLocation();
-		Point mousePosition = new Point();
-		mousePosition.x = mousePositionOnScreen.x - reference.x;
-		mousePosition.y = mousePositionOnScreen.y - reference.y;
-		mousePosition.x += 5;
-		mousePosition.y += 20;
-		return mousePosition;
 	}
 	
 	private void move() {
@@ -244,4 +237,23 @@ public class PlayerGameObject extends GameObject {
 		frame.world.removeBody(body);
 	}
 	
+}
+
+class MouseTracker extends MouseAdapter{
+	Point track;
+	
+	MouseTracker(Point track){
+		this.track = track;
+	}
+	
+    public void mouseDragged(MouseEvent e){
+    	track.x = e.getX();
+    	track.y = e.getY();
+    }
+
+    public void mousePressed(MouseEvent e) {
+    	track.x = e.getX();
+    	track.y = e.getY();
+    }
+    
 }

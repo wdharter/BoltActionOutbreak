@@ -4,10 +4,12 @@ import javax.swing.Box;
 import javax.swing.JButton;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -39,6 +41,12 @@ class GameStarter {
 		PlayerGameObject player = new PlayerGameObject(game.GetID(), game, "player", game.camera, scoreboard, anims);
 		new PlayerHealthGameObject(game.GetID(), game, "health");
 		new WaveHandler(game, player, waves);
+		
+		// Cursor made invisible in actual game, we draw our own to fix aiming issues
+		game.setCursor( game.getToolkit().createCustomCursor(
+                new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB ),
+                new Point(),
+                null ) );
 		game.run();
 	}
 }
