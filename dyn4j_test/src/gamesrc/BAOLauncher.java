@@ -16,7 +16,7 @@ import javax.swing.Timer;
 public class BAOLauncher {
 	public static boolean Debug = false;
 	public static void main(String[] args) {
-		boolean skip = true;
+		boolean skip = false;
 		if(!skip) {
 			LauncherFrame launcher = new LauncherFrame();
 			launcher.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -57,7 +57,8 @@ class LauncherFrame extends JFrame{
 	public LauncherFrame() {
 		super("Calibration");
 		frame = this;
-	    setSize( 260, 158 ); 
+	    setSize( 292, 158 ); 
+	    this.setResizable(false);
 		Box box = Box.createVerticalBox();
 		help = new JLabel("<html>Place your finger at "
 				+ "the top of the<br>scroll wheel and scroll towards<br> "
@@ -88,7 +89,15 @@ class LauncherFrame extends JFrame{
 		next.addActionListener(new NextButton());
 		rightButton = next;
 		buttonBox.add(next);
-
+		
+		JButton defaults = new JButton();
+		defaults.setText("Use default (21, 21)");
+		defaults.setAlignmentX(LEFT_ALIGNMENT);
+		defaults.setFocusPainted(false);
+		defaults.setContentAreaFilled(false);
+		defaults.addActionListener(new DefaultButton());
+		buttonBox.add(defaults);
+		
 	    this.addMouseWheelListener(new ScrollWheelRecorder());
 	    add(box, BorderLayout.CENTER);
 	}
@@ -99,7 +108,7 @@ class LauncherFrame extends JFrame{
 				+ "you until it is at the back.</html>");
 		number.setText("<html> <font size=\"+5\">"+rotationTally+"</font></html>");
 		rightButton.setText("Next");
-	    setSize( 260, 158 ); 
+	    setSize( 292, 158 ); 
 	}
 	
 	private void phase2() {
@@ -107,7 +116,7 @@ class LauncherFrame extends JFrame{
 				+ "but the other way. If reloading is too hard in-game, <br>reload and try scrolling less at calibration.</html>");
 		number.setText("<html> <font size=\"+5\">"+rotationTally+"</font></html>");
 		rightButton.setText("Launch");
-	    setSize( 260, 158 ); 
+	    setSize( 300, 158 ); 
 	}
 	
 	private class NextButton implements ActionListener{
@@ -128,7 +137,14 @@ class LauncherFrame extends JFrame{
 		public void actionPerformed(ActionEvent e) {
 			rotationTally = 0;
 			phase1();
-			
+		}
+	}
+	
+	private class DefaultButton implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			frame.dispose();
+			new GameStarter(21, 21);
 		}
 	}
 	
