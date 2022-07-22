@@ -91,7 +91,7 @@ class LauncherFrame extends JFrame{
 		buttonBox.add(next);
 		
 		JButton defaults = new JButton();
-		defaults.setText("Use default (21, 21)");
+		defaults.setText("Use defaults (21, 21)");
 		defaults.setAlignmentX(LEFT_ALIGNMENT);
 		defaults.setFocusPainted(false);
 		defaults.setContentAreaFilled(false);
