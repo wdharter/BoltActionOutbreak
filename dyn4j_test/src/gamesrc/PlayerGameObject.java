@@ -5,13 +5,9 @@ import java.awt.Graphics2D;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.geom.Line2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import javax.imageio.ImageIO;
 
 import dyn4j.dynamics.joint.FrictionJoint;
 import dyn4j.geometry.Geometry;
@@ -116,7 +112,7 @@ public class PlayerGameObject extends GameObject {
 		if(fire.get()) {
 			fire.set(false);
 			Vector2 start = body.getTransform().getTranslation();
-			Point mousePosition = MouseInfo.getPointerInfo().getLocation();
+			Point mousePosition = getMousePos();
 			
 			Vector2 mouseWorldPosition = camera.toWorldCoordinates(frame.getWidth(), frame.getHeight(), mousePosition);
 			if(BAOLauncher.Debug) {
@@ -154,7 +150,7 @@ public class PlayerGameObject extends GameObject {
 		if(aim.get())
 		{
 			Vector2 start = body.getTransform().getTranslation();
-			Point mousePosition = MouseInfo.getPointerInfo().getLocation();
+			Point mousePosition = getMousePos();
 			
 			Vector2 mouseWorldPosition = camera.toWorldCoordinates(frame.getWidth(), frame.getHeight(), mousePosition);
 			Vector2 direction = mouseWorldPosition.subtract(start);
@@ -186,6 +182,19 @@ public class PlayerGameObject extends GameObject {
 
 			
 		}
+	}
+	
+	private Point getMousePos() {
+		// Code for getting reference and offset (to get correct position after moving screen) retrieved from 
+		// https://stackoverflow.com/questions/40890568/mouse-pos-relative-to-frame-java-windows-is-wrong\
+		Point reference = frame.getContentPane().getLocationOnScreen();
+		Point mousePositionOnScreen = MouseInfo.getPointerInfo().getLocation();
+		Point mousePosition = new Point();
+		mousePosition.x = mousePositionOnScreen.x - reference.x;
+		mousePosition.y = mousePositionOnScreen.y - reference.y;
+		mousePosition.x += 5;
+		mousePosition.y += 20;
+		return mousePosition;
 	}
 	
 	private void move() {
