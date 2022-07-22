@@ -2,18 +2,12 @@ package gamesrc;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import javax.imageio.ImageIO;
 
 import dyn4j.dynamics.joint.FrictionJoint;
 import dyn4j.geometry.Geometry;
