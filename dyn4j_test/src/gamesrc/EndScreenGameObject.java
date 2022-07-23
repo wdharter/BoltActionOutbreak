@@ -27,16 +27,16 @@ public class EndScreenGameObject extends GameObject{
 		String s2 = won? 
 				"Record your score, close the game, and relaunch to try for a higher one." 
 				: "Close the game and relaunch to try again.";
-		float s2x = won? 0.225f : 0.145f;
+		float s2x = won? 0.225f : 0.125f;
 
-		Font font = new Font("Serif", Font.BOLD, -50);
+		Font font = new Font("Chiller", Font.BOLD, -60);
 		g.scale(-1.0, 1);
 		g.setFont(font);
 		g.setColor(Color.BLACK);
-		g.drawString(s1, (int)(frame.getWidth() * 0.08), 0);
+		g.drawString(s1, (int)(frame.getWidth() * 0.05), 180);
 		font = new Font("Serif", Font.BOLD, -20);
 		g.setFont(font);
-		g.drawString(s2, (int)(frame.getWidth() * s2x), -40);
+		g.drawString(s2, (int)(frame.getWidth() * s2x), 140);
 		g.scale(-1.0, 1);
 	}
 
