@@ -9,7 +9,7 @@ public abstract class GameObject {
 	private String name;
 	public AtomicBoolean active = new AtomicBoolean();
 	public boolean initialized;
-	
+
 	public GameObject(int id, BAOSimulationFrame frame, String name) {
 		this.frame = frame;
 		this.id = id;
@@ -17,20 +17,20 @@ public abstract class GameObject {
 		initialized = false;
 		active.set(true);
 	}
-	
+
 	public int getID() {
 		return id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public abstract void initialize();
-	
+
 	public abstract void render(Graphics2D g, double elapsedTime);
-	
+
 	public abstract void handleEvents();
-	
+
 	public abstract void destroy();
 }

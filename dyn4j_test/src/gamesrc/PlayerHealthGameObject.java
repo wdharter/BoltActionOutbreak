@@ -19,7 +19,7 @@ import framework.SimulationBody;
 public class PlayerHealthGameObject extends GameObject implements ContactListener<SimulationBody> {
 
 	public AtomicInteger health = new AtomicInteger();
-	
+
 	public PlayerHealthGameObject(int id, BAOSimulationFrame frame, String name) {
 		super(id, frame, name);
 		frame.world.addContactListener(this);
@@ -29,7 +29,7 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 
 	@Override
 	public void initialize() {
-		
+
 		initialized = true;
 	}
 
@@ -39,10 +39,11 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 		g.scale(-1.0, 1);
 		g.setFont(font);
 		g.setColor(Color.BLACK);
-		if(health.get() < 4) {
+		if (health.get() < 4) {
 			g.setColor(Color.red);
 		}
-		g.drawString(Integer.toString(health.get()), (int) (frame.getWidth()/2.14f), (int) (frame.getHeight()/2.65f));
+		g.drawString(Integer.toString(health.get()), (int) (frame.getWidth() / 2.14f),
+				(int) (frame.getHeight() / 2.65f));
 		g.scale(-1.0, 1);
 	}
 
@@ -61,15 +62,15 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 	@Override
 	public void begin(ContactCollisionData<SimulationBody> collision, Contact contact) {
 	}
-	
+
 	@Override
 	public void persist(ContactCollisionData<SimulationBody> collision, Contact oldContact, Contact newContact) {
-		if(collision.getBody1().id == 1 || collision.getBody2().id == 1) {
-			SimulationBody enemy = collision.getBody1().id == 1? collision.getBody2() : collision.getBody1();
-			if(enemy.zombieRef != null && !enemy.zombieRef.dealtDamageInMove.get() && enemy.zombieRef.moving.get()) {
+		if (collision.getBody1().id == 1 || collision.getBody2().id == 1) {
+			SimulationBody enemy = collision.getBody1().id == 1 ? collision.getBody2() : collision.getBody1();
+			if (enemy.zombieRef != null && !enemy.zombieRef.dealtDamageInMove.get() && enemy.zombieRef.moving.get()) {
 				health.addAndGet(-1);
 				enemy.zombieRef.dealtDamageInMove.set(true);
-				if(health.get() <= 0) {
+				if (health.get() <= 0) {
 					frame.QueueObjectToDelete(1);
 					frame.Endgame(false);
 				}
@@ -77,22 +78,25 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 		}
 	}
 
+	@Override
+	public void destroyed(ContactCollisionData<SimulationBody> collision, Contact contact) {
+	}
 
 	@Override
-	public void destroyed(ContactCollisionData<SimulationBody> collision, Contact contact) {}
+	public void collision(ContactCollisionData<SimulationBody> collision) {
+	}
 
 	@Override
-	public void collision(ContactCollisionData<SimulationBody> collision) {}
+	public void preSolve(ContactCollisionData<SimulationBody> collision, Contact contact) {
+	}
 
 	@Override
-	public void preSolve(ContactCollisionData<SimulationBody> collision, Contact contact) {}
-
-	@Override
-	public void postSolve(ContactCollisionData<SimulationBody> collision, SolvedContact contact) {}
+	public void postSolve(ContactCollisionData<SimulationBody> collision, SolvedContact contact) {
+	}
 
 	@Override
 	public void end(ContactCollisionData<SimulationBody> collision, Contact contact) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class WaveGameObject extends GameObject {
 
 	public AtomicInteger wave = new AtomicInteger();
-	
+
 	public WaveGameObject(int id, BAOSimulationFrame frame, String name) {
 		super(id, frame, name);
 		wave.set(1);
@@ -26,7 +26,8 @@ public class WaveGameObject extends GameObject {
 		g.scale(-1.0, 1);
 		g.setFont(font);
 		g.setColor(Color.BLACK);
-		g.drawString("Wave "+ Integer.toString(wave.get()), (int) (frame.getWidth()/-2.7), (int) (frame.getHeight()/-2.40f));
+		g.drawString("Wave " + Integer.toString(wave.get()), (int) (frame.getWidth() / -2.7),
+				(int) (frame.getHeight() / -2.40f));
 		g.scale(-1.0, 1);
 	}
 

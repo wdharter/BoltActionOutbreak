@@ -12,7 +12,7 @@ public class VaporTrailGameObject extends GameObject {
 	private float totalTime;
 	private float startingGray;
 	private boolean disabled;
-	
+
 	public VaporTrailGameObject(int id, BAOSimulationFrame frame, String name, Point start, Point end, float duration) {
 		super(id, frame, name);
 		this.start = start;
@@ -25,25 +25,20 @@ public class VaporTrailGameObject extends GameObject {
 	}
 
 	@Override
-	public void initialize() 
-	{
+	public void initialize() {
 		initialized = true;
 	}
 
 	@Override
 	public void render(Graphics2D g, double elapsedTime) {
-		if(!disabled) {
+		if (!disabled) {
 			final double scale = frame.getScale();
-			float currentGray = startingGray - (startingGray * (totalTime/duration));
-			currentGray = currentGray < 0? 0 : currentGray;
-			g.setColor(new Color((int)currentGray, (int)currentGray, (int)currentGray, (int)currentGray));
-			g.draw(new Line2D.Double(
-					start.x * scale, 
-					start.y * scale, 
-					end.x *scale, 
-					end.y *scale));
+			float currentGray = startingGray - (startingGray * (totalTime / duration));
+			currentGray = currentGray < 0 ? 0 : currentGray;
+			g.setColor(new Color((int) currentGray, (int) currentGray, (int) currentGray, (int) currentGray));
+			g.draw(new Line2D.Double(start.x * scale, start.y * scale, end.x * scale, end.y * scale));
 			totalTime += elapsedTime;
-			if(totalTime > duration) {
+			if (totalTime > duration) {
 				frame.QueueObjectToDelete(id);
 				disabled = true;
 			}
@@ -51,9 +46,11 @@ public class VaporTrailGameObject extends GameObject {
 	}
 
 	@Override
-	public void handleEvents() {}
+	public void handleEvents() {
+	}
 
 	@Override
-	public void destroy() {}
+	public void destroy() {
+	}
 
 }

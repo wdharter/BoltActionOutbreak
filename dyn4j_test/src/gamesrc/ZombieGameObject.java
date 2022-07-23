@@ -30,10 +30,11 @@ public class ZombieGameObject extends GameObject {
 	private long last;
 
 	public static final double NANO_TO_BASE = 1.0e9;
-	
-	public ZombieGameObject(int id, BAOSimulationFrame frame, String name, double x, double y, PlayerGameObject player, float zombieMoveForce) {
+
+	public ZombieGameObject(int id, BAOSimulationFrame frame, String name, double x, double y, PlayerGameObject player,
+			float zombieMoveForce) {
 		super(id, frame, name);
-		
+
 		this.player = player;
 		initialX = x;
 		initialY = y;
@@ -54,11 +55,9 @@ public class ZombieGameObject extends GameObject {
 		zombie.setColor(new Color(32, 79, 54));
 		zombie.setMass(MassType.NORMAL);
 		frame.world.addBody(zombie);
-		
-		FrictionJoint<SimulationBody> zombieAnchorFriction = new FrictionJoint<SimulationBody>(
-				zombie, 
-				frame.getAnchor(), 
-				zombie.getWorldCenter());
+
+		FrictionJoint<SimulationBody> zombieAnchorFriction = new FrictionJoint<SimulationBody>(zombie,
+				frame.getAnchor(), zombie.getWorldCenter());
 		zombieAnchorFriction.setMaximumForce(100);
 		zombieAnchorFriction.setMaximumTorque(1000);
 		zombieAnchorFriction.setCollisionAllowed(false);
@@ -74,35 +73,36 @@ public class ZombieGameObject extends GameObject {
 
 	@Override
 	public void handleEvents() {
-		if(initialized) {
+		if (initialized) {
 			Vector2 playerPosition = player.getBody().getTransform().getTranslation();
 			Vector2 myPosition = zombie.getTransform().getTranslation();
 			Vector2 moveDir = playerPosition.subtract(myPosition).getNormalized();
-			if(ActionStateHandler.gameEnded) {
+			if (ActionStateHandler.gameEnded) {
 				moveDir.multiply(-1);
 			}
 			moveDir.multiply(zombieMoveForce);
-			Vector2 distance = (new Vector2((int)myPosition.x-(int)playerPosition.x, (int)myPosition.y-(int)playerPosition.y)).subtract(myPosition);
-			if(distance.getMagnitude() <= lungeLength) {
+			Vector2 distance = (new Vector2((int) myPosition.x - (int) playerPosition.x,
+					(int) myPosition.y - (int) playerPosition.y)).subtract(myPosition);
+			if (distance.getMagnitude() <= lungeLength) {
 				moveDir.multiply(2.3);
 			}
 			// get the current time
-	        long time = System.nanoTime();
-	        // get the elapsed time from the last iteration
-	        long diff = time - this.last;
-	        // set the last time
-	        this.last = time;
-	    	// convert from nanoseconds to seconds
-	    	double elapsedTime = (double)diff / NANO_TO_BASE;
-	    	
-	    	moveDir.multiply(elapsedTime * 1000);
-	    	
-			if(moving.get())
+			long time = System.nanoTime();
+			// get the elapsed time from the last iteration
+			long diff = time - this.last;
+			// set the last time
+			this.last = time;
+			// convert from nanoseconds to seconds
+			double elapsedTime = (double) diff / NANO_TO_BASE;
+
+			moveDir.multiply(elapsedTime * 1000);
+
+			if (moving.get())
 				zombie.applyForce(moveDir);
-			
+
 			Vector2 currentVelocity = zombie.getLinearVelocity();
 			double currentSpeed = zombie.getLinearVelocity().getMagnitude();
-			if(currentSpeed > maxSpeed)
+			if (currentSpeed > maxSpeed)
 				currentSpeed = maxSpeed;
 			currentVelocity.normalize();
 			currentVelocity.multiply(currentSpeed);
@@ -117,13 +117,12 @@ public class ZombieGameObject extends GameObject {
 
 }
 
-
-class StepTimer implements ActionListener{
+class StepTimer implements ActionListener {
 	private int delay;
 	protected Timer timer;
 	AtomicBoolean moving;
 	AtomicBoolean dealtDamage;
-	
+
 	public StepTimer(AtomicBoolean moving, AtomicBoolean dealtDamage) {
 		Random r = new Random();
 		delay = r.nextInt(200) + 300;
@@ -133,15 +132,13 @@ class StepTimer implements ActionListener{
 		this.dealtDamage = dealtDamage;
 	}
 
-	public void actionPerformed(ActionEvent e)
-	{
-		//moving.set(!moving.get());
-		if(moving.get()) {
+	public void actionPerformed(ActionEvent e) {
+		// moving.set(!moving.get());
+		if (moving.get()) {
 			moving.set(false);
 			Random r = new Random();
 			delay = r.nextInt(200);
-		}
-		else {
+		} else {
 			moving.set(true);
 			dealtDamage.set(false);
 			Random r = new Random();

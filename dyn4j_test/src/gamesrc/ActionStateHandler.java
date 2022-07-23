@@ -17,12 +17,12 @@ import javax.swing.SwingUtilities;
 import gamesrc.AnimationManagerGameObject.Anim;
 
 // Handles mouse/keyboard inputs and logic tied to those inputs, primarily reloading.
-public class ActionStateHandler extends KeyAdapter implements MouseListener, MouseWheelListener{
-	
+public class ActionStateHandler extends KeyAdapter implements MouseListener, MouseWheelListener {
+
 	static int fullScrollAmount;
 	private int currentScrollAmount;
 	// Made atomic just in case inputs come in separate threads
-	private AtomicInteger magRoundCount = new AtomicInteger(); 
+	private AtomicInteger magRoundCount = new AtomicInteger();
 	private boolean closed = true;
 	private boolean unlocked = false;
 	private boolean chambered = true;
@@ -30,7 +30,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	private boolean almostChambered = false;
 	private boolean justFired = false;
 	// Used to stop responding to inputs
-	public static boolean gameEnded = false; 
+	public static boolean gameEnded = false;
 	AnimationManagerGameObject anims;
 	AtomicBoolean waction;
 	AtomicBoolean aaction;
@@ -42,23 +42,14 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	AtomicBoolean mwdownaction;
 	AtomicBoolean mwupaction;
 	AtomicBoolean spaceaction;
-	
-	// Created by player game object, 
-	// these are checked by the player every frame 
+
+	// Created by player game object,
+	// these are checked by the player every frame
 	// to respond to movement inputs
 	// or to fire/aim
-	public ActionStateHandler(
-			AnimationManagerGameObject anims,
-			AtomicBoolean w, 
-			AtomicBoolean a, 
-			AtomicBoolean s, 
-			AtomicBoolean d, 
-			AtomicBoolean release, 
-			AtomicBoolean press,
-			AtomicBoolean rightpress,
-			AtomicBoolean mwdown,
-			AtomicBoolean mwup,
-			AtomicBoolean space) {
+	public ActionStateHandler(AnimationManagerGameObject anims, AtomicBoolean w, AtomicBoolean a, AtomicBoolean s,
+			AtomicBoolean d, AtomicBoolean release, AtomicBoolean press, AtomicBoolean rightpress, AtomicBoolean mwdown,
+			AtomicBoolean mwup, AtomicBoolean space) {
 		this.anims = anims;
 		waction = w;
 		aaction = a;
@@ -72,96 +63,91 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 		spaceaction = space;
 		magRoundCount.set(5);
 	}
-	
+
 	// Handles WASD movement and reloading inputs
 	public void keyPressed(KeyEvent e) {
-		if(gameEnded) {
+		if (gameEnded) {
 			return;
 		}
 		switch (e.getKeyCode()) {
-			case KeyEvent.VK_W:
-				waction.set(true);
-				break;
-			case KeyEvent.VK_A:
-				aaction.set(true);
-				break;
-			case KeyEvent.VK_S:
-				saction.set(true);
-				break;
-			case KeyEvent.VK_D:
-				daction.set(true);
-				break;
-			case KeyEvent.VK_SPACE:
-				spaceaction.set(true);
-				loadBullets();
-				break;
+		case KeyEvent.VK_W:
+			waction.set(true);
+			break;
+		case KeyEvent.VK_A:
+			aaction.set(true);
+			break;
+		case KeyEvent.VK_S:
+			saction.set(true);
+			break;
+		case KeyEvent.VK_D:
+			daction.set(true);
+			break;
+		case KeyEvent.VK_SPACE:
+			spaceaction.set(true);
+			loadBullets();
+			break;
 		}
-		
 	}
-	
-	// Checks that player cannot reload more than 5 bullets
+
+	public void keyReleased(KeyEvent e) {
+		if (gameEnded) {
+			return;
+		}
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_W:
+			waction.set(false);
+			break;
+		case KeyEvent.VK_A:
+			aaction.set(false);
+			break;
+		case KeyEvent.VK_S:
+			saction.set(false);
+			break;
+		case KeyEvent.VK_D:
+			daction.set(false);
+			break;
+		case KeyEvent.VK_SPACE:
+			spaceaction.set(false);
+			break;
+		}
+	}
+
+	// Checks that player cannot reload more than 5 bullets, reloads
 	// plays corresponding FX
-	public void loadBullets()
-	{
-		if(!closed && magRoundCount.get() < 5)
-		{
+	public void loadBullets() {
+		if (!closed && magRoundCount.get() < 5) {
 			int rounds = magRoundCount.get();
 			magRoundCount.set(++rounds);
-			if(magRoundCount.get() == 5) {
+			if (magRoundCount.get() == 5) {
 				anims.PlayAnimation(Anim.OPENEDFULL, false);
 			}
 			SoundManager load;
 			try {
-				 load = new SoundManager(Sound.LOAD, false);
-				 load.play();
+				load = new SoundManager(Sound.LOAD, false);
+				load.play();
 			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 				e.printStackTrace();
 			}
 		}
 		return;
 	}
-	
-	public void keyReleased(KeyEvent e) {
-		if(gameEnded) {
-			return;
-		}
-		switch (e.getKeyCode()) {
-			case KeyEvent.VK_W:
-				waction.set(false);
-				break;
-			case KeyEvent.VK_A:
-				aaction.set(false);
-				break;
-			case KeyEvent.VK_S:
-				saction.set(false);
-				break;
-			case KeyEvent.VK_D:
-				daction.set(false);
-				break;
-			case KeyEvent.VK_SPACE:
-				spaceaction.set(false);
-				break;
-		}
-	}
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
+
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(gameEnded) {
+		if (gameEnded) {
 			return;
 		}
-		if(SwingUtilities.isLeftMouseButton(e) && cocked && closed && !unlocked) {
+		if (SwingUtilities.isLeftMouseButton(e) && cocked && closed && !unlocked) {
 			pressaction.set(true);
 		}
 	}
+
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(gameEnded) {
+		if (gameEnded) {
 			return;
 		}
-	    if(SwingUtilities.isLeftMouseButton(e) && !unlocked && magRoundCount.get() == 0 && cocked)
-		{
+		if (SwingUtilities.isLeftMouseButton(e) && !unlocked && magRoundCount.get() == 0 && cocked) {
 			try {
 				SoundManager Dryfire = new SoundManager(Sound.DRYFIRE, false);
 				Dryfire.play();
@@ -172,8 +158,8 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			pressaction.set(false);
 			cocked = false;
 		}
-		
-	    if(SwingUtilities.isLeftMouseButton(e) && chambered && !unlocked && magRoundCount.get() > 0 && cocked) {
+
+		if (SwingUtilities.isLeftMouseButton(e) && chambered && !unlocked && magRoundCount.get() > 0 && cocked) {
 			try {
 				SoundManager Fire = new SoundManager(Sound.FIRE, false);
 				Fire.play();
@@ -181,7 +167,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			releaseaction.set(true);	
+			releaseaction.set(true);
 			pressaction.set(false);
 			chambered = false;
 			cocked = false;
@@ -189,14 +175,13 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			magRoundCount.set(roundCount - 1);
 			anims.PlayAnimation(Anim.FIRE, true);
 			justFired = true;
-			if(BAOLauncher.Debug) {
+			if (BAOLauncher.Debug) {
 				chambered = true;
 				magRoundCount.set(roundCount + 1);
 			}
-		}		
-		else if(SwingUtilities.isRightMouseButton(e)) {
-			if(closed) {
-				if(unlocked) {
+		} else if (SwingUtilities.isRightMouseButton(e)) {
+			if (closed) {
+				if (unlocked) {
 					unlocked = false;
 					anims.PlayAnimation(Anim.LOCK, true);
 					SoundManager Lock;
@@ -207,11 +192,11 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					if(almostChambered) {
+					if (almostChambered) {
 						almostChambered = false;
 						chambered = true;
 					}
-				}else {
+				} else {
 					unlocked = true;
 					SoundManager Unlock;
 					anims.PlayAnimation(Anim.UNLOCK, false);
@@ -226,29 +211,21 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 			}
 		}
 	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-	}
+
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		if(gameEnded) {
+		if (gameEnded) {
 			return;
 		}
-		if(unlocked && e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
+		if (unlocked && e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
 			currentScrollAmount += e.getUnitsToScroll();
-			if(Math.abs(currentScrollAmount) >= fullScrollAmount) {
-				if(currentScrollAmount >= 0 && closed) {
+			if (Math.abs(currentScrollAmount) >= fullScrollAmount) {
+				if (currentScrollAmount >= 0 && closed) {
 					closed = false;
 					cocked = true;
 					mwdownaction.set(true);
 					SoundManager Open;
-					if(justFired) {
+					if (justFired) {
 						SoundManager Eject;
 						try {
 							Eject = new SoundManager(Sound.EJECT, false);
@@ -259,10 +236,9 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 						}
 						anims.PlayAnimation(Anim.OPEN, false);
 						justFired = false;
-					}
-					else if(magRoundCount.get() > 0) {
+					} else if (magRoundCount.get() > 0) {
 						anims.PlayAnimation(Anim.OPENFULLNOSHOT, false);
-					}else {
+					} else {
 						anims.PlayAnimation(Anim.OPENEMPTY, false);
 					}
 					try {
@@ -272,8 +248,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-				}
-				else if(currentScrollAmount < 0 && !closed) {
+				} else if (currentScrollAmount < 0 && !closed) {
 					almostChambered = true;
 					closed = true;
 					mwdownaction.set(false);
@@ -290,5 +265,17 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 				currentScrollAmount = 0;
 			}
 		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
 	}
 }
