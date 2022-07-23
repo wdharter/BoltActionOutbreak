@@ -16,17 +16,21 @@ import javax.swing.SwingUtilities;
 
 import gamesrc.AnimationManagerGameObject.Anim;
 
+// Handles mouse/keyboard inputs and logic tied to those inputs, primarily reloading.
 public class ActionStateHandler extends KeyAdapter implements MouseListener, MouseWheelListener{
+	
 	static int fullScrollAmount;
 	private int currentScrollAmount;
-	private AtomicInteger magRoundCount = new AtomicInteger();
+	// Made atomic just in case inputs come in separate threads
+	private AtomicInteger magRoundCount = new AtomicInteger(); 
 	private boolean closed = true;
 	private boolean unlocked = false;
 	private boolean chambered = true;
 	private boolean cocked = true;
 	private boolean almostChambered = false;
 	private boolean justFired = false;
-	public static boolean gameEnded = false;
+	// Used to stop responding to inputs
+	public static boolean gameEnded = false; 
 	AnimationManagerGameObject anims;
 	AtomicBoolean waction;
 	AtomicBoolean aaction;
@@ -38,6 +42,11 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	AtomicBoolean mwdownaction;
 	AtomicBoolean mwupaction;
 	AtomicBoolean spaceaction;
+	
+	// Created by player game object, 
+	// these are checked by the player every frame 
+	// to respond to movement inputs
+	// or to fire/aim
 	public ActionStateHandler(
 			AnimationManagerGameObject anims,
 			AtomicBoolean w, 
@@ -63,6 +72,8 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 		spaceaction = space;
 		magRoundCount.set(5);
 	}
+	
+	// Handles WASD movement and reloading inputs
 	public void keyPressed(KeyEvent e) {
 		if(gameEnded) {
 			return;
@@ -87,6 +98,9 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 		}
 		
 	}
+	
+	// Checks that player cannot reload more than 5 bullets
+	// plays corresponding FX
 	public void loadBullets()
 	{
 		if(!closed && magRoundCount.get() < 5)
@@ -101,7 +115,6 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 				 load = new SoundManager(Sound.LOAD, false);
 				 load.play();
 			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
