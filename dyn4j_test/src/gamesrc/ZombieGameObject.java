@@ -16,17 +16,19 @@ import dyn4j.geometry.MassType;
 import dyn4j.geometry.Vector2;
 import framework.SimulationBody;
 
+// Enemy of the game, represented as a physics circle that chases player
+// directly with no object avoidance
 public class ZombieGameObject extends GameObject {
 
 	SimulationBody zombie;
 	double initialX;
 	double initialY;
-	PlayerGameObject player;
+	PlayerGameObject player; // Used for tracking player's position
 	private float zombieMoveForce;
-	private float maxSpeed = 5;
+	private float maxSpeed = 5; // Zombie speed is capped for more realistic movement
 	public AtomicBoolean moving = new AtomicBoolean();
 	public AtomicBoolean dealtDamageInMove = new AtomicBoolean();
-	private float lungeLength = 15;
+	private float lungeLength = 15; // If player is within circle of this radius, increase speed
 	private long last;
 
 	public static final double NANO_TO_BASE = 1.0e9;
@@ -76,6 +78,7 @@ public class ZombieGameObject extends GameObject {
 		if (initialized) {
 			Vector2 playerPosition = player.getBody().getTransform().getTranslation();
 			Vector2 myPosition = zombie.getTransform().getTranslation();
+			// Zombie will move towards the player, so we subtract their positions and normalize
 			Vector2 moveDir = playerPosition.subtract(myPosition).getNormalized();
 			if (ActionStateHandler.gameEnded) {
 				moveDir.multiply(-1);
@@ -117,6 +120,7 @@ public class ZombieGameObject extends GameObject {
 
 }
 
+// Randomly stops and starts zombie movement for a "shambling" feeling
 class StepTimer implements ActionListener {
 	private int delay;
 	protected Timer timer;

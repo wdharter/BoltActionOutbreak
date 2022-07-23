@@ -16,6 +16,7 @@ import dyn4j.world.ContactCollisionData;
 import dyn4j.world.listener.ContactListener;
 import framework.SimulationBody;
 
+// Listens for contact events, if they are between a player and a zombie while the zombie is lunging, deals damage to the player
 public class PlayerHealthGameObject extends GameObject implements ContactListener<SimulationBody> {
 
 	public AtomicInteger health = new AtomicInteger();
@@ -33,6 +34,7 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 		initialized = true;
 	}
 
+	// Shows player health as a number on the top-left
 	@Override
 	public void render(Graphics2D g, double elapsedTime) {
 		Font font = new Font("Serif", Font.BOLD, -50);
@@ -47,22 +49,8 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 		g.scale(-1.0, 1);
 	}
 
-	@Override
-	public void handleEvents() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void begin(ContactCollisionData<SimulationBody> collision, Contact contact) {
-	}
-
+	// Identifies that a collision involves player by looking for ID 1, and a zombie via zombieRef being non-null
+	// Destroys player if their health dips below 0
 	@Override
 	public void persist(ContactCollisionData<SimulationBody> collision, Contact oldContact, Contact newContact) {
 		if (collision.getBody1().id == 1 || collision.getBody2().id == 1) {
@@ -76,6 +64,18 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 				}
 			}
 		}
+	}
+
+	@Override
+	public void handleEvents() {
+	}
+
+	@Override
+	public void destroy() {
+	}
+
+	@Override
+	public void begin(ContactCollisionData<SimulationBody> collision, Contact contact) {
 	}
 
 	@Override
@@ -96,7 +96,5 @@ public class PlayerHealthGameObject extends GameObject implements ContactListene
 
 	@Override
 	public void end(ContactCollisionData<SimulationBody> collision, Contact contact) {
-		// TODO Auto-generated method stub
-
 	}
 }

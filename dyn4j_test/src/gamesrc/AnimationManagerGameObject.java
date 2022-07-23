@@ -6,6 +6,9 @@ import java.io.File;
 import java.io.InputStream;
 
 public class AnimationManagerGameObject extends GameObject {
+	// These could be initialized using loops, but
+	// we do not have a lot of animations and this 
+	// way makes them easier to individually modify.
 	private final BufferedImage[] idle = {
 			Sprite.getSprite(GetStream("BoltActionStages"), 0, 0)
 			};
@@ -78,12 +81,11 @@ public class AnimationManagerGameObject extends GameObject {
 	private Animation closeAnim = new Animation(close, 4, false);
 	private Animation lockAnim = new Animation(lock, 4, false);
 	private Animation bulletAnim = new Animation(bullet, 8, false);
-	
-	private Animation currAnim = idleAnim;
-	private Animation currBulletAnim = bulletAnim;
+	private Animation currAnim = idleAnim; // tracks current animation
+	private Animation currBulletAnim = bulletAnim; // tracks current bullet animation, since bullet casing anim must be independent from current animation
 	private Anim curr;
-	private boolean idleAtEnd;
-	private boolean playingBullet;
+	private boolean idleAtEnd; // if true, resets to idle when animation finished
+	private boolean playingBullet; // used to ensure bullet animation isn't played multiple times
 	
 	public AnimationManagerGameObject(int id, BAOSimulationFrame frame, String name) {
 		super(id, frame, name);
@@ -96,6 +98,7 @@ public class AnimationManagerGameObject extends GameObject {
 		initialized = true;
 	}
 
+	// Paints frame of current animation for the gun indicator
 	@Override
 	public void render(Graphics2D g, double elapsedTime) {
 		if(currAnim.isStopped() && idleAtEnd)
@@ -104,6 +107,9 @@ public class AnimationManagerGameObject extends GameObject {
 			PlayBullet();
 		}
 		currAnim.update();
+		
+		// Graphics are upside-down for an unknown reason, 
+		// this fixes them and then we undo it just in case.
 		g.scale(1.0, -1.0);
 		g.drawImage(currAnim.getSprite(), -520, -350, null);
 		if(!currBulletAnim.isStopped()) {
@@ -133,25 +139,13 @@ public class AnimationManagerGameObject extends GameObject {
 		playingBullet = true;
 		currBulletAnim.start();
 	}
-
-	@Override
-	public void handleEvents() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	public InputStream GetStream(String file) {
 		return AnimationManagerGameObject.class.getResourceAsStream("sprites/" + file + ".png");
 	}
 	
 	private Animation GetAnim(Anim a) {
-		switch(a) {
+		switch (a) {
 		case IDLE:
 			return idleAnim;
 		case UNLOCK:
@@ -188,5 +182,10 @@ public class AnimationManagerGameObject extends GameObject {
 		BULLET,
 		OPENFULLNOSHOT
 	}
+	
+	@Override
+	public void handleEvents() {}
 
+	@Override
+	public void destroy() {}
 }

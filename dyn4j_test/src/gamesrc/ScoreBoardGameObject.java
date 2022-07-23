@@ -5,8 +5,10 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.concurrent.atomic.AtomicInteger;
 
+// Displays number for the score on the top-center of the game
 public class ScoreBoardGameObject extends GameObject {
 
+	// Modified by player whenever they kill zombies
 	public AtomicInteger score = new AtomicInteger();
 
 	public ScoreBoardGameObject(int id, BAOSimulationFrame frame, String name) {
@@ -32,14 +34,10 @@ public class ScoreBoardGameObject extends GameObject {
 
 	@Override
 	public void handleEvents() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

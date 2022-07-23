@@ -12,7 +12,6 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 // SOURCE: https://www.geeksforgeeks.org/play-audio-file-using-java/ (Heavily modified and adapted code)
 public class SoundManager {
-
 	Long currentFrame;
 	Clip clip;
 	String status;
@@ -22,7 +21,6 @@ public class SoundManager {
 	boolean Loop = false;
 	Sound s;
 
-	// .\src\tests\
 	public SoundManager(Sound s, boolean Loop)
 			throws UnsupportedAudioFileException, IOException, LineUnavailableException {
 		this.Loop = Loop;

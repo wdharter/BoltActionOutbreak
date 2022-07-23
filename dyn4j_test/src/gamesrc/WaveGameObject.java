@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.concurrent.atomic.AtomicInteger;
 
+// Renders text showing the current wave on the bottom-right side
 public class WaveGameObject extends GameObject {
 
 	public AtomicInteger wave = new AtomicInteger();
@@ -33,14 +34,10 @@ public class WaveGameObject extends GameObject {
 
 	@Override
 	public void handleEvents() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// Displays an endscreen message with info for the user about how the game ended
 public class EndScreenGameObject extends GameObject {
 
 	boolean won;
@@ -23,6 +24,7 @@ public class EndScreenGameObject extends GameObject {
 
 	@Override
 	public void render(Graphics2D g, double elapsedTime) {
+		// Sets up the message then renders at near the center of the screen with custom font
 		String s1 = won ? "You won!" : "You lost!";
 		String s2 = won ? "Record your score, close the game, and relaunch to try for a higher one."
 				: "Close the game and relaunch to try again.";
@@ -41,12 +43,9 @@ public class EndScreenGameObject extends GameObject {
 
 	@Override
 	public void handleEvents() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
 	}
 }

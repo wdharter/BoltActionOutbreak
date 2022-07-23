@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.swing.Timer;
 
+// Spawns enemies in waves, changing their attributes in subsequent ones
 public class WaveHandler implements ActionListener {
 
 	BAOSimulationFrame game;
@@ -28,6 +29,7 @@ public class WaveHandler implements ActionListener {
 		timer.start();
 	}
 
+	// Spawns a set of enemies based on current wave once timer is over
 	public void actionPerformed(ActionEvent e) {
 		if (enemiesSpawned <= maxEnemies) {
 			Random r = new Random();
@@ -70,6 +72,7 @@ public class WaveHandler implements ActionListener {
 			NewWave();
 	}
 
+	// Sets wave attributes and new enemy attributes
 	public void NewWave() {
 		enemiesSpawned = 0;
 		enemyAmount.set(0);

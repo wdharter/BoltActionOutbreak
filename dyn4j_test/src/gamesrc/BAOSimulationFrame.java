@@ -19,17 +19,17 @@ import framework.SimulationFrame;
 
 public class BAOSimulationFrame extends SimulationFrame {
 	private static final long serialVersionUID = 1L;
-	private int level = 0;
-	private Vector<GameObject> objects;
-	private Vector<Integer> objectIDsToDelete;
-	private Vector<GameObject> objectsToInitialize;
-	private static AtomicInteger lastID = new AtomicInteger(0);
-	private boolean reset = false;
-	private boolean ended = false;
-	SimulationBody anchor;
-	private boolean won = false;
-
-	private AtomicBoolean initialized = new AtomicBoolean();
+	private int level = 0;	// Used for choosing level
+	private Vector<GameObject> objects;	// Current GameObjects in the scene, iterated through to call render/event handling functions
+	private Vector<Integer> objectIDsToDelete;	// Modified during loops to delete objects once a thread is outside the objects loop
+	private Vector<GameObject> objectsToInitialize;	// Same as deletion vector, but for inititialization and adding to objects vector
+	private static AtomicInteger lastID = new AtomicInteger(0); // Last ID assigned to an object, new objects get next one and update
+	private boolean end = false;	// Set by either PlayerHealthGameObject or by WaveHandler to end the game
+	private boolean ended = false;	// Set once the game fully ended to avoid doing it twice
+	SimulationBody anchor;	// No-collision body at the center to be used for frictionjoints with every gameobject that needs friction
+	private boolean won = false;	// Set to true/false depending on what toggled an end-state, changes the ending message
+	private AtomicBoolean initialized = new AtomicBoolean();	// Set to true once initialize function has been ran, 
+																// afterwards objects are added to objectsToInitialize
 
 	public BAOSimulationFrame(String name, double scale, int level) {
 		super(name, scale);
@@ -93,8 +93,10 @@ public class BAOSimulationFrame extends SimulationFrame {
 		switch (level) {
 		case 1:
 			level1();
+			break;
 		case 2:
 			level2();
+			break;
 		}
 
 		for (GameObject g : objects) {
@@ -109,60 +111,6 @@ public class BAOSimulationFrame extends SimulationFrame {
 			e.printStackTrace();
 		}
 
-	}
-
-	private void level1() {
-		// Basic level walls
-		addWall(-41.7, 0, 2, 60);
-		addWall(41.7, 0, 2, 60);
-		addWall(0, 23, 81.28, 2);
-		addWall(0, -23, 81.28, 2);
-
-		// addWall(-35.9, 9.7, 5, 17.5);
-		// addWall(-35.9, -9.7, 5, 14);
-		// addWall(-26.4, -3.7, 14, 2);
-		// addWall(0, -15.7, 40, 2);
-		// addWall(30, -15.7, 10, 2);
-		// addWall(30, -10, 10, 2);
-		// addWall(30, -5, 10, 2);
-		// addWall(10, -10, 20, 4);
-		// addWall(12.3, -4, 15, 4);
-		// addWall(-4, -8.5, 4, 7);
-
-		// addWall(-13.5, -3, 6, 5);
-		// addWall(-3, -2, 10, 2);
-		// addWall(-20, -10, 24, 4);
-
-		addCircle(0, 0, 5);
-		// addCircle(-10, 10, 8);
-		// addCircle(-25, 10, 4);
-		// addCircle(-31, 10, 1);
-		// addCircle(30, 0, 1);
-		// addCircle(30, 5, 1);
-		// addCircle(30, 10, 1);
-		// addCircle(30, 15, 1);
-		// addCircle(30, 20, 1);
-		// addCircle(35, 0, 1);
-		// addCircle(35, 5, 1);
-		// addCircle(35, 10, 1);
-		// addCircle(35, 15, 1);
-		// addCircle(35, 20, 1);
-		// addCircle(32.5, 2.5, 0.5);
-		// addCircle(32.5, 7.5, 0.5);
-		// addCircle(32.5, 12.5, 0.5);
-		// addCircle(32.5, 17.5, 0.5);
-
-		// addTriangle(5, 2, new Vector2(0, 0), new Vector2(15, 0), new Vector2(0, 15));
-		// addTriangle(24, 20, new Vector2(0, 0), new Vector2(-15, 0), new Vector2(0,
-		// -15));
-	}
-
-	private void level2() {
-		// Basic level walls
-		addWall(-41.7, 0, 2, 60);
-		addWall(41.7, 0, 2, 60);
-		addWall(0, 23, 81.28, 2);
-		addWall(0, -23, 81.28, 2);
 	}
 
 	private void addWall(double x, double y, double w, double h) {
@@ -194,6 +142,8 @@ public class BAOSimulationFrame extends SimulationFrame {
 
 	protected void render(Graphics2D g, double deltaTime) {
 		super.render(g, deltaTime);
+		// We create a copy of the objects to prevent simultaneous modification errors with other threads
+		// (even after trying synchronization)
 		@SuppressWarnings("unchecked")
 		Vector<GameObject> objectsCopy = (Vector<GameObject>) objects.clone();
 		for (GameObject gObject : objectsCopy) {
@@ -201,13 +151,14 @@ public class BAOSimulationFrame extends SimulationFrame {
 		}
 		DeleteQueuedGameObjects();
 		InitializeQueuedGameObjects();
-		if (reset) {
+		if (end) {
 			End();
 		}
 	}
 
 	protected void handleEvents() {
 		super.handleEvents();
+		// Same idea as render function
 		@SuppressWarnings("unchecked")
 		Vector<GameObject> objectsCopy = (Vector<GameObject>) objects.clone();
 		for (GameObject g : objectsCopy) {
@@ -221,7 +172,7 @@ public class BAOSimulationFrame extends SimulationFrame {
 
 	// Toggles a boolean so that at the end of the next render loop, we call Reset()
 	public void Endgame(boolean won) {
-		reset = true;
+		end = true;
 		this.won = won;
 	}
 
@@ -231,5 +182,60 @@ public class BAOSimulationFrame extends SimulationFrame {
 			new EndScreenGameObject(GetID(), this, "endscreen", won);
 			ended = true;
 		}
+	}
+
+	private void level1() {
+		// Basic level walls
+		addWall(-41.7, 0, 2, 60);
+		addWall(41.7, 0, 2, 60);
+		addWall(0, 23, 81.28, 2);
+		addWall(0, -23, 81.28, 2);
+		addCircle(0, 0, 5);
+	}
+
+	// Level 2 was made but we decided it was too clustered and so only use level 1
+	// instead of alternating.
+	private void level2() {
+		// Basic level walls
+		addWall(-41.7, 0, 2, 60);
+		addWall(41.7, 0, 2, 60);
+		addWall(0, 23, 81.28, 2);
+		addWall(0, -23, 81.28, 2);
+
+		addWall(-35.9, 9.7, 5, 17.5);
+		addWall(-35.9, -9.7, 5, 14);
+		addWall(-26.4, -3.7, 14, 2);
+		addWall(0, -15.7, 40, 2);
+		addWall(30, -15.7, 10, 2);
+		addWall(30, -10, 10, 2);
+		addWall(30, -5, 10, 2);
+		addWall(10, -10, 20, 4);
+		addWall(12.3, -4, 15, 4);
+		addWall(-4, -8.5, 4, 7);
+
+		addWall(-13.5, -3, 6, 5);
+		addWall(-3, -2, 10, 2);
+		addWall(-20, -10, 24, 4);
+
+		addCircle(-10, 10, 8);
+		addCircle(-25, 10, 4);
+		addCircle(-31, 10, 1);
+		addCircle(30, 0, 1);
+		addCircle(30, 5, 1);
+		addCircle(30, 10, 1);
+		addCircle(30, 15, 1);
+		addCircle(30, 20, 1);
+		addCircle(35, 0, 1);
+		addCircle(35, 5, 1);
+		addCircle(35, 10, 1);
+		addCircle(35, 15, 1);
+		addCircle(35, 20, 1);
+		addCircle(32.5, 2.5, 0.5);
+		addCircle(32.5, 7.5, 0.5);
+		addCircle(32.5, 12.5, 0.5);
+		addCircle(32.5, 17.5, 0.5);
+
+		addTriangle(5, 2, new Vector2(0, 0), new Vector2(15, 0), new Vector2(0, 15));
+		addTriangle(24, 20, new Vector2(0, 0), new Vector2(-15, 0), new Vector2(0, -15));
 	}
 }

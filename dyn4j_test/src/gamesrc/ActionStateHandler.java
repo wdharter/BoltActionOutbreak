@@ -21,15 +21,14 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 
 	static int fullScrollAmount;
 	private int currentScrollAmount;
-	// Made atomic just in case inputs come in separate threads
-	private AtomicInteger magRoundCount = new AtomicInteger();
+	private AtomicInteger magRoundCount = new AtomicInteger(); // Made atomic just in case inputs come in separate
+																// threads
 	private boolean closed = true;
 	private boolean unlocked = false;
 	private boolean chambered = true;
 	private boolean cocked = true;
 	private boolean almostChambered = false;
-	private boolean justFired = false;
-	// Used to stop responding to inputs
+	private boolean justFired = false; // Used to stop responding to inputs
 	public static boolean gameEnded = false;
 	AnimationManagerGameObject anims;
 	AtomicBoolean waction;
@@ -132,39 +131,42 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 		return;
 	}
 
+	// Aiming
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (gameEnded) {
 			return;
 		}
+		// We only show aim line if releasing the mouse would fire a shot
 		if (SwingUtilities.isLeftMouseButton(e) && cocked && closed && !unlocked) {
 			pressaction.set(true);
 		}
 	}
 
+	// Firing & bolt up/down toggling
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (gameEnded) {
 			return;
 		}
+		// Play sound cue if magazine is empty
 		if (SwingUtilities.isLeftMouseButton(e) && !unlocked && magRoundCount.get() == 0 && cocked) {
 			try {
 				SoundManager Dryfire = new SoundManager(Sound.DRYFIRE, false);
 				Dryfire.play();
 			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			pressaction.set(false);
 			cocked = false;
 		}
 
+		// Only fire if player fully reloaded and has bullets left
 		if (SwingUtilities.isLeftMouseButton(e) && chambered && !unlocked && magRoundCount.get() > 0 && cocked) {
 			try {
 				SoundManager Fire = new SoundManager(Sound.FIRE, false);
 				Fire.play();
 			} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			releaseaction.set(true);
@@ -179,6 +181,10 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 				chambered = true;
 				magRoundCount.set(roundCount + 1);
 			}
+
+			// Locks/unlocks the bolt depending on its current state
+			// Locks if bolt is closed and unlocked
+			// Unlocks if bolt is locked
 		} else if (SwingUtilities.isRightMouseButton(e)) {
 			if (closed) {
 				if (unlocked) {
@@ -189,7 +195,6 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 						Lock = new SoundManager(Sound.LOCK, false);
 						Lock.play();
 					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					if (almostChambered) {
@@ -204,7 +209,6 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 						Unlock = new SoundManager(Sound.UNLOCK, false);
 						Unlock.play();
 					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}
@@ -212,13 +216,18 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 		}
 	}
 
+	// Opens/closes chamber depending on its state
+	// Opens if bolt is unlocked and closed
+	// Closes if bolt is open
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		if (gameEnded) {
 			return;
 		}
+		// Ignores PGUP and PGDN key scrolling
 		if (unlocked && e.getScrollType() == MouseWheelEvent.WHEEL_UNIT_SCROLL) {
 			currentScrollAmount += e.getUnitsToScroll();
+			// fullScrollAmount is the average of the two tuned values at launch
 			if (Math.abs(currentScrollAmount) >= fullScrollAmount) {
 				if (currentScrollAmount >= 0 && closed) {
 					closed = false;
@@ -231,7 +240,6 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 							Eject = new SoundManager(Sound.EJECT, false);
 							Eject.play();
 						} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						anims.PlayAnimation(Anim.OPEN, false);
@@ -245,7 +253,6 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 						Open = new SoundManager(Sound.OPEN, false);
 						Open.play();
 					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				} else if (currentScrollAmount < 0 && !closed) {
@@ -258,7 +265,6 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 						Close = new SoundManager(Sound.CLOSE, false);
 						Close.play();
 					} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 				}

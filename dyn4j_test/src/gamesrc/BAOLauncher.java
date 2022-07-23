@@ -17,9 +17,11 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 
 public class BAOLauncher {
+	// Set to true to remove ammo depletion and output mouse click locations for object positioning
 	public static boolean Debug = false;
 
 	public static void main(String[] args) {
+		// Set to true to skip tuning and use defaults
 		boolean skip = false;
 		if (!skip) {
 			LauncherFrame launcher = new LauncherFrame();
@@ -32,7 +34,9 @@ public class BAOLauncher {
 }
 
 class GameStarter {
+	// Creates and performs setup for a SimulationFrame containing 
 	GameStarter(int firstScrollCheck, int secondScrollCheck) {
+		// Get and set average of tuner scrolls.
 		ActionStateHandler.fullScrollAmount = (int) (Math
 				.abs((Math.abs(firstScrollCheck) + Math.abs(secondScrollCheck)) / 2) * 0.85f);
 		int level = 1;
@@ -45,12 +49,14 @@ class GameStarter {
 		new WaveHandler(game, player, waves);
 
 		// Cursor made invisible in actual game, we draw our own to fix aiming issues
+		// Code retrieved from https://stackoverflow.com/questions/1984071/how-to-hide-cursor-in-a-swing-application
 		game.setCursor(game.getToolkit().createCustomCursor(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB),
 				new Point(), null));
 		game.run();
 	}
 }
 
+// Prompts player to scroll twice to tune to varying scroll wheels
 class LauncherFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
@@ -108,6 +114,7 @@ class LauncherFrame extends JFrame {
 		add(box, BorderLayout.CENTER);
 	}
 
+	// Used for when reset button is pressed
 	private void phase1() {
 		help.setText("<html>Place your finger at " + "the top of the<br>scroll wheel and scroll towards<br> "
 				+ "you until it is at the back.</html>");
@@ -115,7 +122,8 @@ class LauncherFrame extends JFrame {
 		rightButton.setText("Next");
 		setSize(292, 158);
 	}
-
+	
+	// Prompts for the reverse of phase 1, to average results for more accuracy
 	private void phase2() {
 		help.setText("<html>Now repeat that "
 				+ "but the other way. If reloading is too hard in-game, <br>reload and try scrolling less at calibration.</html>");
@@ -124,6 +132,7 @@ class LauncherFrame extends JFrame {
 		setSize(300, 158);
 	}
 
+	// If at phase 1, loads phase 2, otherwise, starts up game
 	private class NextButton implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -137,6 +146,7 @@ class LauncherFrame extends JFrame {
 		}
 	}
 
+	// Loads phase 1
 	private class ResetButton implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -145,6 +155,7 @@ class LauncherFrame extends JFrame {
 		}
 	}
 
+	// Lods with values 21, 21, which seemed appropiate in most test mice
 	private class DefaultButton implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -153,6 +164,7 @@ class LauncherFrame extends JFrame {
 		}
 	}
 
+	// Every time a scroll is recorded, add to running total
 	private class ScrollWheelRecorder implements MouseWheelListener {
 		@Override
 		public void mouseWheelMoved(MouseWheelEvent e) {

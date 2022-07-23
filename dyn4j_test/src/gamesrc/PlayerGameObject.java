@@ -20,9 +20,13 @@ import framework.SimulationBody;
 import dyn4j.world.DetectFilter;
 import dyn4j.dynamics.BodyFixture;
 
+// Represents the player in the scene, as a physics-controlled circle
 public class PlayerGameObject extends GameObject {
 
+	// Physics part of the player
 	SimulationBody body;
+	
+	// Player states, most can be simultaneously true
 	private final AtomicBoolean movePlayerForward = new AtomicBoolean(false);
 	private final AtomicBoolean movePlayerBackward = new AtomicBoolean(false);
 	private final AtomicBoolean movePlayerLeft = new AtomicBoolean(false);
@@ -33,7 +37,11 @@ public class PlayerGameObject extends GameObject {
 	private final AtomicBoolean boltBack = new AtomicBoolean(false);
 	private final AtomicBoolean boltForward = new AtomicBoolean(false);
 	private final AtomicBoolean load = new AtomicBoolean(false);
+	
+	// Updated while mouse is held down, used for aiming and firing
 	private Point mousePos = new Point(0, 0);
+	
+	// Whenever zombies are killed, sends info to scoreboard
 	private ScoreBoardGameObject scoreboard;
 	private Camera camera;
 	private float playerMoveForce = 7;
@@ -43,6 +51,7 @@ public class PlayerGameObject extends GameObject {
 	public static final double NANO_TO_BASE = 1.0e9;
 	boolean test;
 
+	// Creates an ActionStateListener and binds all relevant objects
 	public PlayerGameObject(int id, BAOSimulationFrame frame, String name, Camera mainCam,
 			ScoreBoardGameObject scoreboard, AnimationManagerGameObject anims) {
 		super(id, frame, name);
@@ -63,6 +72,7 @@ public class PlayerGameObject extends GameObject {
 		this.frame.AddGameObject(this);
 	}
 
+	// Creates player body and hooks up to anchor frictionjoint
 	@Override
 	public void initialize() {
 		body = new SimulationBody(id);
@@ -80,6 +90,7 @@ public class PlayerGameObject extends GameObject {
 		initialized = true;
 	}
 
+	// Shows the aiming line whenever mouse button 1 is held down
 	@Override
 	public void render(Graphics2D g, double elapsedTime) {
 		aim(g);
@@ -91,6 +102,8 @@ public class PlayerGameObject extends GameObject {
 		fire();
 	}
 
+	// Raycasts out from player towards mouse position, kills all zombies the raycast detects
+	// also adds to the score based on the amount of zombies killed
 	private void fire() {
 		if (fire.get()) {
 			fire.set(false);
@@ -111,10 +124,14 @@ public class PlayerGameObject extends GameObject {
 			List<RaycastResult<SimulationBody, BodyFixture>> results = frame.world.raycast(ray, length,
 					new DetectFilter<SimulationBody, BodyFixture>(true, true, null));
 			int zombieCount = 0;
+			
+			// Counts zombies hit for score multiplier
 			for (RaycastResult<SimulationBody, BodyFixture> result : results) {
 				if (result.getBody().zombieRef != null)
 					zombieCount++;
 			}
+			
+			// Removes all zombies hit and adds a score for each
 			for (RaycastResult<SimulationBody, BodyFixture> result : results) {
 				int enemyID = result.getBody().id;
 				if (enemyID != 0 && result.getBody().zombieRef != null) {
@@ -124,12 +141,14 @@ public class PlayerGameObject extends GameObject {
 				}
 			}
 
-			Vector2 end = start.copy().add(direction.multiply(400));
+			// Creates a vapor trail going in the shot direction
+			Vector2 end = start.copy().add(direction.multiply(100000));
 			new VaporTrailGameObject(frame.GetID(), this.frame, "vapor", new Point((int) start.x, (int) start.y),
 					new Point((int) end.x, (int) end.y), 3);
 		}
 	}
 
+	// Similar logic to shooting, just draws a line that stops at the first body it meets
 	private void aim(Graphics2D g) {
 		// Aiming line
 		if (aim.get()) {
@@ -161,6 +180,8 @@ public class PlayerGameObject extends GameObject {
 		}
 	}
 
+	// Adds up each direction player wants to move in, 
+	// then normalizes to prevent faster diagonal movement
 	private void move() {
 		Vector2 moveDir = new Vector2(0, 0);
 
@@ -208,6 +229,7 @@ public class PlayerGameObject extends GameObject {
 
 }
 
+// Updates mouse position whenever it is moved for use by PlayerGameObject
 class MouseTracker extends MouseAdapter {
 	Point track;
 
