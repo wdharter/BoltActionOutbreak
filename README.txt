@@ -49,7 +49,8 @@ Compilation
 Features implemented
 	-Please keep in mind that our original feature proposal included as many features as we could think of (rather than 
 	 what we though was feasible), just so if our external libraries made the job too easy, we could just do more 		 	 
-	 features. We specified this in our original project proposal email.
+	 features. We specified this in our original project proposal email. We believe our final product is more than
+	 enough for the assignment, even if it isn't every single feature we listed.
 	-Any changes we made to existing features will be encased in {}
 	-... means every sub-feature was implemented
 
@@ -71,6 +72,7 @@ Features implemented
 		Healthbar, ammo, reload state
 	-Sounds
 		...
+
 Extra features
 	-Launcher for tuning to different mouse wheels
 	-Aiming line on LMB down
