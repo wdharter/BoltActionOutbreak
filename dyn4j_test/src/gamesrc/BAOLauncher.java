@@ -124,10 +124,10 @@ class LauncherFrame extends JFrame {
 	// Prompts for the reverse of phase 1, to average results for more accuracy
 	private void phase2() {
 		help.setText("<html>Now repeat that "
-				+ "but the other way. If reloading is too hard in-game, <br>reload and try scrolling less at calibration.</html>");
+				+ "but the other way. If reloading is too hard in-game, relaunch and try scrolling less at calibration.</html>");
 		number.setText("<html> <font size=\"+5\">" + rotationTally + "</font></html>");
 		rightButton.setText("Launch");
-		setSize(300, 158);
+		setSize(314, 158);
 	}
 
 	// If at phase 1, loads phase 2, otherwise, starts up game
