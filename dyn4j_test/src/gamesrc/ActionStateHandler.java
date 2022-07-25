@@ -19,7 +19,7 @@ import gamesrc.AnimationManagerGameObject.Anim;
 // Handles mouse/keyboard inputs and logic tied to those inputs, primarily reloading.
 public class ActionStateHandler extends KeyAdapter implements MouseListener, MouseWheelListener {
 
-	static int fullScrollAmount;
+	int fullScrollAmount;
 	private int currentScrollAmount;
 	private AtomicInteger magRoundCount = new AtomicInteger(); // Made atomic just in case inputs come in separate
 																// threads
@@ -48,7 +48,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 	// or to fire/aim
 	public ActionStateHandler(AnimationManagerGameObject anims, AtomicBoolean w, AtomicBoolean a, AtomicBoolean s,
 			AtomicBoolean d, AtomicBoolean release, AtomicBoolean press, AtomicBoolean rightpress, AtomicBoolean mwdown,
-			AtomicBoolean mwup, AtomicBoolean space) {
+			AtomicBoolean mwup, AtomicBoolean space, int fullScroll) {
 		this.anims = anims;
 		waction = w;
 		aaction = a;
@@ -61,6 +61,7 @@ public class ActionStateHandler extends KeyAdapter implements MouseListener, Mou
 		mwupaction = mwup;
 		spaceaction = space;
 		magRoundCount.set(5);
+		fullScrollAmount = fullScroll;
 	}
 
 	// Handles WASD movement and reloading inputs

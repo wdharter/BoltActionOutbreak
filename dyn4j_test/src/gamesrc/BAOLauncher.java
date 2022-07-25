@@ -10,11 +10,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.Timer;
 
 public class BAOLauncher {
 	// Set to true to remove ammo depletion and output mouse click locations for object positioning
@@ -36,15 +34,15 @@ public class BAOLauncher {
 class GameStarter {
 	// Creates and performs setup for a SimulationFrame containing 
 	GameStarter(int firstScrollCheck, int secondScrollCheck) {
-		// Get and set average of tuner scrolls.
-		ActionStateHandler.fullScrollAmount = (int) (Math
-				.abs((Math.abs(firstScrollCheck) + Math.abs(secondScrollCheck)) / 2) * 0.85f);
 		int level = 1;
 		BAOSimulationFrame game = new BAOSimulationFrame("Bolt Action Outbreak", 15, level);
 		ScoreBoardGameObject scoreboard = new ScoreBoardGameObject(-1, game, "scoreboard");
 		AnimationManagerGameObject anims = new AnimationManagerGameObject(-2, game, "anims");
+		// Get average of tuner scrolls.
+		int fullScroll = (int) (Math
+				.abs((Math.abs(firstScrollCheck) + Math.abs(secondScrollCheck)) / 2) * 0.85f);
 		WaveGameObject waves = new WaveGameObject(-3, game, "waves");
-		PlayerGameObject player = new PlayerGameObject(game.GetID(), game, "player", game.camera, scoreboard, anims);
+		PlayerGameObject player = new PlayerGameObject(game.GetID(), game, "player", game.camera, scoreboard, anims, fullScroll);
 		new PlayerHealthGameObject(game.GetID(), game, "health");
 		new WaveHandler(game, player, waves);
 

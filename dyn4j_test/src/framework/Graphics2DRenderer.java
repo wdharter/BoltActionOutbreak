@@ -107,7 +107,7 @@ public final class Graphics2DRenderer {
 		g.draw(c);
 		
 		// draw a line so that rotation is visible
-		Line2D.Double l = new Line2D.Double(
+		new Line2D.Double(
 				center.x * scale,
 				center.y * scale,
 				(center.x + radius) * scale,
@@ -158,7 +158,7 @@ public final class Graphics2DRenderer {
 	public static final void render(Graphics2D g, Segment segment, double scale, Color color) {
 		Vector2[] vertices = segment.getVertices();
 		
-		Line2D.Double l = new Line2D.Double(
+		new Line2D.Double(
 			vertices[0].x * scale,
 			vertices[0].y * scale,
 			vertices[1].x * scale,

@@ -3,8 +3,6 @@ package gamesrc;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 // Displays an endscreen message with info for the user about how the game ended
 public class EndScreenGameObject extends GameObject {

@@ -53,11 +53,11 @@ public class PlayerGameObject extends GameObject {
 
 	// Creates an ActionStateListener and binds all relevant objects
 	public PlayerGameObject(int id, BAOSimulationFrame frame, String name, Camera mainCam,
-			ScoreBoardGameObject scoreboard, AnimationManagerGameObject anims) {
+			ScoreBoardGameObject scoreboard, AnimationManagerGameObject anims, int fullScroll) {
 		super(id, frame, name);
 		this.scoreboard = scoreboard;
 		ActionStateHandler playerListener = new ActionStateHandler(anims, movePlayerForward, movePlayerLeft,
-				movePlayerBackward, movePlayerRight, fire, aim, toggleBolt, boltBack, boltForward, load);
+				movePlayerBackward, movePlayerRight, fire, aim, toggleBolt, boltBack, boltForward, load, fullScroll);
 		frame.addKeyListener(playerListener);
 		frame.addMouseListener(playerListener);
 		frame.addMouseWheelListener(playerListener);
@@ -160,8 +160,10 @@ public class PlayerGameObject extends GameObject {
 			Ray ray = new Ray(start, direction);
 			double length = 100000;
 			boolean hitObject = false;
+			
 			List<RaycastResult<SimulationBody, BodyFixture>> results = frame.world.raycast(ray, length,
 					new DetectFilter<SimulationBody, BodyFixture>(true, true, null));
+			
 			for (RaycastResult<SimulationBody, BodyFixture> result : results) {
 				Vector2 point = result.getRaycast().getPoint();
 				hitObject = true;

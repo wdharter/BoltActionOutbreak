@@ -3,12 +3,7 @@ package gamesrc;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.swing.Timer;
 
 import dyn4j.dynamics.contact.Contact;
 import dyn4j.dynamics.contact.SolvedContact;
