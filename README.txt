@@ -1,5 +1,7 @@
 Contains: Rules / Controls, Run instructions, compilation, features implemented, separation of work
 
+NOTE: all source code written by us is under the 'gamesrc' directory, with the exception of minor modifications to the dyn4j library
+
 Rules / Controls
 	-Before playing the game, you will go through a launcher for tuning to your scrollwheel, it will describe itself.
 
