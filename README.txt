@@ -39,9 +39,12 @@ Rules / Controls
 	 the current wave on the bottom-right
 
 Run instructions
-	-Run the jar file either by double clicking
+	-Run the jar file by double clicking
+	-Or run java -cp . .\gamesrc\BAOLauncher.java at the BAO directory
 
 Compilation
+	-Run javac -cp . .\gamesrc\*.java at the BAO directory, everything under framework and dyn4j is part of the
+	 imported physics library and so should already be compiled
 
 Features implemented
 	-Please keep in mind that our original feature proposal included as many features as we could think of (rather than 
