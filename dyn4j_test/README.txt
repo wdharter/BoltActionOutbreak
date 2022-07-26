@@ -50,10 +50,12 @@ Rules / Controls
 Run instructions
 	-Run the jar file by double clicking.
 	-Or run java -cp . .\gamesrc\BAOLauncher.java at the BAO directory.
+		NOTE: this has been only tested on java version "17.0.3.1" 2022-04-22 LTS
 
 Compilation
 	-Run javac -cp . .\gamesrc\*.java at the BAO directory, everything under framework and dyn4j is part of the
 	 imported physics library and so should already be compiled.
+		NOTE: this has been only tested on java version "17.0.3.1" 2022-04-22 LTS
 
 Features implemented
 	-Please keep in mind that our original feature proposal included as many features as we could think of (rather than 
